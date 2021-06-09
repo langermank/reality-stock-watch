@@ -1,0 +1,92 @@
+@use './_variables.scss';
+@import 'include-media/dist/_include-media.scss';
+// @import (reference) './_mixins.less';
+
+.appWrapper {
+    min-height: 100%;
+    display: grid;
+    grid-template:
+        'aside' 70px
+        'content' auto / auto;
+
+    // handling with media queries to reduce layout render bouncing
+    aside {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+
+        .navLogo {
+            margin-left: auto;
+        }
+    }
+
+    #mobile-collapse-btn {
+        display: block;
+    }
+
+    // toggle nav
+    aside {
+        grid-area: aside;
+        position: sticky;
+        top: 0;
+        z-index: 6;
+        background: var(--body-overlay-bg);
+
+        &.mini {
+            padding: 1rem 0;
+        }
+    }
+
+    .navLogo {
+        display: flex;
+
+        svg {
+            height: 50px;
+        }
+
+        // container positioning
+        &.mini {
+            justify-content: center;
+        }
+
+        // container positioning
+        &.full {
+            justify-content: left;
+        }
+    }
+
+    .main {
+        grid-area: content;
+        align-content: start;
+        background-color: white;
+        display: grid;
+        // main content grid def
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 1rem;
+        padding: 1rem 1rem 0 1rem;
+    }
+
+    @include media('>tablet') {
+        grid-template-areas:
+            'aside .'
+            'sidebar content';
+        grid-template-rows: 70px auto;
+        grid-template-columns: auto 9fr;
+
+        // reset mobile design
+        aside {
+            position: relative;
+            padding: 1rem 0 1rem 0.5rem;
+            display: block;
+
+            .navLogo {
+                margin: unset;
+            }
+        }
+
+        .main {
+            border-radius: 30px 0 0 0;
+            padding: 0 2rem 2rem 2rem;
+        }
+    }
+}

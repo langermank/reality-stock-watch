@@ -1,0 +1,47 @@
+@import './_variables.scss';
+
+.logoS {
+    fill: $primary-blue;
+
+    &.dev {
+        fill: $red;
+    }
+}
+
+.logoChevron {
+    fill: $white;
+}
+
+.logoText {
+    fill: $white;
+}
+
+.logoMini {
+    width: 50px;
+}
+
+.logoFull {
+    width: 120px;
+}
+
+.maintenance {
+    svg {
+        height: 50px;
+    }
+
+    #logo-full .logoText {
+        fill: $black !important;
+    }
+
+    .logoMini {
+        width: 50px;
+    }
+
+    .logoFull {
+        width: 120px;
+    }
+}
+
+.hideLogoText {
+    display: none;
+}

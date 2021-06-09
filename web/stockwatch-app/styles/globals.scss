@@ -1,0 +1,124 @@
+@import 'modern-css-reset/dist/reset.css';
+
+html,
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+:root {
+    --base: 16;
+    --baseLineHeight: 1.5;
+    --smallerLineHeight: 1.2;
+    --transition: all 0.2s ease-in-out;
+    --border-radius: 4px;
+
+    --source-sans: 'Source Sans Variable', system-ui, -apple-system, BlinkMacSystemFont, 'seravek',
+        'segoe ui', 'roboto', sans-serif;
+    --source-sans-italic: 'Source Sans Variable Italic', system-ui, -apple-system,
+        BlinkMacSystemFont, 'seravek', 'segoe ui', 'roboto', sans-serif;
+
+    --source-sans-bold: 'wght' 700;
+    --source-sans-normal: 'wght' 400;
+    --base-font: --source-sans;
+    --base-font-weight-bold: --source-sans-bold;
+    --base-font-weight-normal: --source-sans-normal;
+
+    --space-unit: 1em;
+    --space-xs: (0.5 * --space-unit);
+    --space-sm: (0.75 * --space-unit);
+    --space-md: (1.25 * --space-unit);
+    --space-lg: (2 * --space-unit);
+    --space-xl: (3.25 * --space-unit);
+
+    --space-unit-rem: 1rem;
+    --space-xs-rem: (0.5 * --space-unit-rem);
+    --space-sm-rem: (0.75 * --space-unit-rem);
+    --space-md-rem: (1.25 * --space-unit-rem);
+    --space-lg-rem: (2 * --space-unit-rem);
+    --space-xl-rem: (3.25 * --space-unit-rem);
+
+    --primary-blue: hsl(224, 90%, 53%);
+    --primary-blue-02: hsl(224, 90%, 45%);
+    --primary-blue-03: hsl(224, 94%, 21%);
+    --primary-blue-04: hsl(234, 75%, 17%);
+    --primary-blue-desat-01: hsl(224, 80%, 60%);
+    --primary-blue-desat-02: hsl(224, 80%, 70%);
+    --primary-blue-overlay: hsla(224, 90%, 53%, 0.2);
+    --secondary-blue: hsl(173, 90%, 53%);
+
+    --red: hsl(0, 81%, 58%);
+    --red-01: hsl(0, 81%, 90%);
+    --red-orange: hsl(22.5, 95.1%, 40.2%);
+    --red-orange-01: hsl(22.5, 95.1%, 90%);
+    --yellow: hsl(55, 100%, 49%);
+    --green: hsl(146, 84%, 31%);
+    --green-01: hsl(146, 84%, 90%);
+    --purple: hsl(276, 52%, 36%);
+    --purple-01: hsl(276, 52%, 56%);
+    --taranshow: hsl(192, 90%, 30%);
+    --rank-1: var(--green);
+    --rank-2: hsl(169, 100%, 38%);
+    --rank-3: hsl(209, 100%, 41%);
+    --rank-4: hsl(217, 100%, 41%);
+    --rank-5: hsl(287, 100%, 41%);
+    --bronze: #c36658;
+    --silver: #919fa3;
+    --gold: #c7a838;
+
+    --pink: hsl(320, 91%, 52%);
+    --pink-overlay: hsla(320, 91%, 52%, 0.3);
+    --teal: #73f6fd;
+    --robot-blue: #0024f5;
+    --robot-purple: #8600fc;
+    --robot-yellow: #fce700;
+    --robot-lime: #00fc19;
+    --robot-gray: #717484;
+
+    --gray-01: #25282f;
+    --gray-02: #32333d;
+    --gray-03: #373740;
+    --gray-dark: hsl(240, 7%, 9%);
+    --gray-medium: hsl(240, 4%, 45%);
+    --gray-light: hsl(240, 4%, 60%);
+    --gray-lightest: hsl(240, 4%, 75%);
+    --gray-hint: hsl(240, 4%, 90%);
+    --gray-barely: hsl(240, 4%, 95%);
+    --gray-text-on-lightest: hsl(240, 5%, 30%);
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(0, 0%, 0%);
+
+    --link: var(--primary-blue);
+    /* --link-hover: darken(--primary-blue, 10%); */
+    --button-primary: var(--primary-blue);
+    /* --button-primary-hover: darken(--button-primary, 10%); */
+    --button-secondary: var(--red-orange);
+    /* --button-secondary-hover: darken(--red-orange, 10%); */
+    --button-danger: var(--red-orange);
+    /* --button-danger-hover: darken(--button-danger, 10%); */
+    --disabled-bg: var(--gray-hint);
+    --disabled-text: var(--gray-text-on-lightest);
+
+    --placeholder-text: var(--gray-text-on-lightest);
+    --body-bg: var(--gray-01);
+    --body-overlay-bg: var(--gray-01);
+    --border: var(--gray-lightest);
+    --body-text-light: var(--white);
+    --body-text-dark: var(--gray-dark);
+
+    --twitter: hsl(203, 89%, 53%);
+    --facebook: rgb(24, 119, 242);
+    --discord: hsl(227, 58%, 65%);
+    --twitch: hsl(264, 100%, 64%);
+    --google: hsl(217, 89%, 61%);
+
+    --shadow-xs: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    --shadow-outline: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
