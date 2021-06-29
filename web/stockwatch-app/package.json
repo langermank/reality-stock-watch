@@ -10,6 +10,9 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^1.2.1",
+    "aws-amplify": "^4.0.3",
+    "aws-amplify-react": "^5.0.1",
     "include-media": "^1.4.10",
     "modern-css-reset": "^1.4.0",
     "next": "10.2.3",

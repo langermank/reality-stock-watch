@@ -16,6 +16,12 @@
     fill: $white;
 }
 
+body[data-panel-state='closed'] {
+    .logoFull {
+        display: none;
+    }
+}
+
 .logoMini {
     width: 50px;
 }

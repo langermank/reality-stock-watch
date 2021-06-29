@@ -6,6 +6,12 @@ body {
         Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+ul,
+ol {
+    list-style: none;
+    padding-left: 0;
+}
+
 :root {
     --base: 16;
     --baseLineHeight: 1.5;
