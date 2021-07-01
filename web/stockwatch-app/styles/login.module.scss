@@ -1,0 +1,291 @@
+@import './_variables.scss';
+@import 'include-media/dist/_include-media.scss';
+@import '_mixins.scss';
+
+
+// button mixins
+
+// base disabled state
+// .disabled() {
+//     &:disabled {
+//         background-color: $disabled-bg;
+//         border-color: $disabled-bg;
+//         color: $disabled-text;
+//         cursor: default;
+//     }
+// }
+.login {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+.btn-link {
+    display: inline;
+    text-decoration: underline;
+    color: $primary-blue;
+    background: transparent;
+    cursor: pointer;
+}
+
+// base button component styles
+.btnBase {
+    background-color: $white;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
+    color: $black;
+    min-height: 2.75rem; // a11y
+    transition: $transition;
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0, 1rem;
+    // .px-rem(font-size, 16);
+    // .px-em-padding(0, 20, 0, 20);
+    // .disabled;
+
+    // &:focus {
+    //     .a11yOutline;
+    // }
+
+    &.link {
+        color: $link;
+    }
+
+    &.icon-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &.fullWidth {
+        width: 100%;
+    }
+
+    // &.xsmall {
+    //     .px-rem(font-size, 14);
+    //     .px-em-padding(6, 18, 6, 18);
+    //     min-height: 0;
+    // }
+
+    // &.small {
+    //     .px-rem(font-size, 14);
+    //     .px-em-padding(8, 20, 8, 20);
+    //     $media (pointer: fine), (pointer: coarse){ 
+    //         min-height: 1.5rem;
+    //         .px-em-padding(4, 16,4 , 16);
+    //     }
+    // }
+
+    // &.large {
+    //     .px-rem(font-size, 20);
+    //     .px-em-padding(12, 20, 12, 20);
+    // }
+
+    &.icon {
+        display: flex;
+        align-items: center;
+
+        svg {
+            flex: 0 0 auto;
+            padding-right: 0.5rem;
+        }
+
+        span {
+            flex: 1 1 auto;
+        }
+    }
+
+    // primary variant
+    &.primary  {
+        background-color: $button-primary;
+        color: $white;
+
+        &:hover,
+        &:active {
+            background-color: $button-primary-hover;
+        }
+
+        // .disabled;
+
+        // primary ghost variant
+        &.ghost {
+            background-color: transparent;
+            border: 1px solid $button-primary;
+            color: $button-primary;
+
+            &:hover,
+            &:active {
+                background-color: $gray-hint;
+            }
+
+            // .disabled;
+        }
+    }
+
+    // secondary variant
+    &.secondary {
+        background-color: $button-secondary;
+        color: $white;
+
+        &:hover,
+        &:active {
+            background-color: $button-secondary-hover;
+        }
+
+        // .disabled;
+
+        // secondary ghost variant
+        &.ghost {
+            background-color: transparent;
+            border: 1px solid $button-secondary;
+            color: $button-secondary;
+
+            &:hover,
+            &:active {
+                background-color: $gray-hint;
+            }
+
+            // .disabled;
+        }
+    }
+
+    &.prepend {
+        // .px-em-padding(0, 20, 0, 0);
+        padding: 0 1rem 0 0;
+        display: inline-flex;
+
+        svg {
+            // .px-em(padding, 8);
+            // .px-em(margin-right, 16);
+            padding: 0.5rem;
+            margin-right: 1rem;
+            display: inline-flex;
+            height: 2.75rem;
+            width: 2.75rem;
+            align-items: center;
+            justify-content: center;
+            color: $white;
+            
+        }
+
+        span {
+            text-align: center;
+        }
+
+    }
+
+    // danger variant
+    &.danger {
+        background-color: $button-danger;
+        color: $black;
+
+        &:hover,
+        &:active {
+            background-color: $button-danger-hover;
+        }
+
+        // .disabled;
+    }
+
+    &.twitter {
+        border: 2px solid $twitter;
+        color: $black;
+        font-weight: 700;
+
+        svg {
+            border-right: 1px solid $twitter;
+            background-color: $twitter;
+        }
+
+        &:hover,
+        &:active {
+            background: $gray-hint;
+        }
+
+        // .disabled;
+    }
+
+    &.discord {
+        border: 2px solid $discord;
+        color: $black;
+        font-weight: 700;
+
+        svg {
+            border-right: 1px solid $discord;
+            background-color: $discord;
+        }
+
+        &:hover,
+        &:active {
+            background-color: $gray-hint;
+        }
+
+        // .disabled;
+    }
+
+    &.facebook {
+        border: 2px solid $facebook;
+        color: $black;
+        font-weight: 700;
+
+        svg {
+            border-right: 1px solid $facebook;
+            background-color: $facebook;
+        }
+
+        &:hover,
+        &:active {
+            background-color: $gray-hint;
+        }
+
+        // .disabled;
+    }
+
+    &.twitch {
+        border: 2px solid $twitch;
+        color: $black;
+        font-weight: 700;
+
+        svg {
+            border-right: 1px solid $twitch;
+            background-color: $twitch;
+        }
+
+        &:hover,
+        &:active {
+            background-color: $gray-hint;
+        }
+
+        // .disabled;
+    }
+
+    &.google {
+        border: 2px solid $google;
+        color: $black;
+        font-weight: 700;
+
+        svg {
+            border-right: 2px solid $google;
+            background-color: $google;
+            color: $white;
+        }
+
+        &:hover,
+        &:active {
+            background-color: $gray-hint;
+        }
+
+        // .disabled;
+    }
+
+    &.toggle {
+        background: transparent;
+        color: $white;
+        padding: 0;
+    }
+}
+

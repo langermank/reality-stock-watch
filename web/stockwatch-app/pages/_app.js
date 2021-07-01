@@ -37,8 +37,6 @@ function MyApp({ Component, pageProps }) {
                     <Navbar className={styles.navGrid} />
 
                     <main className={styles.main}>
-                        <h1>Main body area</h1>
-                        <p>some fake content</p>
                         <Component {...pageProps} />
                     </main>
                 </RealityStockWatchProvider>
