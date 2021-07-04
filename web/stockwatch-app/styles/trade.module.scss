@@ -1,0 +1,195 @@
+@import './_variables.scss';
+@import 'include-media/dist/_include-media.scss';
+@import '_mixins.scss';
+
+.tradesWrap {
+    grid-column: 1/-1;
+    display: grid;
+    // dashboard content grid def
+    grid-template-columns: 1fr;
+    grid-gap: 2rem;
+}
+
+#market-banner {
+    grid-column: 1/-1;
+}
+
+.tradeHeading {
+    grid-column: 1/-1;
+}
+
+.stockCardsWrap {
+    grid-column: 1/-1;
+    grid-row: 1/2;
+    // padding: 1rem;
+
+    .stockCards {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(100px, max-content);
+        grid-gap: 1rem;
+    }
+
+}
+
+.userDetails {
+    grid-column: 1/-1;
+    grid-row: 2/3;
+    position: sticky;
+    bottom: 0;
+    background-color: $white;
+    border-top: solid 1px $black;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0 1rem;
+}
+
+@include media('>tablet') {
+    .stockCardsWrap {
+
+        .stockCards {
+            grid-template-columns: repeat(auto-fill, minmax(400px, auto));
+            grid-template-rows: minmax(100px, max-content);
+        }
+    }
+
+    .userDetails {
+        margin-left: -2rem;
+        margin-right: -2rem;
+    }
+
+}
+
+@include media('>desktop') {
+    .tradesWrap {
+        grid-template-columns: auto minmax(230px, min-content);
+    }
+
+    .stockCardsWrap {
+        grid-column: 1/2;
+        grid-row: 1/2;
+    }
+
+    .userDetails {
+        grid-column: 2/3;
+        grid-row: 1/2;
+        position: relative;
+        margin: 0;
+        border-top: none;
+        padding: 0;
+    }
+}
+
+// .media(@min-desktop, {
+
+//     .trades-wrap {
+//         grid-template-columns: auto minmax(230px, min-content);
+//     }
+
+//     .stock-cards-wrap {
+//         grid-column: 1/2;
+//         grid-row: 1/2;
+//     }
+
+//     .user-details {
+//         grid-column: 2/3;
+//         grid-row: 1/2;
+//         position: relative;
+//         margin: 0;
+//         border-top: none;
+//         padding: 0;
+//     }
+
+// });
+
+.userPanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fundsWrap {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    order: 2;
+}
+
+.funds {
+    border: solid 1px $primary-blue;
+    box-shadow: 1px 1px 0px $primary-blue;
+    border-radius: $border-radius;
+    text-align: center;
+    padding: 10px;
+}
+
+.availFunds {
+    visibility: hidden;
+    height: 0;
+    margin-bottom: 0;
+}
+
+.netWorth {
+    font-size: 0.75rem;
+}
+
+.fundHistory {
+    border: solid 1px $secondary-blue;
+    box-shadow: 1px 1px 0px $secondary-blue;
+    border-radius: $border-radius;
+    margin-left: 0.5rem;
+    padding: 1rem;
+}
+
+.trade {
+    align-items: center;
+    justify-content: center;
+    margin: 0 1rem 0 0;
+    order: 1;
+}
+
+.redText {
+    color: $red-orange;
+}
+
+@include media('>desktop') {
+    .funds {
+        padding: 1rem;
+        margin: 0 0 2rem 0;
+    }
+
+    .availFunds {
+        visibility: visible;
+        height: unset;
+        margin-bottom: 0.5em;
+    } 
+
+    .fundHistory {
+        margin-left: 0;
+        margin-bottom: 2rem;
+    }
+
+    .trade {
+        align-items: center;
+        order: unset;
+        margin-right: 0;
+    }
+
+    .userPanel {
+        flex-direction: column;
+        position: sticky;
+        top: 16px;
+        // align-items: center;
+    }
+
+    .fundsWrap {
+        order: unset;
+        flex-direction: column;
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+};

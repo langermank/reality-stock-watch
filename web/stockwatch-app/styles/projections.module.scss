@@ -1,0 +1,131 @@
+@import './_variables.scss';
+@import 'include-media/dist/_include-media.scss';
+@import '_mixins.scss';
+
+@include media('>tablet') {
+}
+
+@include media('>desktop') {
+}
+
+.projectionWrap {
+    grid-column: 1/-1;
+}
+
+.projectionCard {
+    display: grid;
+    border: solid 1px $gray-hint;
+    box-shadow: 1px 1px 0px $gray-hint;
+    grid-template-columns: 85px 1fr;
+    grid-gap: 0.25rem 1rem;
+    grid-auto-flow: dense;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+
+    // use card class later
+    border-radius: $border-radius;
+    position: relative;
+    background: $white;
+    padding: 12px;
+
+    h5 {
+        margin-bottom: 0;
+        font-weight: bold;
+    }
+
+    .hgImg {
+        grid-column: 1/2;
+        grid-row: 2/3;
+        border: solid 1px $border;
+        border-radius: $border-radius;
+        align-self: center;
+    }
+
+    .hgDetails {
+        grid-column: 1/-1;
+        grid-row: 1/2;
+        position: sticky;
+        left: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+    }
+
+    .ratingWrap {
+        align-items: baseline;
+
+        .hgStar {
+            color: $yellow;
+            margin-right: 0.24rem;
+        }
+
+        .hgStarRating {
+            font-weight: bold;
+            margin-right: 2px;
+        }
+
+        .hgStarOutOf {
+            font-weight: normal;
+            font-size: 1rem;
+            letter-spacing: 0.005em;
+        }
+
+        .numWrap {
+            align-items: baseline;
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+    .thisWeek {
+        grid-column: 2/3;
+        grid-row: 2/3;
+        align-items: flex-end;
+        justify-content: space-between;
+        position: sticky;
+        left: 0;
+    }
+
+    .nextWeek {
+        grid-column: 1/-1;
+        grid-row: 3/4;
+    }
+
+    .thisWeekDetails {
+        display: flex;
+        flex-direction: column;
+        > * {
+            margin-right: 1rem;
+        }
+    }
+
+    .ratingTable {
+        display: grid;
+        grid-template-columns: repeat(10, minmax(max-content, auto));
+
+        > *:nth-of-type(even):not(.dt) {
+            background: $gray-barely;
+        }
+
+        dd {
+            text-align: center;
+            padding: 0 1rem;
+            color: $black;
+        }
+    }
+
+    // .media($min-desktop, {
+    //     grid-template-columns: 85px min-content auto;
+    // });
+
+    @include media('>desktop') {
+        grid-template-columns: 85px max-content auto;
+
+        .nextWeek {
+            grid-column: 3/-1;
+            grid-row: 2/3;
+        }
+    }
+}

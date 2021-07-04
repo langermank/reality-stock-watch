@@ -1,0 +1,259 @@
+@import './_variables.scss';
+@import 'include-media/dist/_include-media.scss';
+@import '_mixins.scss';
+
+.leaderboardWrap {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(3, min-content);
+
+    .leaderboardBadge {
+        width: 35px;
+        height: 35px;
+        //margin: 0 0.25rem;
+    }
+
+    h3 {
+        grid-column: 1/-1;
+        grid-row: 1/2;
+    }
+
+    .leaderOverflow {
+        overflow-x: auto;
+    }
+
+    .leaderGrid {
+        grid-column: 1/-1;
+        display: grid;
+
+        input {
+            place-self: flex-start;
+        }
+    }
+
+    .alltimeLeader {
+        .rankNum {
+            cursor: unset;
+        }
+    }
+
+    .tableWrap {
+        overflow-x: auto;
+        max-height: 100vh;
+    }
+
+    @include media('>desktop') {
+        h3 {
+            grid-column: 1/6;
+            grid-row: 1/2;
+        }
+
+        .alltimeLeaderTitle {
+            grid-column: 2/8;
+        }
+        .leaderGrid {
+            grid-row: 2/3;
+
+            &.alltimeLeader {
+                grid-column: 2/8;
+            }
+        }
+    }
+}
+
+.leaderboardTable {
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 100%;
+
+    th,
+    td,
+    tr {
+        padding: 0.5rem 1rem;
+        vertical-align: middle;
+    }
+
+    // this looks crazy to get around the z-index levels
+    tr,
+    td {
+        &:hover {
+            .userRow {
+                background-color: transparent;
+            }
+
+            tr,
+            td,
+            td.userRow {
+                background-color: $gray-barely;
+            }
+        }
+    }
+
+    tr {
+        border-bottom: 1px solid $gray-barely;
+        text-align: center;
+    }
+
+    thead {
+        font-size: 0.85rem;
+        background-color: $gray-barely;
+    }
+
+    th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: $gray-barely;
+
+        &.userRowHead {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            z-index: 4; // topiest top
+        }
+    }
+
+    td {
+        z-index: 3;
+
+        &.userRowWrap {
+            position: sticky;
+            left: 0;
+            z-index: 1;
+        }
+    }
+
+    .rankSort {
+        min-width: 50px;
+    }
+
+    .networth {
+        font-weight: bold;
+    }
+
+    .userRow {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border: none;
+        background-color: $white;
+        min-height: 38px;
+        font-size: 1.125rem;
+        font-weight: bold;
+
+        &:hover {
+            background-color: transparent;
+        }
+
+        span:not(.tag) {
+            margin-right: 0.5rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: 180px;
+            text-align: left;
+        }
+
+        .leaderboardAvatar {
+            margin-right: 0.5rem;
+        }
+
+        .tag {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .hgImgTable {
+        width: 30px;
+        height: 30px;
+        border: solid 1px $border;
+        vertical-align: middle;
+        border-radius: $border-radius;
+    }
+
+    .rankNum {
+        cursor: pointer;
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
+        text-align: center;
+        font-style: normal;
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .rank1 {
+        background: linear-gradient(332.28deg, #a57a2c 17.22%, #f6e948 93.9%);
+        border: 1px solid #926a28;
+        color: $black;
+        line-height: 1.25;
+    }
+
+    .rank2 {
+        background: linear-gradient(329.91deg, #819499 22.22%, #e5f0f2 96.12%);
+        border: 1px solid #45575a;
+        color: $black;
+        line-height: 1.25;
+    }
+
+    .rank3 {
+        background: linear-gradient(329.91deg, #c36658 22.22%, #f2e6e0 96.12%);
+        border: 1px solid #67352b;
+        color: $black;
+        line-height: 1.25;
+    }
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+}
+
+.pageItem {
+    &.active {
+        .pageLink {
+            background-color: $link;
+            color: $white;
+            cursor: not-allowed;
+        }
+    }
+
+    &:not(.active):not(.disabled) {
+        .pageLink:hover {
+            background-color: $gray-barely;
+        }
+    }
+
+    &.disabled {
+        .pageLink {
+            background-color: $disabled-bg;
+            color: $disabled-text;
+        }
+    }
+
+    &:first-child,
+    &:last-child {
+        .pageLink {
+            color: $black;
+        }
+    }
+
+    .pageLink {
+        position: relative;
+        display: block;
+        padding: 4px 8px;
+        line-height: 1.25;
+        color: $link;
+        background-color: $white;
+        margin-right: 8px;
+
+        svg {
+            vertical-align: middle;
+            width: 0.5rem;
+        }
+    }
+}

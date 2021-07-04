@@ -1,0 +1,144 @@
+@import '../_variables.scss';
+@import 'include-media/dist/_include-media.scss';
+@import '../_mixins.scss';
+
+.input {
+    border: solid 1px $border;
+    border-radius: $border-radius;
+    color: $body-text-dark;
+    font-size: 1rem;
+    height: 2.75rem;
+    padding: 0 0.625rem;
+    width: 100%;
+    min-width: 150px;
+
+    &::-webkit-input-placeholder,
+    &::placeholder {
+        color: $placeholder-text;
+        opacity: 1;
+    }
+
+    // &:active, &:focus {
+    //     .a11yOutline;
+    // }
+
+    &.dark {
+        background: $gray-light;
+        color: $white;
+    }
+
+    &.is-invalid {
+        border: solid 1px transparent;
+        outline: solid 2px $red;
+        outline-offset: -2px;
+
+        &:invalid {
+            box-shadow: none;
+        }
+    }
+
+    &:disabled {
+        background-color: $disabled-bg;
+        border-color: $disabled-bg;
+        color: $disabled-text;
+        cursor: not-allowed;
+        outline: none;
+    }
+
+    &.inline-width {
+        width: inherit;
+    }
+
+    &-sharp {
+        border-radius: 0px;
+    }
+
+    &-light {
+        border: solid 1px $gray-hint;
+    }
+}
+
+.label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $body-text-dark;
+    margin-bottom: $space-xs-rem;
+    display: inline-block;
+
+    &-inline {
+        margin-bottom: 0;
+        margin-right: $space-xs-rem;
+    }
+
+    // visually hides label
+    &-hidden {
+        margin-bottom: 0;
+        @include visuallyHidden;
+    }
+}
+
+.numInputWrap {
+    display: block;
+    // font-size: 0;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+    flex: 1 1 auto;
+}
+
+.numInput {
+    background-color: $primary-blue;
+    border-top: solid 1px $primary-blue;
+    border-bottom: solid 1px $primary-blue;
+    color: $white;
+    padding-left: 3.375rem;
+    padding-right: 3.375rem;
+    text-align: center;
+    display: block;
+    min-height: 1.5rem;
+    min-width: 3rem;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+
+    &:active, &:focus {
+        border: solid 1px transparent;
+        outline: solid 2px $link;
+        outline-offset: -2px;
+    }
+}
+
+
+.controlBtn {
+    position: absolute;
+    width: 2.5rem;
+    top: 1px;
+    bottom: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-blue-02;
+
+    &:disabled {
+        // background-color: $gray-light;
+        // border-color: $gray-light;
+        cursor: not-allowed;
+        top: -1px;
+        bottom: -1px;
+    }
+
+    &.decrease {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    &.increase {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        right: 1px;
+    }
+}
+
+.labelHidden {
+    margin-bottom: 0;
+    @include visuallyHidden;
+}

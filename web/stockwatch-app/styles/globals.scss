@@ -12,6 +12,98 @@ ol {
     padding-left: 0;
 }
 
+h1 {
+    @supports (font-size: clamp(1.6rem, 3.5vw, 2rem)) {
+        font-size: clamp(2.5rem, 3.5vw, 3rem);
+        color: var(--gray-01);
+    }
+    font-size: 1.75rem;
+    color: var(--gray-01);
+    font-weight: bold;
+}
+
+h2 {
+    @supports (font-size: clamp(1.3rem, 3.5vw, 1.5rem)) {
+        font-size: clamp(2rem, 3.5vw, 2.441rem);
+        color: var(--gray-01);
+    }
+    font-size: 1.4rem;
+    color: var(--gray-01);
+}
+
+h3 {
+    @supports (font-size: clamp(1.2rem, 3.5vw, 1.375rem)) {
+        font-size: clamp(1.2rem, 3.5vw, 1.953rem);
+        color: black;
+    }
+    font-size: 1.3rem;
+    color: var(--gray-01);
+}
+
+h4 {
+    @supports (font-size: clamp(1rem, 2.5vw, 1.25rem)) {
+        font-size: clamp(1rem, 2.5vw, 1.563rem);
+        color: black;
+    }
+    font-size: 1rem;
+    color: var(--gray-01);
+}
+
+// smaller headings don't need to scale
+h5,
+.header5 {
+    font-size: 1rem; /* 16px */
+    color: var(--gray-01);
+    margin: 0;
+}
+
+h6,
+.header6 {
+    line-height: var(--base-line-height);
+    font-size: 1rem; /* 16px */
+    color: var(--gray-01);
+}
+
+.bodyCopy,
+p {
+    line-height: var(--base-line-height);
+    font-size: 1rem; /* 16px */
+}
+
+a {
+    color: var(--link);
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: var(--link-hover);
+        text-decoration: underline;
+        // transition: @transition;
+    }
+}
+
+// a.dark {
+//     color: @gray-01;
+//     text-decoration: none;
+
+//     &:hover,
+//     &:focus,
+//     &:active {
+//         color: @gray-medium;
+//         text-decoration: underline;
+//         transition: @transition;
+//     }
+// }
+
+.text-center {
+    text-align: center;
+}
+
+// .bold {
+//     font-variation-settings: @base-font-weight-bold;
+// }
+
 :root {
     --base: 16;
     --baseLineHeight: 1.5;

@@ -1,0 +1,97 @@
+@import '../_variables.scss';
+@import 'include-media/dist/_include-media.scss';
+@import '../_mixins.scss';
+
+// base button component styles
+.btnBase {
+    background-color: $white;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
+    color: $black;
+    height: 2.75rem; // a11y
+    transition: $transition;
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0, 1rem;
+}
+
+.prepend {
+    // .px-em-padding(0, 20, 0, 0);
+    padding: 0 1rem 0 0;
+    display: inline-flex;
+
+    svg {
+        // .px-em(padding, 8);
+        // .px-em(margin-right, 16);
+        padding: 0.5rem;
+        margin-right: 1rem;
+        display: inline-flex;
+        height: 2.75rem;
+        width: 2.75rem;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        
+    }
+
+    span {
+        text-align: center;
+    }
+
+}
+
+.btnBase[data-variant="primary"]  {
+    background-color: $button-primary;
+    color: $white;
+
+    &:hover,
+    &:active {
+        background-color: $button-primary-hover;
+    }
+}
+
+.btnBase[data-variant="primary-ghost"] {
+    background-color: transparent;
+    border: 1px solid $button-primary;
+    color: $button-primary;
+
+    &:hover,
+    &:active {
+        background-color: $gray-hint;
+    }
+
+}
+
+.btnBase[data-variant="secondary"] {
+    background-color: $button-secondary;
+    color: $white;
+
+    &:hover,
+    &:active {
+        background-color: $button-secondary-hover;
+    }
+}
+
+.btnBase[data-variant="secondary-ghost"] {
+    background-color: transparent;
+    border: 1px solid $button-secondary;
+    color: $button-secondary;
+
+    &:hover,
+    &:active {
+        background-color: $gray-hint;
+    }
+}
+
+.btnBase[data-variant="danger"] {
+    background-color: $button-danger;
+    color: $black;
+
+    &:hover,
+    &:active {
+        background-color: $button-danger-hover;
+    }
+}
