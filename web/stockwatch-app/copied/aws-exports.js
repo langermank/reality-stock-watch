@@ -3,12 +3,12 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
-    "aws_cognito_identity_pool_id": "us-east-1:5c2bc6b6-d2c7-454d-8f01-2543d99fe1d0",
+    "aws_cognito_identity_pool_id": "us-east-1:f556bad2-02ae-49bd-b768-8692f34b710b",
     "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_vWXHXHCXA",
-    "aws_user_pools_web_client_id": "50mi674f2krjlnb3lit090j230",
+    "aws_user_pools_id": "us-east-1_QXicteSht",
+    "aws_user_pools_web_client_id": "3fojej12ur9ir4qb6dlq5u42ra",
     "oauth": {
-        "domain": "realitystockwatch5a009e69-5a009e69-dev.auth.us-east-1.amazoncognito.com",
+        "domain": "realitystockwatchce415528-ce415528-dev.auth.us-east-1.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -20,10 +20,12 @@ const awsmobile = {
         "redirectSignOut": "http://localhost:3000/",
         "responseType": "code"
     },
-    "federationTarget": "COGNITO_USER_POOLS",
-    "aws_appsync_graphqlEndpoint": "https://wepdqc6pfbbqbg7zmlggxnp4mm.appsync-api.us-east-1.amazonaws.com/graphql",
+    "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",
+    "aws_appsync_graphqlEndpoint": "https://lhcmsdutk5duzg7zgxze6ao4fi.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
-    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS"
+    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "aws_user_files_s3_bucket": "realitystockwatch-showassets113746-dev",
+    "aws_user_files_s3_bucket_region": "us-east-1"
 };
 
 
