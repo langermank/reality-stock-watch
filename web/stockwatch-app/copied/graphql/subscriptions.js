@@ -6,6 +6,8 @@ export const onCreateShow = /* GraphQL */ `
     onCreateShow {
       id
       name
+      createdAt
+      updatedAt
       seasons {
         items {
           id
@@ -15,13 +17,14 @@ export const onCreateShow = /* GraphQL */ `
           shortName
           currentWeek
           status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
           createdAt
           updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -30,6 +33,8 @@ export const onUpdateShow = /* GraphQL */ `
     onUpdateShow {
       id
       name
+      createdAt
+      updatedAt
       seasons {
         items {
           id
@@ -39,13 +44,14 @@ export const onUpdateShow = /* GraphQL */ `
           shortName
           currentWeek
           status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
           createdAt
           updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -54,6 +60,8 @@ export const onDeleteShow = /* GraphQL */ `
     onDeleteShow {
       id
       name
+      createdAt
+      updatedAt
       seasons {
         items {
           id
@@ -63,13 +71,14 @@ export const onDeleteShow = /* GraphQL */ `
           shortName
           currentWeek
           status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
           createdAt
           updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -78,14 +87,24 @@ export const onCreateSeason = /* GraphQL */ `
     onCreateSeason {
       id
       showID
+      startDate
+      endDate
+      shortName
+      currentWeek
+      status
+      nextMarketOpen
+      nextMarketClose
+      marketStatus
+      createdAt
+      updatedAt
       show {
         id
         name
+        createdAt
+        updatedAt
         seasons {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       contestants {
         items {
@@ -102,13 +121,17 @@ export const onCreateSeason = /* GraphQL */ `
         }
         nextToken
       }
-      startDate
-      endDate
-      shortName
-      currentWeek
-      status
-      createdAt
-      updatedAt
+      players {
+        items {
+          id
+          userID
+          seasonID
+          bankBalance
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -117,14 +140,24 @@ export const onUpdateSeason = /* GraphQL */ `
     onUpdateSeason {
       id
       showID
+      startDate
+      endDate
+      shortName
+      currentWeek
+      status
+      nextMarketOpen
+      nextMarketClose
+      marketStatus
+      createdAt
+      updatedAt
       show {
         id
         name
+        createdAt
+        updatedAt
         seasons {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       contestants {
         items {
@@ -141,13 +174,17 @@ export const onUpdateSeason = /* GraphQL */ `
         }
         nextToken
       }
-      startDate
-      endDate
-      shortName
-      currentWeek
-      status
-      createdAt
-      updatedAt
+      players {
+        items {
+          id
+          userID
+          seasonID
+          bankBalance
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -156,14 +193,24 @@ export const onDeleteSeason = /* GraphQL */ `
     onDeleteSeason {
       id
       showID
+      startDate
+      endDate
+      shortName
+      currentWeek
+      status
+      nextMarketOpen
+      nextMarketClose
+      marketStatus
+      createdAt
+      updatedAt
       show {
         id
         name
+        createdAt
+        updatedAt
         seasons {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       contestants {
         items {
@@ -180,13 +227,17 @@ export const onDeleteSeason = /* GraphQL */ `
         }
         nextToken
       }
-      startDate
-      endDate
-      shortName
-      currentWeek
-      status
-      createdAt
-      updatedAt
+      players {
+        items {
+          id
+          userID
+          seasonID
+          bankBalance
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -195,9 +246,27 @@ export const onCreateContestant = /* GraphQL */ `
     onCreateContestant {
       id
       seasonID
+      firstName
+      lastName
+      nickName
+      image
+      status
+      slug
+      createdAt
+      updatedAt
       season {
         id
         showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
         show {
           id
           name
@@ -207,22 +276,10 @@ export const onCreateContestant = /* GraphQL */ `
         contestants {
           nextToken
         }
-        startDate
-        endDate
-        shortName
-        currentWeek
-        status
-        createdAt
-        updatedAt
+        players {
+          nextToken
+        }
       }
-      firstName
-      lastName
-      nickName
-      image
-      status
-      slug
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -231,9 +288,27 @@ export const onUpdateContestant = /* GraphQL */ `
     onUpdateContestant {
       id
       seasonID
+      firstName
+      lastName
+      nickName
+      image
+      status
+      slug
+      createdAt
+      updatedAt
       season {
         id
         showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
         show {
           id
           name
@@ -243,22 +318,10 @@ export const onUpdateContestant = /* GraphQL */ `
         contestants {
           nextToken
         }
-        startDate
-        endDate
-        shortName
-        currentWeek
-        status
-        createdAt
-        updatedAt
+        players {
+          nextToken
+        }
       }
-      firstName
-      lastName
-      nickName
-      image
-      status
-      slug
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -267,9 +330,27 @@ export const onDeleteContestant = /* GraphQL */ `
     onDeleteContestant {
       id
       seasonID
+      firstName
+      lastName
+      nickName
+      image
+      status
+      slug
+      createdAt
+      updatedAt
       season {
         id
         showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
         show {
           id
           name
@@ -279,22 +360,1468 @@ export const onDeleteContestant = /* GraphQL */ `
         contestants {
           nextToken
         }
+        players {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onCreateImage = /* GraphQL */ `
+  subscription OnCreateImage {
+    onCreateImage {
+      id
+      contestantID
+      s3ObjectKey
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onUpdateImage = /* GraphQL */ `
+  subscription OnUpdateImage {
+    onUpdateImage {
+      id
+      contestantID
+      s3ObjectKey
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onDeleteImage = /* GraphQL */ `
+  subscription OnDeleteImage {
+    onDeleteImage {
+      id
+      contestantID
+      s3ObjectKey
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser {
+    onCreateUser {
+      id
+      profileCreated
+      isBanned
+      isAdmin
+      displayName
+      lastSeen
+      createdAt
+      updatedAt
+      players {
+        items {
+          id
+          userID
+          seasonID
+          bankBalance
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser {
+    onUpdateUser {
+      id
+      profileCreated
+      isBanned
+      isAdmin
+      displayName
+      lastSeen
+      createdAt
+      updatedAt
+      players {
+        items {
+          id
+          userID
+          seasonID
+          bankBalance
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser {
+    onDeleteUser {
+      id
+      profileCreated
+      isBanned
+      isAdmin
+      displayName
+      lastSeen
+      createdAt
+      updatedAt
+      players {
+        items {
+          id
+          userID
+          seasonID
+          bankBalance
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onCreatePlayer = /* GraphQL */ `
+  subscription OnCreatePlayer {
+    onCreatePlayer {
+      id
+      userID
+      seasonID
+      bankBalance
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
         startDate
         endDate
         shortName
         currentWeek
         status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
         createdAt
         updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
       }
-      firstName
-      lastName
-      nickName
-      image
-      status
-      slug
+      user {
+        id
+        profileCreated
+        isBanned
+        isAdmin
+        displayName
+        lastSeen
+        createdAt
+        updatedAt
+        players {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onUpdatePlayer = /* GraphQL */ `
+  subscription OnUpdatePlayer {
+    onUpdatePlayer {
+      id
+      userID
+      seasonID
+      bankBalance
       createdAt
       updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      user {
+        id
+        profileCreated
+        isBanned
+        isAdmin
+        displayName
+        lastSeen
+        createdAt
+        updatedAt
+        players {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onDeletePlayer = /* GraphQL */ `
+  subscription OnDeletePlayer {
+    onDeletePlayer {
+      id
+      userID
+      seasonID
+      bankBalance
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      user {
+        id
+        profileCreated
+        isBanned
+        isAdmin
+        displayName
+        lastSeen
+        createdAt
+        updatedAt
+        players {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onCreateStock = /* GraphQL */ `
+  subscription OnCreateStock {
+    onCreateStock {
+      id
+      playerID
+      contestantID
+      shares
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onUpdateStock = /* GraphQL */ `
+  subscription OnUpdateStock {
+    onUpdateStock {
+      id
+      playerID
+      contestantID
+      shares
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onDeleteStock = /* GraphQL */ `
+  subscription OnDeleteStock {
+    onDeleteStock {
+      id
+      playerID
+      contestantID
+      shares
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onCreateRating = /* GraphQL */ `
+  subscription OnCreateRating {
+    onCreateRating {
+      id
+      userID
+      contestantID
+      seasonID
+      week
+      rating
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      user {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onUpdateRating = /* GraphQL */ `
+  subscription OnUpdateRating {
+    onUpdateRating {
+      id
+      userID
+      contestantID
+      seasonID
+      week
+      rating
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      user {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onDeleteRating = /* GraphQL */ `
+  subscription OnDeleteRating {
+    onDeleteRating {
+      id
+      userID
+      contestantID
+      seasonID
+      week
+      rating
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      user {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onCreatePrice = /* GraphQL */ `
+  subscription OnCreatePrice {
+    onCreatePrice {
+      id
+      contestantID
+      seasonID
+      week
+      price
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onUpdatePrice = /* GraphQL */ `
+  subscription OnUpdatePrice {
+    onUpdatePrice {
+      id
+      contestantID
+      seasonID
+      week
+      price
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onDeletePrice = /* GraphQL */ `
+  subscription OnDeletePrice {
+    onDeletePrice {
+      id
+      contestantID
+      seasonID
+      week
+      price
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onCreateTransaction = /* GraphQL */ `
+  subscription OnCreateTransaction {
+    onCreateTransaction {
+      id
+      playerID
+      contestantID
+      week
+      shares
+      price
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onUpdateTransaction = /* GraphQL */ `
+  subscription OnUpdateTransaction {
+    onUpdateTransaction {
+      id
+      playerID
+      contestantID
+      week
+      shares
+      price
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onDeleteTransaction = /* GraphQL */ `
+  subscription OnDeleteTransaction {
+    onDeleteTransaction {
+      id
+      playerID
+      contestantID
+      week
+      shares
+      price
+      createdAt
+      updatedAt
+      contestant {
+        id
+        seasonID
+        firstName
+        lastName
+        nickName
+        image
+        status
+        slug
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onCreateLeaderboard = /* GraphQL */ `
+  subscription OnCreateLeaderboard {
+    onCreateLeaderboard {
+      id
+      seasonID
+      playerID
+      week
+      rank
+      rankPercentage
+      netWorth
+      stocks
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onUpdateLeaderboard = /* GraphQL */ `
+  subscription OnUpdateLeaderboard {
+    onUpdateLeaderboard {
+      id
+      seasonID
+      playerID
+      week
+      rank
+      rankPercentage
+      netWorth
+      stocks
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export const onDeleteLeaderboard = /* GraphQL */ `
+  subscription OnDeleteLeaderboard {
+    onDeleteLeaderboard {
+      id
+      seasonID
+      playerID
+      week
+      rank
+      rankPercentage
+      netWorth
+      stocks
+      createdAt
+      updatedAt
+      season {
+        id
+        showID
+        startDate
+        endDate
+        shortName
+        currentWeek
+        status
+        nextMarketOpen
+        nextMarketClose
+        marketStatus
+        createdAt
+        updatedAt
+        show {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        contestants {
+          nextToken
+        }
+        players {
+          nextToken
+        }
+      }
+      player {
+        id
+        userID
+        seasonID
+        bankBalance
+        createdAt
+        updatedAt
+        season {
+          id
+          showID
+          startDate
+          endDate
+          shortName
+          currentWeek
+          status
+          nextMarketOpen
+          nextMarketClose
+          marketStatus
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          profileCreated
+          isBanned
+          isAdmin
+          displayName
+          lastSeen
+          createdAt
+          updatedAt
+        }
+      }
     }
   }
 `;

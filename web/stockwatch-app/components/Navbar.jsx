@@ -1,20 +1,10 @@
 import Link from 'next/link';
-import { House } from 'phosphor-react';
 // import useStickyState from '../hooks/useStickyState';
 // import useHasMounted from '../hooks/useHasMounted';
 // import PanelToggle from './PanelToggle';
+import { UserNavbar } from './UserNavbar';
 import PropTypes from 'prop-types';
-import {
-    ArrowLineLeft,
-    ArrowLineRight,
-    Coin,
-    TrendUp,
-    SignIn,
-    Lock,
-    User,
-    Table,
-    Medal,
-} from 'phosphor-react';
+import { TrendUp, User, Medal } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
@@ -31,30 +21,7 @@ export const Navbar = ({ className }) => {
                     <li className={styles.collapseButtonWrap}>
                         <PanelToggle desktopToggle />
                     </li>
-                    {/* <li>
-                        <Link href="/account">
-                            <a className={styles.itemWrap}>
-                                <House className={styles.itemIcon} />
-                                <span className={styles.itemLabel}>Dashboard</span>
-                            </a>
-                        </Link>
-                    </li> */}
-                    <li>
-                        <Link href="/trade">
-                            <a className={styles.itemWrap}>
-                                <Coin weight="duotone" className={styles.itemIcon} />
-                                <span className={styles.itemLabel}>Trade</span>
-                            </a>
-                        </Link>
-                    </li>
-                    {/* <li>
-                        <Link href="/account">
-                            <a className={styles.itemWrap}>
-                                <House className={styles.itemIcon} />
-                                <span className={styles.itemLabel}>Stocks</span>
-                            </a>
-                        </Link>
-                    </li> */}
+                    <UserNavbar styles={styles} />
                     <li>
                         <Link href="/projections">
                             <a className={styles.itemWrap}>
@@ -76,38 +43,6 @@ export const Navbar = ({ className }) => {
                             <a className={styles.itemWrap}>
                                 <Medal weight="fill" className={styles.itemIcon} />
                                 <span className={styles.itemLabel}>All time leaderboard</span>
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/account">
-                            <a className={styles.itemWrap}>
-                                <User className={styles.itemIcon} weight="duotone" />
-                                <span className={styles.itemLabel}>Account</span>
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/">
-                            <a className={styles.itemWrap}>
-                                <Lock className={styles.itemIcon} />
-                                <span className={styles.itemLabel}>Admin</span>
-                            </a>
-                        </Link>
-                    </li>
-                    {/* <li>
-                        <Link href="/account">
-                            <a className={styles.itemWrap}>
-                                <House className={styles.itemIcon} />
-                                <span className={styles.itemLabel}>FAQ</span>
-                            </a>
-                        </Link>
-                    </li> */}
-                    <li>
-                        <Link href="/">
-                            <a className={styles.itemWrap}>
-                                <SignIn className={styles.itemIcon} />
-                                <span className={styles.itemLabel}>Login</span>
                             </a>
                         </Link>
                     </li>
