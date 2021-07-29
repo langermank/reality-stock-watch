@@ -138,6 +138,7 @@ export const getSeason = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -337,7 +338,16 @@ export const getUser = /* GraphQL */ `
       isBanned
       isAdmin
       displayName
+      email
+      emailVerifiedAt
+      password
+      providerUserID
+      provider
+      avatarID
       lastSeen
+      legacyNetWorth
+      netWorth
+      dummy
       createdAt
       updatedAt
       players {
@@ -346,6 +356,7 @@ export const getUser = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -367,7 +378,102 @@ export const listUsers = /* GraphQL */ `
         isBanned
         isAdmin
         displayName
+        email
+        emailVerifiedAt
+        password
+        providerUserID
+        provider
+        avatarID
         lastSeen
+        legacyNetWorth
+        netWorth
+        dummy
+        createdAt
+        updatedAt
+        players {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const usersByProvider = /* GraphQL */ `
+  query UsersByProvider(
+    $provider: String
+    $providerUserID: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByProvider(
+      provider: $provider
+      providerUserID: $providerUserID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        profileCreated
+        isBanned
+        isAdmin
+        displayName
+        email
+        emailVerifiedAt
+        password
+        providerUserID
+        provider
+        avatarID
+        lastSeen
+        legacyNetWorth
+        netWorth
+        dummy
+        createdAt
+        updatedAt
+        players {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const usersByNetWorth = /* GraphQL */ `
+  query UsersByNetWorth(
+    $dummy: String
+    $netWorth: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByNetWorth(
+      dummy: $dummy
+      netWorth: $netWorth
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        profileCreated
+        isBanned
+        isAdmin
+        displayName
+        email
+        emailVerifiedAt
+        password
+        providerUserID
+        provider
+        avatarID
+        lastSeen
+        legacyNetWorth
+        netWorth
+        dummy
         createdAt
         updatedAt
         players {
@@ -385,6 +491,7 @@ export const getPlayer = /* GraphQL */ `
       userID
       seasonID
       bankBalance
+      netWorth
       createdAt
       updatedAt
       season {
@@ -419,12 +526,32 @@ export const getPlayer = /* GraphQL */ `
         isBanned
         isAdmin
         displayName
+        email
+        emailVerifiedAt
+        password
+        providerUserID
+        provider
+        avatarID
         lastSeen
+        legacyNetWorth
+        netWorth
+        dummy
         createdAt
         updatedAt
         players {
           nextToken
         }
+      }
+      stocks {
+        items {
+          id
+          playerID
+          contestantID
+          shares
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -441,6 +568,7 @@ export const listPlayers = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -463,9 +591,21 @@ export const listPlayers = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
       nextToken
@@ -512,6 +652,7 @@ export const getStock = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -534,9 +675,21 @@ export const getStock = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -573,6 +726,7 @@ export const listStocks = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -885,6 +1039,7 @@ export const getTransaction = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -907,9 +1062,21 @@ export const getTransaction = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -948,6 +1115,7 @@ export const listTransactions = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -1000,6 +1168,7 @@ export const getLeaderboard = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -1022,9 +1191,21 @@ export const getLeaderboard = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -1067,6 +1248,7 @@ export const listLeaderboards = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
