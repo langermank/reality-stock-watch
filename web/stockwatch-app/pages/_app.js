@@ -1,5 +1,4 @@
 import '../styles/globals.scss';
-//import RealityStockWatchUI from '../copied/RealityStockWatchUI';
 import { Navbar } from '../components/Navbar';
 import { ArrowLineLeft, ArrowLineRight } from 'phosphor-react';
 import Head from 'next/head';
@@ -7,6 +6,7 @@ import Logo from '../components/SWLogo';
 import clsx from 'clsx';
 import styles from '../styles/app.module.scss';
 import dynamic from 'next/dynamic';
+import 'semantic-ui-css/semantic.min.css';
 
 // const PanelToggle = dynamic(() => import('../components/PanelToggle'), {
 //     ssr: false,

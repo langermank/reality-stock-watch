@@ -23,6 +23,8 @@ export const createShow = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -53,6 +55,8 @@ export const updateShow = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -83,6 +87,8 @@ export const deleteShow = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -107,6 +113,8 @@ export const createSeason = /* GraphQL */ `
       nextMarketOpen
       nextMarketClose
       marketStatus
+      lastBatchUpdate
+      scheduledBatchUpdate
       createdAt
       updatedAt
       show {
@@ -164,6 +172,8 @@ export const updateSeason = /* GraphQL */ `
       nextMarketOpen
       nextMarketClose
       marketStatus
+      lastBatchUpdate
+      scheduledBatchUpdate
       createdAt
       updatedAt
       show {
@@ -221,6 +231,8 @@ export const deleteSeason = /* GraphQL */ `
       nextMarketOpen
       nextMarketClose
       marketStatus
+      lastBatchUpdate
+      scheduledBatchUpdate
       createdAt
       updatedAt
       show {
@@ -289,6 +301,8 @@ export const createContestant = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -334,6 +348,8 @@ export const updateContestant = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -379,6 +395,8 @@ export const deleteContestant = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -430,6 +448,8 @@ export const createImage = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -470,6 +490,8 @@ export const updateImage = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -510,6 +532,8 @@ export const deleteImage = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -537,6 +561,7 @@ export const createUser = /* GraphQL */ `
       lastSeen
       legacyNetWorth
       netWorth
+      rank
       dummy
       createdAt
       updatedAt
@@ -575,6 +600,7 @@ export const updateUser = /* GraphQL */ `
       lastSeen
       legacyNetWorth
       netWorth
+      rank
       dummy
       createdAt
       updatedAt
@@ -613,6 +639,7 @@ export const deleteUser = /* GraphQL */ `
       lastSeen
       legacyNetWorth
       netWorth
+      rank
       dummy
       createdAt
       updatedAt
@@ -655,6 +682,8 @@ export const createPlayer = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -685,6 +714,7 @@ export const createPlayer = /* GraphQL */ `
         lastSeen
         legacyNetWorth
         netWorth
+        rank
         dummy
         createdAt
         updatedAt
@@ -730,6 +760,8 @@ export const updatePlayer = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -760,6 +792,7 @@ export const updatePlayer = /* GraphQL */ `
         lastSeen
         legacyNetWorth
         netWorth
+        rank
         dummy
         createdAt
         updatedAt
@@ -805,6 +838,8 @@ export const deletePlayer = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -835,6 +870,7 @@ export const deletePlayer = /* GraphQL */ `
         lastSeen
         legacyNetWorth
         netWorth
+        rank
         dummy
         createdAt
         updatedAt
@@ -890,6 +926,8 @@ export const createStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -913,6 +951,8 @@ export const createStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -931,6 +971,7 @@ export const createStock = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -976,6 +1017,8 @@ export const updateStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -999,6 +1042,8 @@ export const updateStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1017,6 +1062,7 @@ export const updateStock = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -1062,6 +1108,8 @@ export const deleteStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1085,6 +1133,8 @@ export const deleteStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1103,6 +1153,7 @@ export const deleteStock = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -1139,6 +1190,8 @@ export const createRating = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1176,6 +1229,8 @@ export const createRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1202,6 +1257,8 @@ export const createRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1234,6 +1291,8 @@ export const updateRating = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1271,6 +1330,8 @@ export const updateRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1297,6 +1358,8 @@ export const updateRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1329,6 +1392,8 @@ export const deleteRating = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1366,6 +1431,8 @@ export const deleteRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1392,6 +1459,8 @@ export const deleteRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1423,6 +1492,8 @@ export const createPrice = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1460,6 +1531,8 @@ export const createPrice = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1491,6 +1564,8 @@ export const updatePrice = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1528,6 +1603,8 @@ export const updatePrice = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1559,6 +1636,8 @@ export const deletePrice = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1596,6 +1675,8 @@ export const deletePrice = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1639,6 +1720,8 @@ export const createTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1662,6 +1745,8 @@ export const createTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1680,6 +1765,7 @@ export const createTransaction = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -1727,6 +1813,8 @@ export const updateTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1750,6 +1838,8 @@ export const updateTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1768,6 +1858,7 @@ export const updateTransaction = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -1815,6 +1906,8 @@ export const deleteTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1838,6 +1931,8 @@ export const deleteTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1856,6 +1951,7 @@ export const deleteTransaction = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -1894,6 +1990,8 @@ export const createLeaderboard = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1928,6 +2026,8 @@ export const createLeaderboard = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1946,6 +2046,7 @@ export const createLeaderboard = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -1984,6 +2085,8 @@ export const updateLeaderboard = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -2018,6 +2121,8 @@ export const updateLeaderboard = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -2036,6 +2141,7 @@ export const updateLeaderboard = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
@@ -2074,6 +2180,8 @@ export const deleteLeaderboard = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -2108,6 +2216,8 @@ export const deleteLeaderboard = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -2126,6 +2236,7 @@ export const deleteLeaderboard = /* GraphQL */ `
           lastSeen
           legacyNetWorth
           netWorth
+          rank
           dummy
           createdAt
           updatedAt
