@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTable } from 'react-table';
-import { Button, Grid, Header, Input, Table } from 'semantic-ui-react';
+import { Button, Grid, Header, Input, Loader, Table } from 'semantic-ui-react';
 import { fetchAllTimeLeaderboard } from '../copied/RealityStockWatchBackend';
 import _ from 'lodash';
 
@@ -104,22 +104,29 @@ const Leaderboard = ({ initialData, initialToken, initialPage }) => {
         data,
     });
     console.log('nextTokens', pagerParams, nextTokens);
-    const keys = Object.keys(nextTokens[pagerParams.filter]);
-    let pages = keys.map((p) => {
-        if (p == 0) return '';
-        return (
-            <Button
-                primary={p == pagerParams.currentPage}
-                key={p}
-                content={p}
-                onClick={() =>
-                    updatePagerParams(setPagerParams, setNextTokens, { currentPage: parseInt(p) })
-                }
-            />
-        );
-    });
-    if (nextTokens[pagerParams.filter][keys.length - 1]) {
-        pages.push(<Button key="dotdotdot" disabled icon="ellipsis horizontal" />);
+    // When the filter changes, the filter can be updated before nextTokens
+    // is updated.
+    let pages = [<Loader key="loader" active inline="centered" />];
+    if (pagerParams.filter in nextTokens) {
+        const keys = Object.keys(nextTokens[pagerParams.filter]);
+        pages = keys.map((p) => {
+            if (p == 0) return '';
+            return (
+                <Button
+                    primary={p == pagerParams.currentPage}
+                    key={p}
+                    content={p}
+                    onClick={() =>
+                        updatePagerParams(setPagerParams, setNextTokens, {
+                            currentPage: parseInt(p),
+                        })
+                    }
+                />
+            );
+        });
+        if (nextTokens[pagerParams.filter][keys.length - 1]) {
+            pages.push(<Button key="dotdotdot" disabled icon="ellipsis horizontal" />);
+        }
     }
     return (
         <>
@@ -142,6 +149,13 @@ const Leaderboard = ({ initialData, initialToken, initialPage }) => {
                             fluid
                             value={filterInput}
                             onChange={(e) => setFilterInput(e.target.value)}
+                            onKeyUp={(e) => {
+                                if (e.keyCode === 13) {
+                                    updatePagerParams(setPagerParams, setNextTokens, {
+                                        filter: filterInput,
+                                    });
+                                }
+                            }}
                         />
                     </Grid.Column>
                     <Grid.Column width={2}>

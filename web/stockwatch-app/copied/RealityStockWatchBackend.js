@@ -293,12 +293,22 @@ const usersByNetWorth = /* GraphQL */ `
         }
     }
 `;
-async function fetchAllTimeLeaderboard(filter, direction, nextToken) {
+// This has been hacked a little to deal with how filters work in DynamoDB and
+// graphql.  The filter happens after the scan, so limits on query size apply
+// to the unfiltered query.  This makes pagination complicated.
+//
+// This could be done better by using the lower-level dynamodb interface and
+// saving the last result rather than the graphql next token.
+//
+async function fetchAllTimeLeaderboard(filter, direction, nextToken, records) {
+    if (records === undefined) {
+        records = [];
+    }
     let graphql = {
         query: usersByNetWorth,
         variables: {
             sortDirection: direction,
-            limit: 100,
+            limit: 100 - records.length,
             dummy: 'dummy',
         },
         authMode: 'AWS_IAM',
@@ -310,7 +320,7 @@ async function fetchAllTimeLeaderboard(filter, direction, nextToken) {
         graphql.variables.nextToken = nextToken;
     }
     const result = await API.graphql(graphql);
-    let records = [];
+    nextToken = result.data.usersByNetWorth.nextToken;
     for (let i in result.data.usersByNetWorth.items) {
         let record = result.data.usersByNetWorth.items[i];
         records.push({
@@ -320,7 +330,13 @@ async function fetchAllTimeLeaderboard(filter, direction, nextToken) {
             networth: parseInt(record.netWorth) / 100,
         });
     }
-    return [records, result.data.usersByNetWorth.nextToken];
+
+    // Recurse if we need more records.
+    if (records.length < 100 && nextToken) {
+        [records, nextToken] = await fetchAllTimeLeaderboard(filter, direction, nextToken, records);
+    }
+
+    return [records, nextToken];
 }
 
 /*
