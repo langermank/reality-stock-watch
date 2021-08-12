@@ -23,6 +23,8 @@ export const createShow = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -53,6 +55,8 @@ export const updateShow = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -83,6 +87,8 @@ export const deleteShow = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -107,6 +113,8 @@ export const createSeason = /* GraphQL */ `
       nextMarketOpen
       nextMarketClose
       marketStatus
+      lastBatchUpdate
+      scheduledBatchUpdate
       createdAt
       updatedAt
       show {
@@ -139,6 +147,7 @@ export const createSeason = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -163,6 +172,8 @@ export const updateSeason = /* GraphQL */ `
       nextMarketOpen
       nextMarketClose
       marketStatus
+      lastBatchUpdate
+      scheduledBatchUpdate
       createdAt
       updatedAt
       show {
@@ -195,6 +206,7 @@ export const updateSeason = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -219,6 +231,8 @@ export const deleteSeason = /* GraphQL */ `
       nextMarketOpen
       nextMarketClose
       marketStatus
+      lastBatchUpdate
+      scheduledBatchUpdate
       createdAt
       updatedAt
       show {
@@ -251,6 +265,7 @@ export const deleteSeason = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -286,6 +301,8 @@ export const createContestant = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -331,6 +348,8 @@ export const updateContestant = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -376,6 +395,8 @@ export const deleteContestant = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -427,6 +448,8 @@ export const createImage = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -467,6 +490,8 @@ export const updateImage = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -507,6 +532,8 @@ export const deleteImage = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -525,7 +552,17 @@ export const createUser = /* GraphQL */ `
       isBanned
       isAdmin
       displayName
+      email
+      emailVerifiedAt
+      password
+      providerUserID
+      provider
+      avatarID
       lastSeen
+      legacyNetWorth
+      netWorth
+      rank
+      dummy
       createdAt
       updatedAt
       players {
@@ -534,6 +571,7 @@ export const createUser = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -553,7 +591,17 @@ export const updateUser = /* GraphQL */ `
       isBanned
       isAdmin
       displayName
+      email
+      emailVerifiedAt
+      password
+      providerUserID
+      provider
+      avatarID
       lastSeen
+      legacyNetWorth
+      netWorth
+      rank
+      dummy
       createdAt
       updatedAt
       players {
@@ -562,6 +610,7 @@ export const updateUser = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -581,7 +630,17 @@ export const deleteUser = /* GraphQL */ `
       isBanned
       isAdmin
       displayName
+      email
+      emailVerifiedAt
+      password
+      providerUserID
+      provider
+      avatarID
       lastSeen
+      legacyNetWorth
+      netWorth
+      rank
+      dummy
       createdAt
       updatedAt
       players {
@@ -590,6 +649,7 @@ export const deleteUser = /* GraphQL */ `
           userID
           seasonID
           bankBalance
+          netWorth
           createdAt
           updatedAt
         }
@@ -608,6 +668,7 @@ export const createPlayer = /* GraphQL */ `
       userID
       seasonID
       bankBalance
+      netWorth
       createdAt
       updatedAt
       season {
@@ -621,6 +682,8 @@ export const createPlayer = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -642,12 +705,33 @@ export const createPlayer = /* GraphQL */ `
         isBanned
         isAdmin
         displayName
+        email
+        emailVerifiedAt
+        password
+        providerUserID
+        provider
+        avatarID
         lastSeen
+        legacyNetWorth
+        netWorth
+        rank
+        dummy
         createdAt
         updatedAt
         players {
           nextToken
         }
+      }
+      stocks {
+        items {
+          id
+          playerID
+          contestantID
+          shares
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -662,6 +746,7 @@ export const updatePlayer = /* GraphQL */ `
       userID
       seasonID
       bankBalance
+      netWorth
       createdAt
       updatedAt
       season {
@@ -675,6 +760,8 @@ export const updatePlayer = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -696,12 +783,33 @@ export const updatePlayer = /* GraphQL */ `
         isBanned
         isAdmin
         displayName
+        email
+        emailVerifiedAt
+        password
+        providerUserID
+        provider
+        avatarID
         lastSeen
+        legacyNetWorth
+        netWorth
+        rank
+        dummy
         createdAt
         updatedAt
         players {
           nextToken
         }
+      }
+      stocks {
+        items {
+          id
+          playerID
+          contestantID
+          shares
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -716,6 +824,7 @@ export const deletePlayer = /* GraphQL */ `
       userID
       seasonID
       bankBalance
+      netWorth
       createdAt
       updatedAt
       season {
@@ -729,6 +838,8 @@ export const deletePlayer = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -750,12 +861,33 @@ export const deletePlayer = /* GraphQL */ `
         isBanned
         isAdmin
         displayName
+        email
+        emailVerifiedAt
+        password
+        providerUserID
+        provider
+        avatarID
         lastSeen
+        legacyNetWorth
+        netWorth
+        rank
+        dummy
         createdAt
         updatedAt
         players {
           nextToken
         }
+      }
+      stocks {
+        items {
+          id
+          playerID
+          contestantID
+          shares
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -794,6 +926,8 @@ export const createStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -803,6 +937,7 @@ export const createStock = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -816,6 +951,8 @@ export const createStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -825,9 +962,22 @@ export const createStock = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -867,6 +1017,8 @@ export const updateStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -876,6 +1028,7 @@ export const updateStock = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -889,6 +1042,8 @@ export const updateStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -898,9 +1053,22 @@ export const updateStock = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -940,6 +1108,8 @@ export const deleteStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -949,6 +1119,7 @@ export const deleteStock = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -962,6 +1133,8 @@ export const deleteStock = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -971,9 +1144,22 @@ export const deleteStock = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -1004,6 +1190,8 @@ export const createRating = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1041,6 +1229,8 @@ export const createRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1067,6 +1257,8 @@ export const createRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1099,6 +1291,8 @@ export const updateRating = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1136,6 +1330,8 @@ export const updateRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1162,6 +1358,8 @@ export const updateRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1194,6 +1392,8 @@ export const deleteRating = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1231,6 +1431,8 @@ export const deleteRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1257,6 +1459,8 @@ export const deleteRating = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1288,6 +1492,8 @@ export const createPrice = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1325,6 +1531,8 @@ export const createPrice = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1356,6 +1564,8 @@ export const updatePrice = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1393,6 +1603,8 @@ export const updatePrice = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1424,6 +1636,8 @@ export const deletePrice = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1461,6 +1675,8 @@ export const deletePrice = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1504,6 +1720,8 @@ export const createTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1513,6 +1731,7 @@ export const createTransaction = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -1526,6 +1745,8 @@ export const createTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1535,9 +1756,22 @@ export const createTransaction = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -1579,6 +1813,8 @@ export const updateTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1588,6 +1824,7 @@ export const updateTransaction = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -1601,6 +1838,8 @@ export const updateTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1610,9 +1849,22 @@ export const updateTransaction = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -1654,6 +1906,8 @@ export const deleteTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1663,6 +1917,7 @@ export const deleteTransaction = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -1676,6 +1931,8 @@ export const deleteTransaction = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1685,9 +1942,22 @@ export const deleteTransaction = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -1720,6 +1990,8 @@ export const createLeaderboard = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1740,6 +2012,7 @@ export const createLeaderboard = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -1753,6 +2026,8 @@ export const createLeaderboard = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1762,9 +2037,22 @@ export const createLeaderboard = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -1797,6 +2085,8 @@ export const updateLeaderboard = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1817,6 +2107,7 @@ export const updateLeaderboard = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -1830,6 +2121,8 @@ export const updateLeaderboard = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1839,9 +2132,22 @@ export const updateLeaderboard = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }
@@ -1874,6 +2180,8 @@ export const deleteLeaderboard = /* GraphQL */ `
         nextMarketOpen
         nextMarketClose
         marketStatus
+        lastBatchUpdate
+        scheduledBatchUpdate
         createdAt
         updatedAt
         show {
@@ -1894,6 +2202,7 @@ export const deleteLeaderboard = /* GraphQL */ `
         userID
         seasonID
         bankBalance
+        netWorth
         createdAt
         updatedAt
         season {
@@ -1907,6 +2216,8 @@ export const deleteLeaderboard = /* GraphQL */ `
           nextMarketOpen
           nextMarketClose
           marketStatus
+          lastBatchUpdate
+          scheduledBatchUpdate
           createdAt
           updatedAt
         }
@@ -1916,9 +2227,22 @@ export const deleteLeaderboard = /* GraphQL */ `
           isBanned
           isAdmin
           displayName
+          email
+          emailVerifiedAt
+          password
+          providerUserID
+          provider
+          avatarID
           lastSeen
+          legacyNetWorth
+          netWorth
+          rank
+          dummy
           createdAt
           updatedAt
+        }
+        stocks {
+          nextToken
         }
       }
     }

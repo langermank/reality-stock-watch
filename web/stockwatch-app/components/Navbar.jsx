@@ -39,7 +39,7 @@ export const Navbar = ({ className }) => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href="/leaderboard">
                             <a className={styles.itemWrap}>
                                 <Medal weight="fill" className={styles.itemIcon} />
                                 <span className={styles.itemLabel}>All time leaderboard</span>
