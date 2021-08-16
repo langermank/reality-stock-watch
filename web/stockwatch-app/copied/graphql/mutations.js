@@ -18,8 +18,10 @@ export const createShow = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -50,8 +52,10 @@ export const updateShow = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -82,8 +86,10 @@ export const deleteShow = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -108,8 +114,10 @@ export const createSeason = /* GraphQL */ `
       startDate
       endDate
       shortName
+      name
       currentWeek
       status
+      closesAt
       nextMarketOpen
       nextMarketClose
       marketStatus
@@ -167,8 +175,10 @@ export const updateSeason = /* GraphQL */ `
       startDate
       endDate
       shortName
+      name
       currentWeek
       status
+      closesAt
       nextMarketOpen
       nextMarketClose
       marketStatus
@@ -226,8 +236,10 @@ export const deleteSeason = /* GraphQL */ `
       startDate
       endDate
       shortName
+      name
       currentWeek
       status
+      closesAt
       nextMarketOpen
       nextMarketClose
       marketStatus
@@ -296,8 +308,10 @@ export const createContestant = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -343,8 +357,10 @@ export const updateContestant = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -390,8 +406,10 @@ export const deleteContestant = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -443,8 +461,10 @@ export const createImage = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -485,8 +505,10 @@ export const updateImage = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -527,8 +549,10 @@ export const deleteImage = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -677,8 +701,10 @@ export const createPlayer = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -755,8 +781,10 @@ export const updatePlayer = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -833,8 +861,10 @@ export const deletePlayer = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -921,8 +951,10 @@ export const createStock = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -946,8 +978,10 @@ export const createStock = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1012,8 +1046,10 @@ export const updateStock = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1037,8 +1073,10 @@ export const updateStock = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1103,8 +1141,10 @@ export const deleteStock = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1128,8 +1168,10 @@ export const deleteStock = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1185,8 +1227,10 @@ export const createRating = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -1224,8 +1268,10 @@ export const createRating = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1252,8 +1298,10 @@ export const createRating = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1286,8 +1334,10 @@ export const updateRating = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -1325,8 +1375,10 @@ export const updateRating = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1353,8 +1405,10 @@ export const updateRating = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1387,8 +1441,10 @@ export const deleteRating = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -1426,8 +1482,10 @@ export const deleteRating = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1454,8 +1512,10 @@ export const deleteRating = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1487,8 +1547,10 @@ export const createPrice = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -1526,8 +1588,10 @@ export const createPrice = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1559,8 +1623,10 @@ export const updatePrice = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -1598,8 +1664,10 @@ export const updatePrice = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1631,8 +1699,10 @@ export const deletePrice = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -1670,8 +1740,10 @@ export const deletePrice = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1715,8 +1787,10 @@ export const createTransaction = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1740,8 +1814,10 @@ export const createTransaction = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1808,8 +1884,10 @@ export const updateTransaction = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1833,8 +1911,10 @@ export const updateTransaction = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1901,8 +1981,10 @@ export const deleteTransaction = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1926,8 +2008,10 @@ export const deleteTransaction = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -1985,8 +2069,10 @@ export const createLeaderboard = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -2021,8 +2107,10 @@ export const createLeaderboard = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -2080,8 +2168,10 @@ export const updateLeaderboard = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -2116,8 +2206,10 @@ export const updateLeaderboard = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus
@@ -2175,8 +2267,10 @@ export const deleteLeaderboard = /* GraphQL */ `
         startDate
         endDate
         shortName
+        name
         currentWeek
         status
+        closesAt
         nextMarketOpen
         nextMarketClose
         marketStatus
@@ -2211,8 +2305,10 @@ export const deleteLeaderboard = /* GraphQL */ `
           startDate
           endDate
           shortName
+          name
           currentWeek
           status
+          closesAt
           nextMarketOpen
           nextMarketClose
           marketStatus

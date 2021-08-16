@@ -421,7 +421,7 @@ function useUser() {
     useEffect(() => {
         Hub.listen('auth', listen);
         console.log('mutate currentUser');
-        mutate('currentUser');
+        mutate();
         return () => {
             Hub.remove('auth', listen);
         };
