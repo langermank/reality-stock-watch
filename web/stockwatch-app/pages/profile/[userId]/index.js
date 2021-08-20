@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTable } from 'react-table';
 import { Button, Card, Grid, Header, Input, List, Loader, Table } from 'semantic-ui-react';
-import { useProfile } from '../../copied/ProfileBackend';
+import { useProfile } from '../../../copied/ProfileBackend';
 import { useRouter } from 'next/router';
-import _ from 'lodash';
 
-function renderGames(games) {
+function renderGames(games, router) {
+    const { userId } = router.query;
+
     return games.map((game) => (
-        <Card key={game.seasonID}>
+        <Card
+            key={game.seasonID}
+            onClick={() => {
+                router.push('/profile/' + userId + '/game/' + game.playerID);
+            }}>
             <Card.Content>
                 <Card.Header>{game.showName}</Card.Header>
                 <Card.Meta>{game.seasonName}</Card.Meta>
@@ -39,7 +44,7 @@ const Profile = () => {
         ) : (
             <>
                 <h2>Current Games</h2>
-                <Card.Group>{renderGames(profile.enrolledGames)}</Card.Group>
+                <Card.Group>{renderGames(profile.enrolledGames, router)}</Card.Group>
             </>
         );
     const completedGames =
@@ -48,7 +53,7 @@ const Profile = () => {
         ) : (
             <>
                 <h2>Past Games</h2>
-                <Card.Group>{renderGames(profile.completedGames)}</Card.Group>
+                <Card.Group>{renderGames(profile.completedGames, router)}</Card.Group>
             </>
         );
     return (

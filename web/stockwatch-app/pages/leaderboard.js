@@ -232,9 +232,6 @@ const Leaderboard = ({ initialData, initialToken, initialPage }) => {
                                     key={row.values['player']}
                                     {...row.getRowProps()}
                                     onClick={() => {
-                                        /*console.log(
-                                            row
-                                        );*/
                                         router.push('/profile/' + row.original.id);
                                     }}>
                                     {
