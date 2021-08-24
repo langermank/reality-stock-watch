@@ -4,6 +4,7 @@ import { useTable, usePagination, useExpanded } from 'react-table';
 // import Input from '../components/Input.jsx';
 import { Button, Loader } from 'semantic-ui-react';
 import { fetchAllTimeLeaderboard } from '../copied/RealityStockWatchBackend';
+import router, { userRouter } from 'next/router';
 import _ from 'lodash';
 
 export async function getStaticProps() {
@@ -250,7 +251,7 @@ const Leaderboard = ({ initialData, initialToken, initialPage }) => {
                 </code>
             </pre>
 
-            <table {...getTableProps()}>
+            <table {...getTableProps()} selectable>
                 <thead>
                     {
                         // Loop over the header rows
@@ -282,7 +283,15 @@ const Leaderboard = ({ initialData, initialToken, initialPage }) => {
                             prepareRow(row);
                             return (
                                 // Apply the row props
-                                <tr key={row.values['player']} {...row.getRowProps()}>
+                                <tr
+                                    key={row.values['player']}
+                                    {...row.getRowProps()}
+                                    onClick={() => {
+                                        /*console.log(
+                                            row
+                                        );*/
+                                        router.push('/profile/' + row.original.id);
+                                    }}>
                                     {
                                         // Loop over the rows cells
                                         row.cells.map((cell) => {

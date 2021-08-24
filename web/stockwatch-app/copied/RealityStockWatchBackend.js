@@ -421,7 +421,7 @@ function useUser() {
     useEffect(() => {
         Hub.listen('auth', listen);
         console.log('mutate currentUser');
-        mutate('currentUser');
+        mutate();
         return () => {
             Hub.remove('auth', listen);
         };
@@ -466,7 +466,7 @@ function useFile(initialUrl) {
     }
     return [url, upload];
 }
-
+/*
 async function getProfile() {
     let result = await API.graphql({
         query: queries.profile,
@@ -487,7 +487,7 @@ function useProfile() {
 
     return [user, profile];
 }
-
+*/
 export {
     useUser,
     useShows,
@@ -497,6 +497,6 @@ export {
     useRatingsBySeason,
     useContestantsBySeason,
     useFile,
-    useProfile,
+    //    useProfile,
     fetchAllTimeLeaderboard,
 };
