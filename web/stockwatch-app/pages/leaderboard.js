@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTable, usePagination, useExpanded } from 'react-table';
 // import Button from '../components/Button.jsx';
 // import Input from '../components/Input.jsx';
-import { Button, Loader } from 'semantic-ui-react';
+// import { Button, Loader } from 'semantic-ui-react';
 import { fetchAllTimeLeaderboard } from '../copied/RealityStockWatchBackend';
 import router, { userRouter } from 'next/router';
 import _ from 'lodash';
