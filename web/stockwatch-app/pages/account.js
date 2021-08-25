@@ -1,10 +1,4 @@
 import React, { useState } from 'react';
-/*import {
-    RealityStockWatchConsumer,
-    Shows,
-    Seasons,
-    Contestants,
-} from '../copied/RealityStockWatchProvider';*/
 
 function Account() {
     const [state, setState] = useState({ name: '' });

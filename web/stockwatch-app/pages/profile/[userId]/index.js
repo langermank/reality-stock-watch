@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTable } from 'react-table';
 import { Button, Card, Grid, Header, Input, List, Loader, Table } from 'semantic-ui-react';
-import { useProfile } from '../../../copied/ProfileBackend';
+import { useProfile } from 'backend/Profile';
 import { useRouter } from 'next/router';
 
 function renderGames(games, router) {

@@ -3,10 +3,16 @@ import useSWR from 'swr';
 import Fetch from './graphql/Fetch';
 
 function useProfile(userId) {
-    const { data, mutate, error } = useSWR(userId ? ['profile', userId] : null, Fetch, {
-        initialData: { displayName: 'Loading...' },
-    });
+    console.log('userProfile top', userId);
+    const { data, mutate, error } = useSWR(
+        userId ? ['profile', userId] : null,
+        (action, userId) => Fetch(action, { userId }),
+        {
+            initialData: { displayName: 'Loading...' },
+        }
+    );
     useEffect(() => {
+        console.log('mutate');
         mutate();
     }, [userId]);
     const loading = !data && !error;

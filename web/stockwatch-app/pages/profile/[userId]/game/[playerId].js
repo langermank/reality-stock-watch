@@ -1,7 +1,7 @@
 import { useTable } from 'react-table';
 import { Button, Card, Grid, Header, Input, List, Loader, Table } from 'semantic-ui-react';
-import { useProfile } from '../../../../copied/ProfileBackend';
-import { useTransactionsByPlayer, usePlayer } from '../../../../copied/GamesBackend';
+import { useProfile } from 'backend/Profile';
+import { useTransactionsByPlayer, usePlayer } from 'backend/Games';
 import { useRouter } from 'next/router';
 
 const Player = () => {

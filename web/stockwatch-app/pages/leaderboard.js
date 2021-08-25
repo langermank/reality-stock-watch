@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTable } from 'react-table';
 import { Button, Grid, Header, Input, Loader, Table } from 'semantic-ui-react';
-import { fetchAllTimeLeaderboard } from '../copied/RealityStockWatchBackend';
+import { fetchAllTimeLeaderboard } from 'backend/RealityStockWatchBackend';
 import router, { userRouter } from 'next/router';
 import _ from 'lodash';
 
