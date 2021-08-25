@@ -71,8 +71,9 @@ body[data-panel-state='closed'] {
 }
 
 .sidebarNav {
-    background: var(--body-overlay-bg);
-    color: var(--white);
+    font-size: var(--font-size-large);
+    background: var(--slate2);
+    // color: var(--white);
     padding: 2rem 1rem;
     top: 0;
     bottom: 0;
@@ -100,6 +101,7 @@ body[data-panel-state='closed'] {
         align-items: center;
         white-space: nowrap;
         text-overflow: ellipsis;
+        text-decoration: none;
     }
 
     .sidebarNavList {
