@@ -182,11 +182,11 @@ function Table({ columns, data, updateMyData, skipReset }) {
                             style={{
                                 textAlign: 'left',
                             }}>
-                            <GlobalFilter
+                            {/* <GlobalFilter
                                 preGlobalFilteredRows={preGlobalFilteredRows}
                                 globalFilter={state.globalFilter}
                                 setGlobalFilter={setGlobalFilter}
-                            />
+                            /> */}
                         </th>
                     </tr>
                     {
