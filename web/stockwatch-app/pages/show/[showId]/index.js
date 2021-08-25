@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { List } from 'semantic-ui-react';
 import { useShow } from 'backend/Shows';
 
 const Show = () => {
@@ -9,23 +8,21 @@ const Show = () => {
     const { show } = useShow(showId);
 
     const seasons = show.seasons.map((season) => (
-        <List.Item key={season.id}>
-            <List.Content>
-                <Link
-                    href={{
-                        pathname: '/show/[showId]/season/[seasonId]',
-                        query: { showId, seasonId: season.id },
-                    }}>
-                    <a>{season.name}</a>
-                </Link>
-            </List.Content>
-        </List.Item>
+        <li key={season.id}>
+            <Link
+                href={{
+                    pathname: '/show/[showId]/season/[seasonId]',
+                    query: { showId, seasonId: season.id },
+                }}>
+                <a>{season.name}</a>
+            </Link>
+        </li>
     ));
 
     return (
         <>
             <h2>{show.name}</h2>
-            <List>{seasons}</List>
+            <ul>{seasons}</ul>
         </>
     );
 };
