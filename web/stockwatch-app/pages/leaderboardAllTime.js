@@ -7,7 +7,6 @@ import {
     useFilters,
     useGlobalFilter,
     useAsyncDebounce,
-    useExpanded,
     useRowSelect,
 } from 'react-table';
 import matchSorter from 'match-sorter';
@@ -133,7 +132,7 @@ function Table({ columns, data, updateMyData, skipReset }) {
         setGlobalFilter,
         visibleColumns,
         state,
-        state: { pageIndex, pageSize, sortBy, groupBy, expanded, filters, selectedRowIds },
+        state: { pageIndex, pageSize, filters, selectedRowIds },
     } = useTable(
         {
             columns,
@@ -154,21 +153,8 @@ function Table({ columns, data, updateMyData, skipReset }) {
         },
         useFilters,
         useGlobalFilter,
-        useExpanded,
         usePagination,
         useRowSelect
-    );
-
-    const renderRowSubComponent = React.useCallback(
-        ({ row }) => (
-            <pre
-                style={{
-                    fontSize: '10px',
-                }}>
-                <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-            </pre>
-        ),
-        []
     );
 
     // Render the UI for your table
@@ -217,25 +203,13 @@ function Table({ columns, data, updateMyData, skipReset }) {
                             // Prepare the row for display
                             prepareRow(row);
                             return (
-                                <React.Fragment {...row.getRowProps()}>
-                                    <tr>
-                                        {row.cells.map((cell) => {
-                                            return (
-                                                <td {...cell.getCellProps()}>
-                                                    {cell.render('Cell')}
-                                                </td>
-                                            );
-                                        })}
-                                    </tr>
-
-                                    {row.isExpanded ? (
-                                        <tr>
-                                            <td colSpan={visibleColumns.length}>
-                                                {renderRowSubComponent({ row })}
-                                            </td>
-                                        </tr>
-                                    ) : null}
-                                </React.Fragment>
+                                <tr {...row.getRowProps()}>
+                                    {row.cells.map((cell) => {
+                                        return (
+                                            <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        );
+                                    })}
+                                </tr>
                             );
                         })
                     }
@@ -297,9 +271,6 @@ function Table({ columns, data, updateMyData, skipReset }) {
                             pageCount,
                             canNextPage,
                             canPreviousPage,
-                            sortBy,
-                            groupBy,
-                            expanded: expanded,
                             filters,
                             selectedRowIds: selectedRowIds,
                         },
@@ -326,7 +297,7 @@ function filterGreaterThan(rows, id, filterValue) {
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
 
-function Leaderboard({ initialData, initialToken, initialPage }) {
+function LeaderboardAllTime({ initialData, initialToken, initialPage }) {
     const [nextTokens, setNextTokens] = useState({ '': { 0: null, 1: initialToken } });
     const [pagerParams, setPagerParams] = useState({ filter: '', currentPage: initialPage });
     const firstRender = useRef(true);
@@ -343,14 +314,6 @@ function Leaderboard({ initialData, initialToken, initialPage }) {
 
     const columns = React.useMemo(
         () => [
-            {
-                // Make an expander cell
-                Header: () => null, // No header
-                id: 'expander', // It needs an ID
-                Cell: ({ row }) => (
-                    <span {...row.getToggleRowExpandedProps()}>{row.isExpanded ? '👇' : '👉'}</span>
-                ),
-            },
             {
                 Header: 'Rank',
                 accessor: 'rank',
@@ -423,4 +386,4 @@ function Leaderboard({ initialData, initialToken, initialPage }) {
     );
 }
 
-export default Leaderboard;
+export default LeaderboardAllTime;
