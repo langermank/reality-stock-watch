@@ -1,30 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
-import { useTable } from 'react-table';
-import { Button, Card, Grid, Header, Input, List, Loader, Table } from 'semantic-ui-react';
 import { useProfile } from '../../copied/ProfileBackend';
 import { useRouter } from 'next/router';
-import _ from 'lodash';
 
 function renderGames(games) {
     return games.map((game) => (
-        <Card key={game.seasonID}>
-            <Card.Content>
-                <Card.Header>{game.showName}</Card.Header>
-                <Card.Meta>{game.seasonName}</Card.Meta>
-                <Card.Description>
-                    <List>
-                        <List.Item key="money">
-                            <List.Icon name="money" />
-                            <List.Content>Net worth: {game.netWorth}</List.Content>
-                        </List.Item>
-                        <List.Item key="status">
-                            <List.Icon name="time" />
-                            <List.Content>Status: {game.status}</List.Content>
-                        </List.Item>
-                    </List>
-                </Card.Description>
-            </Card.Content>
-        </Card>
+        <div key={game.seasonID}>
+            <p>{game.showName}</p>
+            <p>{game.seasonName}</p>
+            <div>
+                <ul>
+                    <li key="money">Net worth: {game.netWorth}</li>
+                    <li key="status">Status: {game.status}</li>
+                </ul>
+            </div>
+        </div>
     ));
 }
 
@@ -39,7 +27,7 @@ const Profile = () => {
         ) : (
             <>
                 <h2>Current Games</h2>
-                <Card.Group>{renderGames(profile.enrolledGames)}</Card.Group>
+                <div>{renderGames(profile.enrolledGames)}</div>
             </>
         );
     const completedGames =
@@ -48,7 +36,7 @@ const Profile = () => {
         ) : (
             <>
                 <h2>Past Games</h2>
-                <Card.Group>{renderGames(profile.completedGames)}</Card.Group>
+                <div>{renderGames(profile.completedGames)}</div>
             </>
         );
     return (

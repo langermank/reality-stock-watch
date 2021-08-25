@@ -19,7 +19,7 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head />
-                <body>
+                <body className="dark-theme">
                     <script dangerouslySetInnerHTML={{ __html: setInitialPanelState }} />
                     <Main />
                     <NextScript />
