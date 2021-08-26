@@ -1,40 +1,85 @@
 import { useRouter } from 'next/router';
 import { useRatings } from 'backend/Games';
-import { difference } from 'lodash';
+import { union, difference } from 'lodash';
 
 const Ratings = () => {
     const router = useRouter();
     const { showId, seasonId, week } = router.query;
-    const { ratings, changeExtras, changeRating } = useRatings(showId, seasonId, week);
+    const { ratings, setExtras, setRating } = useRatings(showId, seasonId, week);
 
-    const extras = ratings.contestants.map((contestant) => {
+    const tableHeadings = ratings.contestants.map((contestant) => (
+        <th key={contestant.contestantId}>{contestant.contestantNickName}</th>
+    ));
+    const tableExtras = ratings.contestants.map((contestant) => {
         const extras = contestant.contestantExtraTags.map((name) => (
-            <li key={name}>
-                <button>{name} -</button>
-            </li>
+            <button
+                key={name}
+                onClick={setExtras(
+                    contestant.contestantId,
+                    difference(contestant.contestantExtraTags, [name])
+                )}>
+                {name} -
+            </button>
         ));
-        const availableExtras = difference(
-            ratings.contestantExtraTags,
-            contestant.contestantExtraTags
-        ).map((name) => <button key={name}>{name} +</button>);
+        return <td key={contestant.contestantId}>{extras}</td>;
+    });
+    const tableAvailableExtras = ratings.contestants.map((contestant) => {
+        const extras = difference(ratings.contestantExtraTags, contestant.contestantExtraTags).map(
+            (name) => (
+                <button
+                    key={name}
+                    onClick={setExtras(
+                        contestant.contestantId,
+                        union(contestant.contestantExtraTags, [name])
+                    )}>
+                    {name} +
+                </button>
+            )
+        );
+        return <td key={contestant.contestantId}>{extras}</td>;
+    });
+    const tableRatings = ratings.players.map((player) => {
+        const cells = ratings.contestants.map((contestant) => {
+            const val = ratings.ratings[player.playerId][contestant.contestantId] || 0;
+            return (
+                <td key={contestant.contestantId}>
+                    <input defaultValue={val} />
+                </td>
+            );
+        });
         return (
-            <div key={contestant.contestantId}>
-                <h1>{contestant.contestantNickname}</h1>
-                <ul>{extras}</ul>
-                {availableExtras}
-            </div>
+            <tr key={player.playerId}>
+                <th key="rowheading">{player.playerDisplayName}</th>
+                {cells}
+            </tr>
         );
     });
 
-    const ratingsTable = [];
+    const marketStatus = ratings.marketStatus ? <p>Market is open</p> : <p>Market is closed</p>;
 
     return (
         <>
-            <h2>{ratings.title}</h2>
-            <h3>Extras</h3>
-            {extras}
-            <h3>Ratings</h3>
-            {ratingsTable}
+            <h2>
+                {ratings.seasonName} Week {week}
+            </h2>
+            {marketStatus}
+            <table>
+                <thead>
+                    <tr key="heading">
+                        <th key="rowheading"></th>
+                        {tableHeadings}
+                    </tr>
+                    <tr key="extras">
+                        <th key="rowheading">Extras</th>
+                        {tableExtras}
+                    </tr>
+                    <tr key="available-extras">
+                        <th key="rowheading"></th>
+                        {tableAvailableExtras}
+                    </tr>
+                </thead>
+                <tbody>{tableRatings}</tbody>
+            </table>
         </>
     );
 };

@@ -1,5 +1,5 @@
 import { API } from 'aws-amplify';
-import { interpolateAs } from 'next/dist/next-server/lib/router/router';
+import { uniqBy } from 'lodash';
 
 const queries = {
     listShows: {
@@ -277,18 +277,22 @@ const queries = {
                 nextMarketOpen: data.getSeason.nextMarketOpen,
                 seasonStatus: data.getSeason.status,
                 contestantExtraTags: JSON.parse(data.getSeason.contestantExtraTags || '[]'),
-                ratings: [],
                 contestants: [],
+                players: [],
+                ratings: {},
             };
             data.ratingsBySeasonWeek.items.forEach((rating) => {
-                ratings.ratings.push({
-                    contestantId: rating.contestantID,
+                if (!ratings.ratings[rating.playerID]) {
+                    ratings.ratings[rating.playerID] = {};
+                }
+                ratings.ratings[rating.playerID][rating.contestantID] = rating.rating;
+                ratings.players.push({
                     playerId: rating.playerID,
                     playerDisplayName: rating.player.user.displayName,
                     playerAvatarId: rating.player.user.avatarID,
-                    rating: rating.rating,
                 });
             });
+            ratings.players = uniqBy(ratings.players, 'playerId');
             data.getSeason.contestants.items.forEach((contestant) => {
                 ratings.contestants.push({
                     contestantId: contestant.id,

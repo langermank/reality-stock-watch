@@ -41,20 +41,26 @@ function useRatings(showId, seasonId, week) {
                 title: 'Loading...',
                 contestantExtraTags: [],
                 contestants: [],
-                ratings: [],
+                players: [],
+                ratings: {},
             },
         }
     );
+
+    function setExtras() {}
+    function setRating() {}
 
     if (error) {
         console.log('useRatings SWR error', error);
     }
 
+    console.log('useRatings data', data);
+
     useEffect(() => {
         mutate();
     }, [showId, seasonId, week]);
     const loading = !data && !error;
-    return { ratings: data, loading, error, mutate };
+    return { ratings: data, setExtras, setRating, loading, error, mutate };
 }
 
 export { useTransactionsByPlayer, usePlayer, useRatings };
