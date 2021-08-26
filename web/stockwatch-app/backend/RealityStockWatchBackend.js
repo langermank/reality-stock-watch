@@ -339,14 +339,6 @@ async function fetchAllTimeLeaderboard(filter, direction, nextToken, records) {
     return [records, nextToken];
 }
 
-/*
-function useAllTimeLeaderboard() {
-    const [page, setPage] = useState(1);
-    const [ascending, setAscending] = useState(false);
-
-}
-*/
-
 // The Auth API has no way of checking if the user is logged in.
 // Use exceptions to hack around this.
 //
@@ -354,7 +346,6 @@ async function getCurrentUser() {
     try {
         return await Auth.currentAuthenticatedUser();
     } catch {
-        console.log('return null from currentauth');
         return null;
     }
 }
@@ -383,9 +374,7 @@ const falseUser = {
     nickname: null,
 };
 async function fetchUser() {
-    console.log('fetchuser called');
     let cognitoUser = await getCurrentUser();
-    console.log('fetchuser returnedd with ', cognitoUser);
     let user = falseUser;
     if (cognitoUser) {
         user = {
@@ -395,7 +384,6 @@ async function fetchUser() {
             nickname: 'Not yet implemented ' + cognitoUser.username,
         };
     }
-    console.log('fetchuser returns ', user);
     return user;
 }
 function useUser() {
@@ -420,7 +408,6 @@ function useUser() {
     }, []);
     useEffect(() => {
         Hub.listen('auth', listen);
-        console.log('mutate currentUser');
         mutate();
         return () => {
             Hub.remove('auth', listen);
@@ -466,28 +453,7 @@ function useFile(initialUrl) {
     }
     return [url, upload];
 }
-/*
-async function getProfile() {
-    let result = await API.graphql({
-        query: queries.profile,
-    });
-    return result.data.profile;
-}
-function useProfile() {
-    let [user] = useUser();
-    let [profile, setProfile] = useState({});
 
-    useEffect(() => {
-        if (user.loggedIn !== true) {
-            setProfile({});
-            return;
-        }
-        setProfile(() => getProfile());
-    }, [user.loggedIn]);
-
-    return [user, profile];
-}
-*/
 export {
     useUser,
     useShows,
@@ -497,6 +463,5 @@ export {
     useRatingsBySeason,
     useContestantsBySeason,
     useFile,
-    //    useProfile,
     fetchAllTimeLeaderboard,
 };
