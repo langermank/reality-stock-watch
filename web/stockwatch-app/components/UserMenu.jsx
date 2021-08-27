@@ -4,7 +4,6 @@ import styles from '../styles/components/dropdown.module.scss';
 import { useUser } from '../copied/RealityStockWatchBackend';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-// import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Button from './Button.jsx';
 import NavLink from './NavLink';
 import { Gear, User, CaretDown, SignIn, SignOut } from 'phosphor-react';
@@ -17,7 +16,6 @@ import { mergeProps } from '@react-aria/utils';
 import { FocusScope } from '@react-aria/focus';
 import { useFocus } from '@react-aria/interactions';
 import { useOverlay, DismissButton } from '@react-aria/overlays';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function MenuButton(props) {
     // Create state based on the incoming props
@@ -61,7 +59,6 @@ function MenuPopup(props) {
     // Get props for the menu element
     let ref = React.useRef();
     let { menuProps } = useMenu(props, state, ref);
-    let icon;
 
     // Handle events that should cause the menu to close,
     // e.g. blur, clicking outside, or pressing the escape key.
@@ -76,16 +73,7 @@ function MenuPopup(props) {
         overlayRef
     );
 
-    const { user, toggleLogin } = useUser();
-    // if (!user || !user.loggedIn) {
-    //     return (
-    //         <li>
-    //             <button className={className} onClick={toggleLogin}>
-    //                 Login
-    //             </button>
-    //         </li>
-    //     );
-    // }
+    const { toggleLogin } = useUser();
 
     // Wrap in <FocusScope> so that focus is restored back to the
     // trigger when the menu is closed. In addition, add hidden
@@ -164,35 +152,6 @@ function MenuItem({ item, state, onAction, onClose, onClick }) {
                     />
                 </Link>
             </li>
-            {/* {!isLink && (
-                <li
-                    {...mergeProps(menuItemProps, focusProps)}
-                    ref={ref}
-                    style={{
-                        background: isFocused ? 'gray' : 'transparent',
-                        color: isFocused ? 'white' : 'black',
-                        padding: '2px 5px',
-                        outline: 'none',
-                        cursor: 'pointer',
-                    }}>
-                    {item.rendered}
-                </li>
-            )} */}
-            {/* <li role="none">
-                <Link
-                    {...mergeProps(menuItemProps, focusProps, {
-                        onClick,
-                    })}
-                    href={item.props.href}
-                    ref={ref}
-                    passHref>
-                    <NavLink
-                        icon={<House weight="fill" />}
-                        // dataActive={router.pathname == '/projections'}
-                        linkText={item.rendered}
-                    />
-                </Link>
-            </li> */}
         </>
     );
 }
@@ -201,11 +160,7 @@ MenuItem.propTypes = {
     icon: PropTypes.node,
 };
 
-// MenuItem.defaultProps = {
-//     isLink: false,
-// }
-
-export const UserMenu = ({ className, styles, href }) => {
+export const UserMenu = ({ href }) => {
     const router = useRouter();
     const handleClick = (e) => {
         e.preventDefault();
@@ -213,28 +168,28 @@ export const UserMenu = ({ className, styles, href }) => {
     };
     const { user, toggleLogin } = useUser();
 
-    // if (!user || !user.loggedIn) {
-    //     return (
-    //         <Button
-    //             variant="primary"
-    //             onClick={toggleLogin}
-    //             iconPosition="rightCentered"
-    //             icon={<SignIn />}
-    //             width="fullWidth">
-    //             Sign-in or join
-    //         </Button>
-    //     );
-    // }
-    return (
-        <MenuButton label="Username">
-            <Item href="/profile/[userId]" onClick={handleClick} icon={<User />}>
-                Profile
-            </Item>
-            <Item href="/settings" onClick={handleClick} icon={<Gear />}>
-                Settings
-            </Item>
-        </MenuButton>
-    );
+    // if not logged in show login button
+    if (!user || !user.loggedIn) {
+        return (
+            <Button
+                variant="primary"
+                onClick={toggleLogin}
+                iconPosition="rightCentered"
+                icon={<SignIn />}
+                width="fullWidth">
+                Sign-in or join
+            </Button>
+        );
+    }
+    // if logged in show user dropdown menu
+    <MenuButton label="Username">
+        <Item href="/profile/[userId]" onClick={handleClick} icon={<User />}>
+            Profile
+        </Item>
+        <Item href="/settings" onClick={handleClick} icon={<Gear />}>
+            Settings
+        </Item>
+    </MenuButton>;
 };
 
 UserMenu.propTypes = {
