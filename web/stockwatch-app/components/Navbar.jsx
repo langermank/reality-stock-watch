@@ -58,11 +58,11 @@ export const Navbar = ({ className }) => {
                             />
                         </Link>
                     </li>
-                    <li>
-                        <UserMenu />
-                    </li>
                     <li className={styles.collapseButtonWrap}>
                         <PanelToggle desktopToggle />
+                    </li>
+                    <li>
+                        <UserMenu />
                     </li>
                 </ul>
             </nav>
