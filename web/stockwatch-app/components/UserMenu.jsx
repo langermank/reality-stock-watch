@@ -170,7 +170,7 @@ export const UserMenu = ({ href }) => {
         router.push(href);
     };
     const { user, toggleLogin } = useUser();
-
+    console.log('user menu', user);
     // if not logged in show login button
     if (!user || !user.loggedIn) {
         return (
@@ -185,16 +185,16 @@ export const UserMenu = ({ href }) => {
         );
     }
     // if logged in show user dropdown menu
-    // return (
-    <MenuButton label="Username">
-        <Item href="/profile/[userId]" onClick={handleClick} icon={<User />}>
-            Profile
-        </Item>
-        <Item href="/settings" onClick={handleClick} icon={<Gear />}>
-            Settings
-        </Item>
-    </MenuButton>;
-    // );
+    return (
+        <MenuButton label="Username">
+            <Item href="/profile/[userId]" onClick={handleClick} icon={<User />}>
+                Profile
+            </Item>
+            <Item href="/settings" onClick={handleClick} icon={<Gear />}>
+                Settings
+            </Item>
+        </MenuButton>
+    );
 };
 
 UserMenu.propTypes = {
