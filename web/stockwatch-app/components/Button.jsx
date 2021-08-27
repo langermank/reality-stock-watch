@@ -31,8 +31,8 @@ const Button = ({
             data-width={!iconOnly && width}
             id={id}
             {...other}>
-            {icon}
-            {!iconOnly && <div>{children}</div>}
+            <div className={styles.btnIcon}>{icon}</div>
+            {!iconOnly && <div className={styles.btnChildren}>{children}</div>}
             {iconOnly && (
                 <div hidden id={ariaLabelledById}>
                     {children}

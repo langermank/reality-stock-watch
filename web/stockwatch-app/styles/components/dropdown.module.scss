@@ -12,6 +12,12 @@
     }
 }
 
+.dropdownTriggerLabelWrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .dropdownTriggerLabelIcon {
     margin-right: 1rem;
 }

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from './Button.jsx';
 import NavLink from './NavLink';
-import { Gear, User, CaretDown, SignIn, SignOut } from 'phosphor-react';
+import { Gear, UserCircle, CaretDown, SignIn, SignOut } from 'phosphor-react';
 import { useMenuTriggerState } from '@react-stately/menu';
 import { useButton } from '@react-aria/button';
 import { useMenu, useMenuItem, useMenuTrigger } from '@react-aria/menu';
@@ -38,9 +38,9 @@ function MenuButton(props) {
                 iconPosition="right"
                 className={styles.dropdownTrigger}
                 width="fullWidth">
-                <div className={styles.dropdownTriggerLabel}>
-                    <User className={styles.dropdownTriggerLabelIcon} />
-                    {props.label}
+                <div className={styles.dropdownTriggerLabelWrap}>
+                    <UserCircle className={styles.dropdownTriggerLabelIcon} />
+                    <div className={styles.dropdownTriggerLabel}>{props.label}</div>
                 </div>
             </Button>
             {state.isOpen && (
@@ -172,29 +172,29 @@ export const UserMenu = ({ href }) => {
     const { user, toggleLogin } = useUser();
 
     // if not logged in show login button
-    if (!user || !user.loggedIn) {
-        return (
-            <Button
-                variant="primary"
-                onClick={toggleLogin}
-                iconPosition="rightCentered"
-                icon={<SignIn />}
-                width="fullWidth">
-                Sign-in or join
-            </Button>
-        );
-    }
+    // if (!user || !user.loggedIn) {
+    //     return (
+    //         <Button
+    //             variant="primary"
+    //             onClick={toggleLogin}
+    //             iconPosition="rightCentered"
+    //             icon={<SignIn />}
+    //             width="fullWidth">
+    //             Sign-in or join
+    //         </Button>
+    //     );
+    // }
     // if logged in show user dropdown menu
-    // return (
-    <MenuButton label="Username">
-        <Item href="/profile/[userId]" onClick={handleClick} icon={<User />}>
-            Profile
-        </Item>
-        <Item href="/settings" onClick={handleClick} icon={<Gear />}>
-            Settings
-        </Item>
-    </MenuButton>;
-    // );
+    return (
+        <MenuButton label="Username">
+            <Item href="/profile/[userId]" onClick={handleClick} icon={<UserCircle />}>
+                Profile
+            </Item>
+            <Item href="/settings" onClick={handleClick} icon={<Gear weight="fill" />}>
+                Settings
+            </Item>
+        </MenuButton>
+    );
 };
 
 UserMenu.propTypes = {

@@ -136,10 +136,21 @@ body[data-panel-state='closed'] {
     }
 }
 
+.sidebarNavList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.collapseBtn {
+    margin-top: auto;
+}
+
 @include media('>tablet') {
     body[data-panel-state='closed'] {
         .sidebarNav {
-            width: 70px;
+            width: 76px;
             display: flex;
             flex-direction: column;
             align-items: center;

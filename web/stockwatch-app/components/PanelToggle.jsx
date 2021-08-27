@@ -5,7 +5,7 @@ import Button from './Button.jsx';
 import { ArrowLineLeft, ArrowLineRight, List, X } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 
-const PanelToggle = ({ mobileToggle, desktopToggle }) => {
+const PanelToggle = ({ mobileToggle, desktopToggle, className }) => {
     const [activePanel, setActivePanel] = useState(document.body.dataset.panelState);
     const inactivePanel = activePanel === 'open' ? 'closed' : 'open';
 
@@ -27,7 +27,7 @@ const PanelToggle = ({ mobileToggle, desktopToggle }) => {
         <Button
             variant="secondaryHint"
             onClick={() => setActivePanel(inactivePanel)}
-            className={clsx(mobileToggle && styles.mobileMenuBtn)}
+            className={clsx(mobileToggle && styles.mobileMenuBtn, className)}
             icon={icons}
             iconOnly={mobileToggle || (desktopToggle && activePanel === 'closed')}
             iconPosition="left"
@@ -41,11 +41,13 @@ const PanelToggle = ({ mobileToggle, desktopToggle }) => {
 PanelToggle.propTypes = {
     mobileToggle: PropTypes.bool,
     desktopToggle: PropTypes.bool,
+    className: PropTypes.string,
 };
 
 PanelToggle.defaultProps = {
     mobileToggle: false,
     desktopToggle: false,
+    className: null,
 };
 
 export default PanelToggle;
