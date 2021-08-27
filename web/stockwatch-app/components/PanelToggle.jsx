@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import Button from './Button.jsx';
 import { ArrowLineLeft, ArrowLineRight, List, X } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 
@@ -13,21 +14,27 @@ const PanelToggle = ({ mobileToggle, desktopToggle }) => {
         window.localStorage.setItem('panelState', activePanel);
     }, [activePanel]);
 
-    return (
-        <button
-            onClick={() => setActivePanel(inactivePanel)}
-            className={clsx(styles.collapseButton, mobileToggle && styles.mobileMenuBtn)}>
-            {desktopToggle && activePanel === 'open' && (
-                <ArrowLineLeft className={styles.itemIcon} />
-            )}
-            {desktopToggle && activePanel === 'closed' && (
-                <ArrowLineRight className={styles.itemIcon} />
-            )}
-            {mobileToggle && activePanel === 'open' && <X className={styles.itemIcon} />}
-            {mobileToggle && activePanel === 'closed' && <List className={styles.itemIcon} />}
+    const icons = (
+        <>
+            {desktopToggle && activePanel === 'open' && <ArrowLineLeft />}
+            {desktopToggle && activePanel === 'closed' && <ArrowLineRight />}
+            {mobileToggle && activePanel === 'open' && <X />}
+            {mobileToggle && activePanel === 'closed' && <List />}
+        </>
+    );
 
-            <span className={styles.itemLabel}>Collapse panel</span>
-        </button>
+    return (
+        <Button
+            variant="secondaryHint"
+            onClick={() => setActivePanel(inactivePanel)}
+            className={clsx(mobileToggle && styles.mobileMenuBtn)}
+            icon={icons}
+            iconOnly={mobileToggle || (desktopToggle && activePanel === 'closed')}
+            iconPosition="left"
+            ariaLabelledById="close-panel"
+            width="fullWidth">
+            Collapse
+        </Button>
     );
 };
 

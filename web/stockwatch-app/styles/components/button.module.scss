@@ -13,9 +13,9 @@
     display: inline-block;
     position: relative;
     white-space: nowrap;
-    cursor: pointer;
     font-size: 1rem;
     padding: 0 1rem;
+    text-align: center;
 }
 
 .prepend {
@@ -42,53 +42,108 @@
 }
 
 .btnBase[data-variant='primary'] {
-    background-color: $button-primary;
-    color: $white;
+    background-color: var(--indigo8);
+    color: var(--white);
 
     &:hover,
     &:active {
-        background-color: $button-primary-hover;
+        background-color: var(--indigo6);
     }
 }
 
-.btnBase[data-variant='primary-ghost'] {
+.btnBase[data-variant='primaryGhost'] {
     background-color: transparent;
-    border: 1px solid $button-primary;
-    color: $button-primary;
+    border: 1px solid var(--indigo11);
+    color: var(--indigo11);
 
     &:hover,
     &:active {
-        background-color: $gray-hint;
+        background-color: var(--indigo5);
     }
 }
 
 .btnBase[data-variant='secondary'] {
-    background-color: $button-secondary;
-    color: $white;
+    background-color: var(--pink8);
+    color: var(--white);
 
     &:hover,
     &:active {
-        background-color: $button-secondary-hover;
+        background-color: var(--pink5);
     }
 }
 
-.btnBase[data-variant='secondary-ghost'] {
+.btnBase[data-variant='secondaryHint'] {
+    background-color: var(--pink4);
+    border: solid 1px var(--pink4);
+    color: var(--pink11);
+
+    &:hover,
+    &:active {
+        background-color: var(--pink5);
+    }
+}
+
+.btnBase[data-variant='secondaryGhost'] {
     background-color: transparent;
-    border: 1px solid $button-secondary;
-    color: $button-secondary;
+    border: 1px solid var(--pink11);
+    color: var(--pink11);
 
     &:hover,
     &:active {
-        background-color: $gray-hint;
+        background-color: var(--pink5);
     }
 }
 
-.btnBase[data-variant='danger'] {
-    background-color: $button-danger;
-    color: $black;
+.btnBase[date-size='small'] {
+    height: 2rem;
+}
 
-    &:hover,
-    &:active {
-        background-color: $button-danger-hover;
+.btnBase[date-size='small'] {
+    height: 3.5rem;
+}
+
+.btnBase[data-width='fullWidth'] {
+    // display: flex;
+    width: 100%;
+}
+
+.btnBase[data-icon-position] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnBase[data-icon-position='left'] {
+    div {
+        flex: 1 0 auto;
+    }
+
+    svg {
+        margin-right: 0.5rem;
+        flex: 0 1 auto;
+    }
+}
+
+.btnBase[data-icon-position='leftCentered'] {
+    svg {
+        margin-right: 0.5rem;
+    }
+}
+
+.btnBase[data-icon-position='right'] {
+    div {
+        flex: 1 0 auto;
+    }
+
+    svg {
+        order: 2;
+        margin-left: 0.5rem;
+    }
+}
+
+.btnBase[data-icon-position='rightCentered'] {
+    svg {
+        order: 2;
+        margin-left: 0.5rem;
     }
 }
