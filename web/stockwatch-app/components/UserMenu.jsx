@@ -34,11 +34,14 @@ function MenuButton(props) {
                 variant="primary"
                 ref={ref}
                 {...buttonProps}
-                icon={<CaretDown weight="fill" />}
+                icon={<CaretDown weight="fill" className={styles.dropdownTriggerIcon} />}
                 iconPosition="right"
                 className={styles.dropdownTrigger}
                 width="fullWidth">
-                {props.label}
+                <div className={styles.dropdownTriggerLabel}>
+                    <User className={styles.dropdownTriggerLabelIcon} />
+                    {props.label}
+                </div>
             </Button>
             {state.isOpen && (
                 <MenuPopup
@@ -182,6 +185,7 @@ export const UserMenu = ({ href }) => {
         );
     }
     // if logged in show user dropdown menu
+    // return (
     <MenuButton label="Username">
         <Item href="/profile/[userId]" onClick={handleClick} icon={<User />}>
             Profile
@@ -190,6 +194,7 @@ export const UserMenu = ({ href }) => {
             Settings
         </Item>
     </MenuButton>;
+    // );
 };
 
 UserMenu.propTypes = {

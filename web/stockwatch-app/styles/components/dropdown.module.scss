@@ -4,6 +4,20 @@
 .dropdownTrigger {
     background: var(--slate4);
     color: var(--white);
+
+    &[aria-expanded='true'] {
+        .dropdownTriggerIcon {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.dropdownTriggerLabelIcon {
+    margin-right: 1rem;
+}
+
+.dropdownTriggerIcon {
+    transition: transform 0.2s ease-in-out;
 }
 
 .dropdownTriggerWrap {
@@ -21,6 +35,7 @@
     border-radius: var(--border-radius);
     padding: 0.5rem;
     margin-top: 0.5rem;
+    z-index: 1000;
 
     li {
         margin-bottom: 0;
@@ -28,5 +43,17 @@
 
     a:hover {
         background: var(--slate5);
+    }
+}
+
+// collapsed view logic
+
+body[data-panel-state='closed'] {
+    .dropdownTriggerLabel {
+        @include visuallyHidden;
+    }
+
+    .dropdownTriggerIcon {
+        margin-left: 0;
     }
 }
