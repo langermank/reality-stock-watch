@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useUser } from '../copied/RealityStockWatchBackend';
+import { useUser } from 'backend/RealityStockWatchBackend';
 import Link from 'next/link';
 import { House, Coin, Lock, User } from 'phosphor-react';
 

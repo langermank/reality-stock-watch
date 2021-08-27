@@ -10,7 +10,7 @@ import {
     useRowSelect,
 } from 'react-table';
 import matchSorter from 'match-sorter';
-import { fetchAllTimeLeaderboard } from '../copied/RealityStockWatchBackend';
+import { fetchAllTimeLeaderboard } from 'backend/RealityStockWatchBackend';
 import _ from 'lodash';
 
 export async function getStaticProps() {
