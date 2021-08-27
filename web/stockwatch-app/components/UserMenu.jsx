@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from '../styles/components/dropdown.module.scss';
-import { useUser } from '../copied/RealityStockWatchBackend';
+import { useUser } from '../backend/RealityStockWatchBackend';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from './Button.jsx';
