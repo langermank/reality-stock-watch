@@ -1,9 +1,7 @@
 import { useProfile } from '../../backend/ProfileBackend';
 import { useRouter } from 'next/router';
 
-function renderGames(games, router) {
-    const { userId } = router.query;
-
+function renderGames(games) {
     return games.map((game) => (
         <div key={game.seasonID}>
             <p>{game.showName}</p>

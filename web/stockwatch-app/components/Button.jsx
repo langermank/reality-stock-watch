@@ -9,12 +9,15 @@ const Button = ({
     disabled,
     children,
     size,
+    width,
     variant,
     icon,
     iconOnly,
     iconPosition,
     ariaLabelledById,
     className,
+    id,
+    ...other
 }) => {
     return (
         <button
@@ -23,9 +26,13 @@ const Button = ({
             disabled={disabled}
             aria-labelledby={ariaLabelledById}
             data-variant={variant}
-            data-size={size}>
+            data-size={size}
+            data-icon-position={!iconOnly && iconPosition}
+            data-width={!iconOnly && width}
+            id={id}
+            {...other}>
             {icon}
-            {!iconOnly && [children]}
+            {!iconOnly && <div>{children}</div>}
             {iconOnly && (
                 <div hidden id={ariaLabelledById}>
                     {children}
@@ -37,15 +44,18 @@ const Button = ({
 
 Button.propTypes = {
     className: PropTypes.string,
+    id: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     disabled: PropTypes.bool,
     size: PropTypes.oneOf(['default', 'small', 'large']),
+    width: PropTypes.oneOf(['default', 'fullWidth']),
     variant: PropTypes.oneOf([
         'primary',
         'secondary',
+        'secondaryHint',
         'danger',
-        'primary-ghost',
-        'secondary-ghost',
+        'primaryGhost',
+        'secondaryGhost',
     ]),
     icon: PropTypes.node,
     iconOnly: PropTypes.bool,
@@ -58,11 +68,13 @@ Button.defaultProps = {
     children: null,
     disabled: false,
     size: 'default',
+    width: 'default',
     variant: 'primary',
     icon: null,
     iconOnly: false,
     iconPosition: 'left',
     ariaLabelledById: '',
+    id: '',
 };
 
 export default Button;
