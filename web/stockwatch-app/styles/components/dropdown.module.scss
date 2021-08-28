@@ -12,6 +12,12 @@
     }
 }
 
+.dropdownTriggerLabelWrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .dropdownTriggerLabelIcon {
     margin-right: 1rem;
 }
@@ -55,5 +61,29 @@ body[data-panel-state='closed'] {
 
     .dropdownTriggerIcon {
         margin-left: 0;
+    }
+
+    .dropdownTriggerLabelIcon {
+        margin-right: 0.25rem;
+    }
+
+    .dropdownTrigger {
+        padding: 0 0.5rem;
+    }
+
+    .dropdownTriggerWrap {
+        position: unset;
+    }
+
+    a.dropdownMenuLink {
+        justify-content: start;
+
+        > svg {
+            margin-right: 1rem;
+        }
+    }
+
+    .dropdownMenu {
+        max-width: 300px;
     }
 }
