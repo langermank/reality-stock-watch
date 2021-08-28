@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { Hub, Auth } from 'aws-amplify';
+import { Hub, Auth } from 'backend/Configure';
 import useSWR from 'swr';
 
 // The Auth API has no way of checking if the user is logged in.

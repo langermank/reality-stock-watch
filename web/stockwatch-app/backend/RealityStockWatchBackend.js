@@ -1,4 +1,4 @@
-import Amplify, { API, Hub, Auth, Storage } from 'aws-amplify';
+import Amplify, { API, Hub, Auth, Storage } from 'backend/Configure';
 import * as queries from './graphql/queries';
 import * as mutations from './graphql/mutations';
 import aws_exports from './aws-exports';
