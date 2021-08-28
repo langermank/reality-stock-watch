@@ -152,6 +152,8 @@ function MenuItem({ item, state, onAction, onClose, onClick }) {
                         icon={item.props.icon}
                         // dataActive={router.pathname == '/projections'}
                         linkText={item.rendered}
+                        className={styles.dropdownMenuLink}
+                        alwaysVisible
                     />
                 </Link>
             </li>
@@ -172,18 +174,18 @@ export const UserMenu = ({ href }) => {
     const { user, toggleLogin } = useUser();
     console.log('user menu', user);
     // if not logged in show login button
-    // if (!user || !user.loggedIn) {
-    //     return (
-    //         <Button
-    //             variant="primary"
-    //             onClick={toggleLogin}
-    //             iconPosition="rightCentered"
-    //             icon={<SignIn />}
-    //             width="fullWidth">
-    //             Sign-in or join
-    //         </Button>
-    //     );
-    // }
+    if (!user || !user.loggedIn) {
+        return (
+            <Button
+                variant="primary"
+                onClick={toggleLogin}
+                iconPosition="rightCentered"
+                icon={<SignIn />}
+                width="fullWidth">
+                Sign-in or join
+            </Button>
+        );
+    }
     // if logged in show user dropdown menu
     return (
         <MenuButton label="Username">

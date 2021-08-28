@@ -2,12 +2,16 @@
 @import '../_mixins.scss';
 
 body[data-panel-state='closed'] {
-    .linkLabel {
+    .linkLabel:not([data-visible]) {
         @include visuallyHidden;
     }
 
-    .linkWrap > svg {
-        margin-right: 0;
+    .linkWrap {
+        justify-content: center;
+
+        > svg {
+            margin-right: 0;
+        }
     }
 }
 
