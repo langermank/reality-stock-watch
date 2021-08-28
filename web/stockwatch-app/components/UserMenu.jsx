@@ -170,7 +170,7 @@ export const UserMenu = ({ href }) => {
         router.push(href);
     };
     const { user, toggleLogin } = useUser();
-
+    console.log('user menu', user);
     // if not logged in show login button
     // if (!user || !user.loggedIn) {
     //     return (

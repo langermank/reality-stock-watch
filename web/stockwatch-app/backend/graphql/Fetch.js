@@ -224,86 +224,56 @@ const queries = {
             return { nextToken: data.transactionsByPlayer.nextToken, result: items };
         },
     },
-    ratings: {
+    week: {
         query: /* GraphQL */ `
-            query ratings($seasonId: ID!, $week: Int!) {
-                ratingsBySeasonWeek(seasonID: $seasonId, week: { eq: $week }) {
-                    nextToken
+            query ratings($seasonId: ID!, $weekNumber: Int!) {
+                weeksBySeasonWeek(seasonID: $seasonId, week: { eq: $weekNumber }) {
                     items {
-                        contestantID
-                        rating
-                        id
-                        playerID
-                        player {
-                            user {
-                                displayName
-                                avatarID
-                                id
-                            }
-                        }
-                    }
-                }
-                getSeason(id: $seasonId) {
-                    id
-                    contestantExtraTags
-                    currentWeek
-                    marketStatus
-                    name
-                    nextMarketClose
-                    nextMarketOpen
-                    shortName
-                    status
-                    contestants {
-                        items {
-                            nickName
+                        seasonID
+                        week
+                        contestants
+                        players
+                        ratings
+                        season {
+                            contestantExtraTags
                             id
-                            image
-                            slug
+                            currentWeek
+                            marketStatus
+                            name
+                            nextMarketClose
+                            nextMarketOpen
+                            shortName
                             status
-                            extraTags
                         }
                     }
                 }
             }
         `,
         convert: (data) => {
-            let ratings = {
-                seasonId: data.getSeason.id,
-                seasonName: data.getSeason.name,
-                seasonShortName: data.getSeason.shortname,
-                currentWeek: parseInt(data.getSeason.currentWeek || 0),
-                marketStatus: data.getSeason.marketStatus,
-                nextMarketClose: data.getSeason.nextMarketClose,
-                nextMarketOpen: data.getSeason.nextMarketOpen,
-                seasonStatus: data.getSeason.status,
-                contestantExtraTags: JSON.parse(data.getSeason.contestantExtraTags || '[]'),
-                contestants: [],
-                players: [],
-                ratings: {},
+            if (data.weeksBySeasonWeek.items.length === 0) {
+                return null;
+            }
+            let item = data.weeksBySeasonWeek.items[0];
+            let week = {
+                seasonId: item.seasonID,
+                seasonName: item.season.name,
+                seasonShortName: item.season.shortname,
+                currentWeek: parseInt(item.season.currentWeek || 0),
+                marketStatus: item.season.marketStatus,
+                nextMarketClose: item.season.nextMarketClose,
+                nextMarketOpen: item.season.nextMarketOpen,
+                seasonStatus: item.season.status,
+                contestantExtraTags: JSON.parse(item.season.contestantExtraTags || '[]'),
+                contestants: JSON.parse(item.contestants || '[]'),
+                players: JSON.parse(item.players || '[]'),
+                ratings: JSON.parse(item.ratings || '{}}'),
             };
-            data.ratingsBySeasonWeek.items.forEach((rating) => {
-                if (!ratings.ratings[rating.playerID]) {
-                    ratings.ratings[rating.playerID] = {};
+            for (let i in week.contestants) {
+                if (week.contestants[i].extraTags === undefined) {
+                    week.contestants[i].extraTags = [];
                 }
-                ratings.ratings[rating.playerID][rating.contestantID] = rating.rating;
-                ratings.players.push({
-                    playerId: rating.playerID,
-                    playerDisplayName: rating.player.user.displayName,
-                    playerAvatarId: rating.player.user.avatarID,
-                });
-            });
-            ratings.players = uniqBy(ratings.players, 'playerId');
-            data.getSeason.contestants.items.forEach((contestant) => {
-                ratings.contestants.push({
-                    contestantId: contestant.id,
-                    contestantNickName: contestant.nickName,
-                    contestantImage: contestant.image,
-                    contestantSlug: contestant.slug,
-                    contestantStatus: contestant.status,
-                    contestantExtraTags: JSON.parse(contestant.extraTags || '[]'),
-                });
-            });
-            return ratings;
+            }
+            return week;
         },
     },
 };
@@ -317,8 +287,10 @@ async function Fetch(requestType, variables) {
         case 'player':
         case 'show':
         case 'season':
-        case 'ratings':
+        case 'week':
+            console.log('fetch before', requestType, variables);
             result = convert((await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data);
+            console.log('fetch after', result);
             break;
         case 'transactionsByPlayer':
         case 'listShows':
