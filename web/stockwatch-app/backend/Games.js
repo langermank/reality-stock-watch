@@ -32,13 +32,14 @@ function usePlayer(playerId) {
     return { player: data, loading, error, mutate };
 }
 
-function useRatings(showId, seasonId, week) {
+function useWeek(seasonId, weekNumber) {
+    console.log('useWeek', seasonId, weekNumber);
     const { data, mutate, error } = useSWR(
-        showId && seasonId && week !== undefined ? ['ratings', showId, seasonId, week] : null,
-        (action, showId, seasonId, week) => Fetch(action, { showId, seasonId, week }),
+        weekNumber !== undefined ? ['week', seasonId, weekNumber] : null,
+        (action, seasonId, weekNumber) => Fetch(action, { seasonId, weekNumber }),
         {
             initialData: {
-                title: 'Loading...',
+                seasonName: 'Loading...',
                 contestantExtraTags: [],
                 contestants: [],
                 players: [],
@@ -51,16 +52,16 @@ function useRatings(showId, seasonId, week) {
     function setRating() {}
 
     if (error) {
-        console.log('useRatings SWR error', error);
+        console.log('useWeek SWR error', error);
     }
 
-    console.log('useRatings data', data);
+    console.log('useWeek data', data);
 
     useEffect(() => {
         mutate();
-    }, [showId, seasonId, week]);
+    }, [seasonId, weekNumber]);
     const loading = !data && !error;
-    return { ratings: data, setExtras, setRating, loading, error, mutate };
+    return { week: data, setExtras, setRating, loading, error, mutate };
 }
 
-export { useTransactionsByPlayer, usePlayer, useRatings };
+export { useTransactionsByPlayer, usePlayer, useWeek };
