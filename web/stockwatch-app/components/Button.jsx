@@ -56,6 +56,7 @@ Button.propTypes = {
         'danger',
         'primaryGhost',
         'secondaryGhost',
+        'outline',
     ]),
     icon: PropTypes.node,
     iconOnly: PropTypes.bool,

@@ -17,6 +17,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
         Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     background: var(--slate1);
+    color: var(--slate12);
 }
 
 ul,
@@ -30,7 +31,7 @@ h1 {
     //     font-size: clamp(2.5rem, 3.5vw, 3rem);
     //     color: var(--slate12);
     // }
-    font-size: 2.375rem;
+    font-size: var(--h1);
     line-height: 1.2;
     color: var(--slate12);
     font-weight: bold;
@@ -41,7 +42,7 @@ h2 {
     //     font-size: clamp(2rem, 3.5vw, 2.441rem);
     //     color: var(--slate12);
     // }
-    font-size: 1.75rem;
+    font-size: var(--h2);
     line-height: 1.2;
     color: var(--slate12);
 }
@@ -51,7 +52,7 @@ h3 {
     //     font-size: clamp(1.2rem, 3.5vw, 1.953rem);
     //     color: var(--slate12);
     // }
-    font-size: 1.3rem;
+    font-size: var(--h3);
     line-height: 1.2;
     color: var(--slate12);
 }
@@ -98,6 +99,10 @@ a:not(nav *) {
     --font-size-small: 0.875rem;
     --font-weight-bold: 700;
     --font-weight-normal: 400;
+    --h1: 2.375rem;
+    --h2: 1.75rem;
+    --h3: 1.3rem;
+    --btn-height: 2.75rem;
     --base: 16;
     --baseLineHeight: 1.5;
     --smallerLineHeight: 1.2;
