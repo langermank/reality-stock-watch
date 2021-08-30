@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Account() {
+function Settings() {
     const [state, setState] = useState({ name: '' });
     return (
         <>
@@ -10,4 +10,4 @@ function Account() {
     );
 }
 
-export default Account;
+export default Settings;

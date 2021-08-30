@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 // import PanelToggle from './PanelToggle';
 import { UserNavbar } from './UserNavbar';
 import { UserMenu } from './UserMenu';
+import { GameMenu } from './GameMenu';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
 import { TrendUp, User, Medal, ChartPie, Coin } from 'phosphor-react';
@@ -22,6 +23,9 @@ export const Navbar = ({ className }) => {
         <>
             <nav className={clsx(styles.sidebarNav, className && className)} id="navbar">
                 <ul className={styles.sidebarNavList}>
+                    <li>
+                        <GameMenu />
+                    </li>
                     <li>
                         <Link href="/trade" passHref>
                             <NavLink

@@ -7,16 +7,6 @@ import styles from '../styles/components/navbarLink.module.scss';
 const NavLink = React.forwardRef(
     ({ className, icon, href, dataActive, linkText, alwaysVisible }, ref) => {
         return (
-            // <Button
-            //     variant="secondaryHint"
-            //     onClick={() => setActivePanel(inactivePanel)}
-            //     icon={icons}
-            //     iconOnly={mobileToggle || (desktopToggle && activePanel === 'closed')}
-            //     iconPosition="left"
-            //     ariaLabelledById="close-panel"
-            //     width="fullWidth">
-            //     Collapse
-            // </Button>
             <a
                 className={clsx(styles.linkWrap, className)}
                 ref={ref}
