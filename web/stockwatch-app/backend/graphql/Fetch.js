@@ -1,4 +1,4 @@
-import { API } from 'aws-amplify';
+import { API } from 'backend/Configure';
 import { uniqBy } from 'lodash';
 
 const queries = {

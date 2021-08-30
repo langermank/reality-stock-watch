@@ -8,7 +8,7 @@ const awsmobile = {
     "aws_user_pools_id": "us-east-1_QXicteSht",
     "aws_user_pools_web_client_id": "3fojej12ur9ir4qb6dlq5u42ra",
     "oauth": {
-        "domain": "realitystockwatchce415528-ce415528-dev.auth.us-east-1.amazoncognito.com",
+        "domain": "realitystockwatcha552917f-a552917f-dev.auth.us-east-1.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -21,11 +21,32 @@ const awsmobile = {
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",
+    "aws_cognito_login_mechanisms": [
+        "FACEBOOK",
+        "GOOGLE",
+        "AMAZON"
+    ],
+    "aws_cognito_signup_attributes": [
+        "EMAIL"
+    ],
+    "aws_cognito_mfa_configuration": "OFF",
+    "aws_cognito_mfa_types": [
+        "SMS"
+    ],
+    "aws_cognito_password_protection_settings": {
+        "passwordPolicyMinLength": 8,
+        "passwordPolicyCharacters": []
+    },
     "aws_appsync_graphqlEndpoint": "https://lhcmsdutk5duzg7zgxze6ao4fi.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_user_files_s3_bucket": "realitystockwatch-showassets113746-dev",
-    "aws_user_files_s3_bucket_region": "us-east-1"
+    "aws_user_files_s3_bucket_region": "us-east-1",
+    "aws_cognito_login_mechanism": [
+        "FACEBOOK",
+        "GOOGLE",
+        "AMAZON"
+    ]
 };
 
 
