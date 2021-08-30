@@ -16,76 +16,13 @@ body[data-panel-state='closed'] {
         transform: translateX(-300px);
         padding: 2rem 0.5rem;
     }
-
-    // .itemLabel {
-    //     @include visuallyHidden;
-    // }
-
-    // .itemIcon {
-    //     margin-right: 0;
-    // }
 }
-
-// .collapseButtonWrap {
-//     margin-left: -1rem;
-//     margin-right: -1rem;
-//     background-color: var(--primary-blue-overlay);
-// }
-
-// .collapseButton {
-//     padding: 0 1rem;
-//     border-radius: 0;
-//     width: 100%;
-//     text-align: left;
-//     background-color: var(--primary-blue-overlay);
-//     display: flex;
-//     align-items: center;
-//     border: 1px solid transparent;
-//     height: 2.75rem;
-//     transition: all 0.2s ease-in-out;
-//     white-space: nowrap;
-//     cursor: pointer;
-//     font-size: 1rem;
-//     color: var(--white);
-
-//     &:hover {
-//         background-color: var(--primary-blue);
-
-//         .itemIcon {
-//             color: var(--white);
-//             transition: var(--transition);
-//         }
-//     }
-
-//     .itemIcon {
-//         color: var(--secondary-blue);
-//     }
-
-//     &.mobileMenuBtn {
-//         display: block;
-//         width: unset;
-
-//         .itemLabel {
-//             @include visuallyHidden;
-//         }
-//     }
-// }
 
 .sidebarNav {
     font-size: var(--font-size-large);
     background: var(--slate2);
-    // color: var(--white);
     padding: 2rem 1rem;
-    top: 0;
-    bottom: 0;
-    height: calc(100vh - 70px);
-    position: fixed;
-    // width: 300px;
-    // left: -300px;
-    top: 60px;
     z-index: 5;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -127,9 +64,9 @@ body[data-panel-state='closed'] {
 
     .sidebarNav {
         grid-area: sidebar;
-        position: unset;
-        left: 0;
-        top: 0;
+        // position: unset;
+        // left: 0;
+        // top: 0;
     }
 
     button[data-icon-position].mobileMenuBtn {

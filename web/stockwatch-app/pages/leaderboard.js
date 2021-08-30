@@ -1,6 +1,21 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 import Link from 'next/link';
+import Button from '../components/Button.jsx';
+import {
+    CaretCircleUp,
+    CaretDown,
+    CaretUp,
+    ArrowFatLeft,
+    ArrowFatLineLeft,
+    ArrowLeft,
+    ArrowRight,
+    CaretLeft,
+    CaretDoubleLeft,
+} from 'phosphor-react';
 import {
     useTable,
     usePagination,
@@ -13,6 +28,7 @@ import {
 import matchSorter from 'match-sorter';
 import { fetchAllTimeLeaderboard } from 'backend/RealityStockWatchBackend';
 import _ from 'lodash';
+import styles from '../styles/leaderboard.module.scss';
 
 export async function getStaticProps() {
     const [initialData, initialToken] = await fetchAllTimeLeaderboard('', 'DESC');
@@ -173,8 +189,8 @@ function Table({ columns, data, updateMyData, skipReset }) {
 
     // Render the UI for your table
     return (
-        <>
-            <table {...getTableProps()}>
+        <div className={styles.page}>
+            <table {...getTableProps()} className={styles.table}>
                 <thead>
                     <tr>
                         <th
@@ -193,12 +209,18 @@ function Table({ columns, data, updateMyData, skipReset }) {
                         // Loop over the header rows
                         headerGroups.map((headerGroup) => (
                             // Apply the header row props
-                            <tr key="header" {...headerGroup.getHeaderGroupProps()}>
+                            <tr
+                                key="header"
+                                {...headerGroup.getHeaderGroupProps()}
+                                className={styles.tableHeader}>
                                 {
                                     // Loop over the headers in each row
                                     headerGroup.headers.map((column) => (
                                         // Apply the header cell props
-                                        <th key={column.id} {...column.getHeaderProps()}>
+                                        <th
+                                            key={column.id}
+                                            {...column.getHeaderProps()}
+                                            className={styles.headerCell}>
                                             {
                                                 // Render the header
                                                 column.render('Header')
@@ -218,10 +240,16 @@ function Table({ columns, data, updateMyData, skipReset }) {
                             prepareRow(row);
                             return (
                                 <React.Fragment {...row.getRowProps()}>
-                                    <tr>
+                                    <tr
+                                        className={clsx(
+                                            styles.tableRow,
+                                            row.isExpanded && styles.tableRowHasExpanded
+                                        )}>
                                         {row.cells.map((cell) => {
                                             return (
-                                                <td {...cell.getCellProps()}>
+                                                <td
+                                                    {...cell.getCellProps()}
+                                                    className={styles.tableCell}>
                                                     {cell.render('Cell')}
                                                 </td>
                                             );
@@ -229,7 +257,7 @@ function Table({ columns, data, updateMyData, skipReset }) {
                                     </tr>
 
                                     {row.isExpanded ? (
-                                        <tr>
+                                        <tr className={clsx(styles.tableRow, styles.expandedRow)}>
                                             <td colSpan={visibleColumns.length}>
                                                 {renderRowSubComponent({ row })}
                                             </td>
@@ -245,48 +273,41 @@ function Table({ columns, data, updateMyData, skipReset }) {
         Pagination can be built however you'd like.
         This is just a very basic UI implementation:
       */}
-            <div className="pagination">
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                    {'<<'}
-                </button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    {'<'}
-                </button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
-                    {'>'}
-                </button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                    {'>>'}
-                </button>{' '}
-                <span>
+            <div className={styles.pagination}>
+                <Button
+                    icon={<ArrowLeft weight="fill" />}
+                    iconOnly
+                    onClick={() => gotoPage(0)}
+                    disabled={!canPreviousPage}>
+                    First page
+                </Button>
+                <Button
+                    icon={<ArrowLeft weight="regular" />}
+                    iconOnly
+                    onClick={() => previousPage()}
+                    disabled={!canPreviousPage}>
+                    Previous page
+                </Button>
+                <p>
                     Page{' '}
                     <strong>
                         {pageIndex + 1} of {pageOptions.length}
-                    </strong>{' '}
-                </span>
-                <span>
-                    | Go to page:{' '}
-                    <input
-                        type="number"
-                        defaultValue={pageIndex + 1}
-                        onChange={(e) => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                            gotoPage(page);
-                        }}
-                        style={{ width: '100px' }}
-                    />
-                </span>{' '}
-                <select
-                    value={pageSize}
-                    onChange={(e) => {
-                        setPageSize(Number(e.target.value));
-                    }}>
-                    {[10, 20, 30, 40, 50].map((pageSize) => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
+                    </strong>
+                </p>
+                <Button
+                    icon={<ArrowRight weight="regular" />}
+                    iconOnly
+                    onClick={() => nextPage()}
+                    disabled={!canNextPage}>
+                    Next page
+                </Button>
+                <Button
+                    icon={<ArrowRight weight="fill" />}
+                    iconOnly
+                    onClick={() => gotoPage(pageCount - 1)}
+                    disabled={!canNextPage}>
+                    Last page
+                </Button>
             </div>
             <pre>
                 <code>
@@ -308,7 +329,7 @@ function Table({ columns, data, updateMyData, skipReset }) {
                     )}
                 </code>
             </pre>
-        </>
+        </div>
     );
 }
 
@@ -344,16 +365,9 @@ function Leaderboard({ initialData, initialToken, initialPage }) {
     const columns = React.useMemo(
         () => [
             {
-                // Make an expander cell
-                Header: () => null, // No header
-                id: 'expander', // It needs an ID
-                Cell: ({ row }) => (
-                    <span {...row.getToggleRowExpandedProps()}>{row.isExpanded ? '👇' : '👉'}</span>
-                ),
-            },
-            {
                 Header: 'Rank',
                 accessor: 'rank',
+                Cell: ({ row }) => <span className={styles.rankCell}>{row.original.rank}</span>,
             },
             {
                 Header: 'Player',
@@ -367,6 +381,23 @@ function Leaderboard({ initialData, initialToken, initialPage }) {
             {
                 Header: 'Net Worth',
                 accessor: (row) => row.networth.toFixed(2),
+            },
+            {
+                // Make an expander cell
+                Header: () => null, // No header
+                id: 'expander', // It needs an ID
+                Cell: ({ row }) => (
+                    <Button
+                        variant="outline"
+                        {...row.getToggleRowExpandedProps()}
+                        icon={<CaretUp weight="fill" />}
+                        iconOnly
+                        iconPosition="right"
+                        className={row.isExpanded ? styles.expanded : styles.collapsed}
+                        width="fullWidth">
+                        See more player details
+                    </Button>
+                ),
             },
         ],
         []
