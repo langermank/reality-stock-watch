@@ -29,7 +29,6 @@
         grid-template-rows: minmax(100px, max-content);
         grid-gap: 1rem;
     }
-
 }
 
 .userDetails {
@@ -37,8 +36,8 @@
     grid-row: 2/3;
     position: sticky;
     bottom: 0;
-    background-color: $white;
-    border-top: solid 1px $black;
+    background-color: var(--slate1);
+    border-top: solid 1px var(--slate3);
     margin-left: -1rem;
     margin-right: -1rem;
     padding: 0 1rem;
@@ -46,7 +45,6 @@
 
 @include media('>tablet') {
     .stockCardsWrap {
-
         .stockCards {
             grid-template-columns: repeat(auto-fill, minmax(400px, auto));
             grid-template-rows: minmax(100px, max-content);
@@ -57,7 +55,6 @@
         margin-left: -2rem;
         margin-right: -2rem;
     }
-
 }
 
 @include media('>desktop') {
@@ -80,28 +77,6 @@
     }
 }
 
-// .media(@min-desktop, {
-
-//     .trades-wrap {
-//         grid-template-columns: auto minmax(230px, min-content);
-//     }
-
-//     .stock-cards-wrap {
-//         grid-column: 1/2;
-//         grid-row: 1/2;
-//     }
-
-//     .user-details {
-//         grid-column: 2/3;
-//         grid-row: 1/2;
-//         position: relative;
-//         margin: 0;
-//         border-top: none;
-//         padding: 0;
-//     }
-
-// });
-
 .userPanel {
     display: flex;
     flex-direction: row;
@@ -119,9 +94,9 @@
 }
 
 .funds {
-    border: solid 1px $primary-blue;
-    box-shadow: 1px 1px 0px $primary-blue;
-    border-radius: $border-radius;
+    border: solid 1px var(--indigo8);
+    box-shadow: 1px 1px 0px var(--indigo8);
+    border-radius: var(--border-radius);
     text-align: center;
     padding: 10px;
 }
@@ -136,13 +111,13 @@
     font-size: 0.75rem;
 }
 
-.fundHistory {
-    border: solid 1px $secondary-blue;
-    box-shadow: 1px 1px 0px $secondary-blue;
-    border-radius: $border-radius;
-    margin-left: 0.5rem;
-    padding: 1rem;
-}
+// .fundHistory {
+//     border: solid 1px $secondary-blue;
+//     box-shadow: 1px 1px 0px $secondary-blue;
+//     border-radius: $border-radius;
+//     margin-left: 0.5rem;
+//     padding: 1rem;
+// }
 
 .trade {
     align-items: center;
@@ -151,9 +126,9 @@
     order: 1;
 }
 
-.redText {
-    color: $red-orange;
-}
+// .redText {
+//     color: $red-orange;
+// }
 
 @include media('>desktop') {
     .funds {
@@ -165,7 +140,7 @@
         visibility: visible;
         height: unset;
         margin-bottom: 0.5em;
-    } 
+    }
 
     .fundHistory {
         margin-left: 0;
@@ -191,5 +166,4 @@
         margin-top: 0;
         margin-left: 0;
     }
-
-};
+} ;

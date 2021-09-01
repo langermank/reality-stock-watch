@@ -20,7 +20,8 @@ body[data-panel-state='closed'] {
 
 .sidebarNav {
     font-size: var(--font-size-large);
-    background: var(--slate3);
+    background: var(--navbar-background);
+    border-right: var(--navbar-border);
     padding: 2rem 1rem;
     z-index: 5;
     list-style: none;

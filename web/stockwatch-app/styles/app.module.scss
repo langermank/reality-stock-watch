@@ -36,7 +36,8 @@
         position: sticky;
         top: 0;
         z-index: 6;
-        background: var(--slate3);
+        background: var(--navbar-background);
+        border-right: var(--navbar-border);
 
         &.mini {
             padding: 1rem 0;
@@ -70,7 +71,7 @@
         // grid-template-columns: repeat(8, 1fr);
         grid-gap: 1rem;
         padding: 1rem 1rem 0 1rem;
-        overflow-y: auto;
+        // overflow-y: auto;
     }
 
     @include media('>tablet') {

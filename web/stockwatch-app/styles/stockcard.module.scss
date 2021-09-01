@@ -2,7 +2,6 @@
 @import 'include-media/dist/_include-media.scss';
 @import '_mixins.scss';
 
-
 @include media('<phone') {
     .stockard {
         .hgRating {
@@ -13,42 +12,18 @@
 
 .stockCard {
     display: grid;
-    border: solid 1px $gray-hint;
-    box-shadow: 1px 1px 0px $gray-hint;
+    // border: solid 1px $gray-hint;
+    // box-shadow: 1px 1px 0px $gray-hint;
     grid-template-columns: 76px auto auto; // 80px auto
-    grid-gap: .5rem;
+    grid-gap: 0.5rem;
     grid-auto-flow: dense;
     overflow: hidden;
-    background: $white;
+    background: var(--bg-one-up);
     padding: 0.75rem;
     border-radius: $border-radius;
 
-    // inactive player
-    &.inactive {
-        box-shadow: none;
-
-        &:after {
-            content: '';
-            background-color: $gray-hint;
-            opacity: 55%;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    }
-
-    // this is not scalable katie!
-    h1, h2, h3, h4, h5, h6, p, label {
-        // color: $white;
-        margin-bottom: 0;
-    }
-
     .hgImg {
         grid-column: 1/2;
-        border: solid 1px $border;
-        border-radius: $border-radius;
     }
 
     .hgDetails {
@@ -65,40 +40,30 @@
         grid-row: 2/3;
         padding: 0.5rem;
 
-        @include media('>tablet') { 
+        @include media('>tablet') {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
         }
-
-        // .media($min-tablet, {
-        //     display: flex;
-        //     flex-direction: column;
-        //     justify-content: space-between;
-        //     align-items: center;
-        // });
     }
 
     .ratingWrap {
         align-items: baseline;
         padding: 0.5rem 1rem;
-        // .px-em-padding(8, 16, 8, 16);
 
         .hgStar {
-            color: $yellow;
+            color: var(--yellow9);
             margin-right: 0.25rem;
         }
 
         .hgStarRating {
-            font-variation-settings: $base-font-weight-bold;
             margin-right: 2px;
         }
 
         .hgStarOutOf {
-            font-variation-settings: "wght" 400;
             font-size: 1rem;
-            letter-spacing: .005em;
+            letter-spacing: 0.005em;
         }
 
         .numWrap {
@@ -115,15 +80,15 @@
         // align-items: center;
         align-items: flex-end;
         padding: 0.5rem;
-        border-radius: $border-radius;
-        background: linear-gradient(90deg, $white 0%, $gray-hint 62%);
+        border-radius: var(--border-radius);
+        background: linear-gradient(90deg, var(--bg-one-up) 0%, var(--slate8) 62%);
 
         &.greenBg {
-            background: linear-gradient(90deg, $white 0%, $green-01 62%);
+            background: linear-gradient(90deg, var(--bg-one-up) 0%, var(--grass8) 62%);
         }
 
         &.redBg {
-            background: linear-gradient(90deg, $white 0%, $red-01 62%);
+            background: linear-gradient(90deg, var(--bg-one-up) 0%, var(--tomato8) 62%);
         }
     }
 
@@ -161,11 +126,8 @@
     }
 
     .priceWrap {
-        // background: $yellow;
-        border-radius: $border-radius;
+        border-radius: var(--border-radius);
         padding: 0.5em 1em;
-        
-        // .px-em-padding(8, 16, 8, 16);
     }
 
     .priceChangeWrap {
@@ -178,21 +140,23 @@
         }
 
         svg {
-            font-size: 12px;
-           
+            font-size: 14px;
         }
 
         &.green {
-            color: darken($green, 5%);
+            * {
+                color: var(--grass12);
+            }
         }
 
         &.red {
-            color: darken($red, 8%);
+            * {
+                color: var(--tomato12);
+            }
         }
-
     }
 
-    @include media('>tablet') { 
+    @include media('>tablet') {
         .input-wrap {
             // grid-column: 1 / -1;
             // grid-row: 3 / 4;
@@ -204,7 +168,7 @@
 
             .num-input-wrap {
                 order: 1;
-                margin-bottom: .5rem;
+                margin-bottom: 0.5rem;
                 width: 100%;
             }
 

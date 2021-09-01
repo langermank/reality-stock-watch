@@ -9,6 +9,8 @@
 @import '@radix-ui/colors/tomatoDark.css';
 @import '@radix-ui/colors/lime.css';
 @import '@radix-ui/colors/limeDark.css';
+@import '@radix-ui/colors/grass.css';
+@import '@radix-ui/colors/grassDark.css';
 @import '@radix-ui/colors/yellow.css';
 @import '@radix-ui/colors/yellowDark.css';
 
@@ -93,6 +95,13 @@ a:not(nav *) {
     }
 }
 
+// root var alias/overrides
+.dark-theme {
+    --navbar-background: var(--slate2);
+    --navbar-border: solid 1px var(--slate5);
+    --bg-one-up: var(--slate3);
+}
+
 :root {
     --font-size-default: 1rem;
     --font-size-large: 1.125rem;
@@ -102,6 +111,8 @@ a:not(nav *) {
     --h1: 2.375rem;
     --h2: 1.75rem;
     --h3: 1.3rem;
+    --navbar-background: var(--slate2);
+    --navbar-border: solid 1px var(--slate5);
     --btn-height: 2.75rem;
     --base: 16;
     --baseLineHeight: 1.5;

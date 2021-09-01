@@ -1,26 +1,23 @@
 import clsx from 'clsx';
 import StockCard from '../components/StockCard';
-import Button from '../components/Button'
+import Button from '../components/Button';
 import styles from '../styles/trade.module.scss';
 
 function Trade() {
     return (
         <>
-            <h3>Trade</h3>
+            <h1>Market</h1>
             <div className={styles.tradesWrap}>
                 <div className={styles.stockCardsWrap}>
                     <ul className={styles.stockCards}>
+                        {/* loop through stock cards */}
                         <StockCard />
-                        {/* <stock-card
-                            v-for="stock in mutableStocks"
-                    : key="stock.id"
-                        :stock="stock"
-                        :bank="mutableBank"
-                        :disabled="season.status !== 'open'"
-                        v-on:current-price="saveCurrentPrice"
-                        v-on:buy-max="buyMax"
-                        v-on:sell-all="sellAll"
-                /> */}
+                        <StockCard />
+                        <StockCard />
+                        <StockCard />
+                        <StockCard />
+                        <StockCard />
+                        <StockCard />
                     </ul>
                 </div>
                 <div className={styles.userDetails}>
@@ -32,7 +29,9 @@ function Trade() {
                                 <p className={styles.netWorth}>Net worth: $200</p>
                             </div>
                         </div>
-                        <Button variant="secondary">Submit trade</Button>
+                        <Button variant="secondary" disabled>
+                            Submit trade
+                        </Button>
                         {/* <div v-if="season.status === 'open'" classname="flex-col trade">
                         <!-- enable button when input fields become active -->
                         <button classname="button-base secondary mg-btm-sm" @click="submit" :disabled="mutableBank.money < 0">
