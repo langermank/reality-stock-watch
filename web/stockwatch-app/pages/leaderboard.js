@@ -5,17 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import Button from '../components/Button.jsx';
-import {
-    CaretCircleUp,
-    CaretDown,
-    CaretUp,
-    ArrowFatLeft,
-    ArrowFatLineLeft,
-    ArrowLeft,
-    ArrowRight,
-    CaretLeft,
-    CaretDoubleLeft,
-} from 'phosphor-react';
+import { CaretUp, ArrowLeft, ArrowRight } from 'phosphor-react';
 import {
     useTable,
     usePagination,

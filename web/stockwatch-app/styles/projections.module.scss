@@ -8,14 +8,19 @@
 @include media('>desktop') {
 }
 
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
 .projectionWrap {
     grid-column: 1/-1;
 }
 
 .projectionCard {
     display: grid;
-    border: solid 1px $gray-hint;
-    box-shadow: 1px 1px 0px $gray-hint;
+    border: solid 1px var(--slate6);
+    box-shadow: 1px 1px 0px var(--slate6);
     grid-template-columns: 85px 1fr;
     grid-gap: 0.25rem 1rem;
     grid-auto-flow: dense;
@@ -23,9 +28,9 @@
     margin-bottom: 2rem;
 
     // use card class later
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
+    background: var(--bg-one-up);
     position: relative;
-    background: $white;
     padding: 12px;
 
     h5 {
@@ -36,8 +41,8 @@
     .hgImg {
         grid-column: 1/2;
         grid-row: 2/3;
-        border: solid 1px $border;
-        border-radius: $border-radius;
+        border: solid 1px var(--slate6);
+        border-radius: var(--border-radius);
         align-self: center;
     }
 
@@ -57,7 +62,7 @@
         align-items: baseline;
 
         .hgStar {
-            color: $yellow;
+            color: var(--yellow9);
             margin-right: 0.24rem;
         }
 
@@ -101,18 +106,16 @@
         }
     }
 
-    .ratingTable {
+    .tableRow {
         display: grid;
         grid-template-columns: repeat(10, minmax(max-content, auto));
 
-        > *:nth-of-type(even):not(.dt) {
-            background: $gray-barely;
-        }
+        td {
+            padding: 1rem;
 
-        dd {
-            text-align: center;
-            padding: 0 1rem;
-            color: $black;
+            &:nth-of-type(even) {
+                background: var(--slate5);
+            }
         }
     }
 
