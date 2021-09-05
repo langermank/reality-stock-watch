@@ -1,33 +1,36 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
-import Fetch from './graphql/Fetch';
+import Fetch from 'backend/graphql/Fetch';
+import Update from 'backend/graphql/Update';
+import lookup from './formulaLookup';
+import { mapValues, reduce, unionBy, filter, pull } from 'lodash';
 
-function useTransactionsByPlayer(playerId) {
+function useTransactionsByPlayer(playerID) {
     const { data, mutate, error } = useSWR(
-        playerId ? ['transactionsByPlayer', playerId] : null,
-        (action, playerId) => Fetch(action, { playerId }),
+        playerID ? ['transactionsByPlayer', playerID] : null,
+        (action, playerID) => Fetch(action, { playerID }),
         {
             initialData: [],
         }
     );
     useEffect(() => {
         mutate();
-    }, [playerId]);
+    }, [playerID]);
     const loading = !data && !error;
     return { transactions: data, loading, error, mutate };
 }
 
-function usePlayer(playerId) {
+function usePlayer(playerID) {
     const { data, mutate, error } = useSWR(
-        playerId ? ['player', playerId] : null,
-        (action, playerId) => Fetch(action, { playerId }),
+        playerID ? ['player', playerID] : null,
+        (action, playerID) => Fetch(action, { playerID }),
         {
             initialData: { stocks: [] },
         }
     );
     useEffect(() => {
         mutate();
-    }, [playerId]);
+    }, [playerID]);
     const loading = !data && !error;
     return { player: data, loading, error, mutate };
 }
@@ -39,6 +42,7 @@ function useWeek(seasonId, weekNumber) {
         (action, seasonId, weekNumber) => Fetch(action, { seasonId, weekNumber }),
         {
             initialData: {
+                weekId: null,
                 seasonName: 'Loading...',
                 contestantExtraTags: [],
                 contestants: [],
@@ -47,9 +51,76 @@ function useWeek(seasonId, weekNumber) {
             },
         }
     );
+    const averages = mapValues(data.ratings, (contestantRatings) => {
+        const { sum, count } = reduce(
+            contestantRatings,
+            ({ sum, count }, value) => ({
+                sum: sum + parseFloat(value),
+                count: count + 1,
+            }),
+            { sum: 0, count: 0 }
+        );
+        return Math.round((sum / count) * 100) / 100;
+    });
 
-    function setExtras() {}
-    function setRating() {}
+    function setExtraTags(contestantID, extraTags) {
+        const contestants = data.contestants.map((contestant) => {
+            let c = { ...contestant };
+            if (c.contestantID == contestantID) {
+                c.extraTags = extraTags;
+            }
+            return c;
+        });
+        mutate({ ...data, contestants }, false);
+        Update('weekContestants', {
+            weekId: data.weekId,
+            contestants: JSON.stringify(contestants),
+        }).then(() => {
+            mutate();
+        });
+    }
+    function setPlayers(players) {
+        mutate({ ...data, players }, false);
+        Update('weekPlayers', {
+            weekId: data.weekId,
+            players: JSON.stringify(players),
+        }).then(() => {
+            mutate();
+        });
+    }
+    function addPlayer(playerID) {
+        console.log('add player', playerID);
+        Fetch('playerBrief', { playerID }).then((playerBrief) => {
+            console.log(playerBrief);
+            const players = unionBy(
+                [
+                    {
+                        playerDisplayName: playerBrief.displayName,
+                        playerAvatarId: playerBrief.avatarID,
+                        playerID: playerBrief.id,
+                    },
+                ],
+                data.players,
+                'playerID'
+            );
+            setPlayers(players);
+        });
+    }
+    function removePlayer(playerID) {
+        const players = filter(data.players, (player) => player.playerID != playerID);
+        setPlayers(players);
+    }
+    function setRating(contestantID, playerID, rating) {
+        const contestantRatings = { ...data.ratings[contestantID], [playerID]: rating };
+        const ratings = { ...data.ratings, [contestantID]: contestantRatings };
+        mutate({ ...data, ratings }, false);
+        Update('weekRatings', {
+            weekId: data.weekId,
+            ratings: JSON.stringify(ratings),
+        }).then(() => {
+            mutate();
+        });
+    }
 
     if (error) {
         console.log('useWeek SWR error', error);
@@ -61,7 +132,108 @@ function useWeek(seasonId, weekNumber) {
         mutate();
     }, [seasonId, weekNumber]);
     const loading = !data && !error;
-    return { week: data, setExtras, setRating, loading, error, mutate };
+    return {
+        week: data,
+        averages,
+        setExtraTags,
+        setRating,
+        setPlayers,
+        addPlayer,
+        removePlayer,
+        loading,
+        error,
+        mutate,
+    };
 }
 
-export { useTransactionsByPlayer, usePlayer, useWeek };
+// Adapted directly from the original PHP.
+function calculate(from, to, previousPrice, strikes) {
+    /** =round(((D3*G3)*(H3*(0.9^(D3*G3))+1))*(1-(K3*(1-(0.97^(L3))))),2)
+     *
+     * D3 - Last Weeks Price
+     * G3 - Multiplier
+     * H3 - Bonus
+     * K3 - Penalty
+     * L3 - Strikes (weeks <= 4)
+     */
+
+    const { penalty, bonus, multiplier } = lookup(from, to);
+
+    return (
+        previousPrice *
+        multiplier *
+        (bonus * Math.pow(0.9, previousPrice * multiplier) + 1) *
+        (1 - penalty * (1 - Math.pow(0.97, strikes)))
+    );
+}
+
+function useProjections(seasonID, weekNumber) {
+    const { data, mutate, error } = useSWR(
+        ['prices', seasonID, weekNumber - 1, weekNumber],
+        (action, seasonID, startWeekNumber, endWeekNumber) =>
+            Fetch(action, { seasonID, startWeekNumber, endWeekNumber }),
+        {
+            initialData: [],
+        }
+    );
+    let contestantIDs = [];
+    let contestants = {};
+    if (data) {
+        for (let i in data) {
+            const {
+                week,
+                contestantID,
+                contestantFirstName,
+                contestantLastName,
+                contestantNickName,
+                contestantImage,
+                contestantSlug,
+                contestantStatus,
+                contestantAverageRatings,
+                price,
+            } = data[i];
+            if (contestantStatus === 'evicted') {
+                console.log(contestantNickName + ' has been evicted');
+                delete contestants[contestantID];
+                pull(contestantIDs, contestantID);
+                continue;
+            }
+            contestantIDs.push(contestantID);
+            if (contestants[contestantID] === undefined) {
+                contestants[contestantID] = {
+                    firstName: contestantFirstName,
+                    lastName: contestantLastName,
+                    nickname: contestantNickName,
+                    image: contestantImage,
+                    slug: contestantSlug,
+                    status: contestantStatus,
+                    averageRatings: contestantAverageRatings,
+                    strikes: contestantAverageRatings.reduce((count, averageRating) =>
+                        averageRating <= 4 ? count + 1 : count
+                    ),
+                };
+            }
+            if (week == weekNumber) {
+                contestants[contestantID].currentPrice = price;
+            } else {
+                contestants[contestantID].previousPrice = price;
+            }
+            if (
+                contestants[contestantID].currentPrice !== undefined &&
+                contestants[contestantID].previousPrice !== undefined
+            ) {
+                contestants[contestantID].priceChange =
+                    contestants[contestantID].currentPrice -
+                    contestants[contestantID].previousPrice;
+            }
+        }
+    }
+    useEffect(() => {
+        mutate();
+    }, []);
+    const loading = !data && !error;
+    console.log('useProjections', data);
+    return { contestantIDs, contestants, prices: data, loading };
+}
+
+export { useTransactionsByPlayer, usePlayer, useWeek, useProjections };

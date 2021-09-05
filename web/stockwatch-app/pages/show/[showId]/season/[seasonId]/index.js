@@ -22,6 +22,14 @@ const Season = () => {
                         }}>
                         <a>Ratings</a>
                     </Link>
+                    &nbsp;|&nbsp;
+                    <Link
+                        href={{
+                            pathname: '/show/[showId]/season/[seasonId]/week/[week]/projections',
+                            query: { showId, seasonId, week: i },
+                        }}>
+                        <a>Projections</a>
+                    </Link>
                 </li>
             );
         }
