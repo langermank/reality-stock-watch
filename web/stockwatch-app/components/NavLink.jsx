@@ -25,9 +25,9 @@ NavLink.propTypes = {
     icon: PropTypes.node,
     className: PropTypes.string,
     href: PropTypes.node,
-    dataActive: PropTypes.boolean,
+    dataActive: PropTypes.bool,
     linkText: PropTypes.string,
-    alwaysVisible: PropTypes.boolean,
+    alwaysVisible: PropTypes.bool,
 };
 
 NavLink.defaultProps = {

@@ -45,7 +45,7 @@ const Logo = ({ hideText }) => {
 };
 
 Logo.propTypes = {
-    hideText: PropTypes.boolean,
+    hideText: PropTypes.bool,
 };
 
 Logo.defaultProps = {

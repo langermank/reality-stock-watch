@@ -15,7 +15,8 @@ import { FocusScope } from '@react-aria/focus';
 import { useFocus } from '@react-aria/interactions';
 import { useOverlay, DismissButton } from '@react-aria/overlays';
 
-function MenuButton(props) {
+// export const MenuButton = React.forwardRef(({ props }, ref) => {
+const MenuButton = (props) => {
     // Create state based on the incoming props
     let state = useMenuTriggerState(props);
 
@@ -41,6 +42,9 @@ function MenuButton(props) {
                     <div className={styles.dropdownTriggerLabel}>{props.label}</div>
                 </div>
             </Button>
+            {/* <button ref={ref} {...buttonProps}>
+                hey
+            </button> */}
             {state.isOpen && (
                 <MenuPopup
                     {...props}
@@ -51,7 +55,7 @@ function MenuButton(props) {
             )}
         </div>
     );
-}
+};
 
 function MenuPopup(props) {
     // Create menu state based on the incoming props

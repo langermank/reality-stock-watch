@@ -187,16 +187,16 @@ export const UserMenu = ({ href }) => {
         );
     }
     // if logged in show user dropdown menu
-    return (
-        <MenuButton label="Username">
-            <Item href="/profile/[userId]" onClick={handleClick} icon={<UserCircle />}>
-                Profile
-            </Item>
-            <Item href="/settings" onClick={handleClick} icon={<Gear weight="fill" />}>
-                Settings
-            </Item>
-        </MenuButton>
-    );
+    // return (
+    <MenuButton label="Username">
+        <Item href="/profile/[userId]" onClick={handleClick} icon={<UserCircle />}>
+            Profile
+        </Item>
+        <Item href="/settings" onClick={handleClick} icon={<Gear weight="fill" />}>
+            Settings
+        </Item>
+    </MenuButton>;
+    // );
 };
 
 UserMenu.propTypes = {
