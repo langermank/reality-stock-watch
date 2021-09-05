@@ -322,6 +322,7 @@ const queries = {
                             image
                             slug
                             status
+                            weekEvicted
                             averageRatings
                         }
                         price
@@ -333,6 +334,10 @@ const queries = {
         `,
         convert: (data, items) => {
             data.pricesBySeasonWeek.items.forEach((price) => {
+                let weekEvicted = null;
+                if (price.contestant.status === 'evicted') {
+                    weekEvicted = parseInt(price.contestant.weekEvicted);
+                }
                 items.push({
                     priceID: price.id,
                     week: price.week,
@@ -344,6 +349,7 @@ const queries = {
                     contestantSlug: price.contestant.slug,
                     contestantStatus: price.contestant.status,
                     contestantAverageRatings: JSON.parse(price.contestant.averageRatings || '[]'),
+                    contestantWeekEvicted: weekEvicted,
                     price: parseFloat(price.price) / 100,
                 });
             });
