@@ -1,5 +1,4 @@
 import { API } from 'backend/Configure';
-import { uniqBy } from 'lodash';
 
 const queries = {
     listShows: {
@@ -141,8 +140,8 @@ const queries = {
     },
     player: {
         query: /* GraphQL */ `
-            query player($playerId: ID!) {
-                getPlayer(id: $playerId) {
+            query player($playerID: ID!) {
+                getPlayer(id: $playerID) {
                     id
                     bankBalance
                     netWorth
@@ -195,10 +194,37 @@ const queries = {
             return player;
         },
     },
+    playerBrief: {
+        query: /* GraphQL */ `
+            query player($playerID: ID!) {
+                getPlayer(id: $playerID) {
+                    id
+                    bankBalance
+                    netWorth
+                    userID
+                    user {
+                        avatarID
+                        displayName
+                    }
+                }
+            }
+        `,
+        convert: (data) => {
+            let player = {
+                id: data.getPlayer.id,
+                netWorth: (parseFloat(data.getPlayer.netWorth) / 100).toFixed(2),
+                bankBalance: (parseFloat(data.getPlayer.bankBalance) / 100).toFixed(2),
+                userID: data.getPlayer.userID,
+                avatarID: data.getPlayer.user.avatarID,
+                displayName: data.getPlayer.user.displayName,
+            };
+            return player;
+        },
+    },
     transactionsByPlayer: {
         query: /* GraphQL */ `
-            query transactionsByPlayer($playerId: ID!) {
-                transactionsByPlayer(playerID: $playerId) {
+            query transactionsByPlayer($playerID: ID!) {
+                transactionsByPlayer(playerID: $playerID) {
                     nextToken
                     items {
                         contestantID
@@ -229,6 +255,7 @@ const queries = {
             query ratings($seasonId: ID!, $weekNumber: Int!) {
                 weeksBySeasonWeek(seasonID: $seasonId, week: { eq: $weekNumber }) {
                     items {
+                        id
                         seasonID
                         week
                         contestants
@@ -255,6 +282,7 @@ const queries = {
             }
             let item = data.weeksBySeasonWeek.items[0];
             let week = {
+                weekId: item.id,
                 seasonId: item.seasonID,
                 seasonName: item.season.name,
                 seasonShortName: item.season.shortname,
@@ -276,6 +304,52 @@ const queries = {
             return week;
         },
     },
+    prices: {
+        query: /* GraphQL */ `
+            query prices($seasonID: ID!, $startWeekNumber: Int!, $endWeekNumber: Int!) {
+                pricesBySeasonWeek(
+                    seasonID: $seasonID
+                    week: { between: [$startWeekNumber, $endWeekNumber] }
+                ) {
+                    nextToken
+                    items {
+                        contestantID
+                        contestant {
+                            firstName
+                            lastName
+                            nickName
+                            id
+                            image
+                            slug
+                            status
+                            averageRatings
+                        }
+                        price
+                        id
+                        week
+                    }
+                }
+            }
+        `,
+        convert: (data, items) => {
+            data.pricesBySeasonWeek.items.forEach((price) => {
+                items.push({
+                    priceID: price.id,
+                    week: price.week,
+                    contestantID: price.contestant.id,
+                    contestantFirstName: price.contestant.firstName,
+                    contestantLastName: price.contestant.lastName,
+                    contestantNickName: price.contestant.nickName,
+                    contestantImage: price.contestant.image,
+                    contestantSlug: price.contestant.slug,
+                    contestantStatus: price.contestant.status,
+                    contestantAverageRatings: JSON.parse(price.contestant.averageRatings || '[]'),
+                    price: parseFloat(price.price) / 100,
+                });
+            });
+            return { nextToken: data.pricesBySeasonWeek.nextToken, result: items };
+        },
+    },
 };
 
 async function Fetch(requestType, variables) {
@@ -285,15 +359,17 @@ async function Fetch(requestType, variables) {
     switch (requestType) {
         case 'profile':
         case 'player':
+        case 'playerBrief':
         case 'show':
         case 'season':
         case 'week':
             console.log('fetch before', requestType, variables);
             result = convert((await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data);
-            console.log('fetch after', result);
+            console.log('fetch after', requestType, result);
             break;
         case 'transactionsByPlayer':
         case 'listShows':
+        case 'prices':
             {
                 let output = { nextToken: null, result: [] };
                 do {
