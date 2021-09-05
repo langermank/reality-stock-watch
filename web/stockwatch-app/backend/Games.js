@@ -189,13 +189,11 @@ function useProjections(seasonID, weekNumber) {
                 contestantImage,
                 contestantSlug,
                 contestantStatus,
+                contestantWeekEvicted,
                 contestantAverageRatings,
                 price,
             } = data[i];
-            if (contestantStatus === 'evicted') {
-                console.log(contestantNickName + ' has been evicted');
-                delete contestants[contestantID];
-                pull(contestantIDs, contestantID);
+            if (contestantStatus == 'evicted' && contestantWeekEvicted <= weekNumber) {
                 continue;
             }
             contestantIDs.push(contestantID);
@@ -208,8 +206,11 @@ function useProjections(seasonID, weekNumber) {
                     slug: contestantSlug,
                     status: contestantStatus,
                     averageRatings: contestantAverageRatings,
-                    strikes: contestantAverageRatings.reduce((count, averageRating) =>
-                        averageRating <= 4 ? count + 1 : count
+                    rating: Math.round(contestantAverageRatings[weekNumber - 1]),
+                    strikes: contestantAverageRatings.reduce(
+                        (count, averageRating) =>
+                            parseFloat(averageRating) <= 4 ? count + 1 : count,
+                        0
                     ),
                 };
             }
@@ -226,6 +227,24 @@ function useProjections(seasonID, weekNumber) {
                     contestants[contestantID].currentPrice -
                     contestants[contestantID].previousPrice;
             }
+        }
+        for (let i in contestants) {
+            let contestant = contestants[i];
+            const rating = contestant.rating;
+            const price = contestant.currentPrice;
+            const strikes = contestant.strikes;
+            contestant.projections = [
+                calculate(rating, 1, price, strikes + 1),
+                calculate(rating, 2, price, strikes + 1),
+                calculate(rating, 3, price, strikes + 1),
+                calculate(rating, 4, price, strikes + 1),
+                calculate(rating, 5, price, strikes),
+                calculate(rating, 6, price, strikes),
+                calculate(rating, 7, price, strikes),
+                calculate(rating, 8, price, strikes),
+                calculate(rating, 9, price, strikes),
+                calculate(rating, 10, price, strikes),
+            ];
         }
     }
     useEffect(() => {

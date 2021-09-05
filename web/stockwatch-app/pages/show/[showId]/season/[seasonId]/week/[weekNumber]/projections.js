@@ -11,29 +11,6 @@ import styles from 'styles/projections.module.scss';
 // FIXME: make configurable
 const imageUrlPrefix = 'https://dsw9arc6h9tqj.cloudfront.net';
 
-// fake data
-const currentPrice = 1.99;
-// const changePrice1 = 1.12;
-// const changePercent1 = 44;
-// const changePrice2 = 1.28;
-// const changePercent2 = 36;
-// const changePrice3 = 1.6;
-// const changePercent3 = 20;
-// const changePrice4 = 2.06;
-// const changePercent4 = 4;
-// const changePrice5 = 2.35;
-// const changePercent5 = 18;
-// const changePrice6 = 2.59;
-// const changePercent6 = 30;
-// const changePrice7 = 2.97;
-// const changePercent7 = 49;
-// const changePrice8 = 3.6;
-// const changePercent8 = 81;
-// const changePrice9 = 4.59;
-// const changePercent9 = 131;
-// const changePrice10 = 6.18;
-// const changePercent10 = 211;
-
 // Create a default prop getter
 const defaultPropGetter = () => ({});
 
@@ -101,32 +78,6 @@ function Table({
         </table>
     );
 }
-const data = [
-    {
-        rating1: 1.99,
-        rating2: 1.12,
-        rating3: 1.28,
-        rating4: 1.6,
-        rating5: 2.06,
-        rating6: 2.35,
-        rating7: 2.59,
-        rating8: 2.97,
-        rating9: 4.59,
-        rating10: 6.18,
-    },
-    {
-        rating1: 44,
-        rating2: 36,
-        rating3: 20,
-        rating4: 40,
-        rating5: 18,
-        rating6: 30,
-        rating7: 49,
-        rating8: 81,
-        rating9: 131,
-        rating10: 211,
-    },
-];
 
 const columns = [
     {
@@ -184,14 +135,33 @@ const Projection = ({
     slug,
     status,
     currentPrice,
+    strikes,
+    rating,
     previousPrice,
     priceChange,
+    projections,
 }) => {
+    const percentRow = projections.reduce((row, projection, i) => {
+        return {
+            ...row,
+            ['rating' + (i + 1)]: Math.round((projection / currentPrice - 1) * 100) + '%',
+        };
+    }, {});
+    const projectionRow = projections.reduce((row, projection, i) => {
+        return {
+            ...row,
+            ['rating' + (i + 1)]: new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            }).format(projection),
+        };
+    }, {});
+    const data = [percentRow, projectionRow];
     return (
         <div className={styles.projectionCard}>
             <div className={styles.hgDetails}>
                 <h5>
-                    {firstName} {lastName}{' '}
+                    {firstName} {lastName}
                 </h5>
             </div>
             <img
@@ -207,7 +177,7 @@ const Projection = ({
                     <span className={styles.ratingWrap}>
                         <h5 className={styles.numWrap}>
                             <Star className={styles.hgStar} weight="fill" />
-                            <span className={styles.hgStarRating}>5</span>
+                            <span className={styles.hgStarRating}>{rating}</span>
                             <span className={styles.hgStarOutOf}>/10</span>
                         </h5>
                     </span>
