@@ -1,6 +1,7 @@
 import '../styles/globals.scss';
 import { Navbar } from '../components/Navbar';
 import { ArrowLineLeft, ArrowLineRight } from 'phosphor-react';
+import { SSRProvider } from '@react-aria/ssr';
 import Head from 'next/head';
 import Logo from '../components/SWLogo';
 import clsx from 'clsx';
@@ -16,7 +17,7 @@ function MyApp({ Component, pageProps }) {
         ssr: false,
     });
     return (
-        <>
+        <SSRProvider>
             <div className={styles.appWrapper}>
                 <Head>
                     <title>Create Next App</title>
@@ -38,7 +39,7 @@ function MyApp({ Component, pageProps }) {
                     <Component {...pageProps} />
                 </main>
             </div>
-        </>
+        </SSRProvider>
     );
 }
 

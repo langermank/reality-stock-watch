@@ -3,12 +3,11 @@ import { useRouter } from 'next/router';
 // import useStickyState from '../hooks/useStickyState';
 // import useHasMounted from '../hooks/useHasMounted';
 // import PanelToggle from './PanelToggle';
-import { UserNavbar } from './UserNavbar';
 import { UserMenu } from './UserMenu';
 import { GameMenu } from './GameMenu';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
-import { TrendUp, User, Medal, ChartPie, Coin } from 'phosphor-react';
+import { Medal, ChartPie, Coin } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
@@ -62,9 +61,6 @@ export const Navbar = ({ className }) => {
                             />
                         </Link>
                     </li>
-                    {/* <li className={styles.collapseButtonWrap}>
-                        <PanelToggle desktopToggle />
-                    </li> */}
                     <li>
                         <UserMenu />
                     </li>
