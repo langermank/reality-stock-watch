@@ -7,7 +7,7 @@ import { UserMenu } from './UserMenu';
 import { GameMenu } from './GameMenu';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
-import { Medal, ChartPie, Coin } from 'phosphor-react';
+import { Medal, ChartPie, Coin, Lock } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
@@ -58,6 +58,15 @@ export const Navbar = ({ className }) => {
                                 icon={<Medal weight="fill" />}
                                 dataActive={router.pathname == '/leaderboardAllTime'}
                                 linkText="Full Leaderboard"
+                            />
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/admin" passHref>
+                            <NavLink
+                                icon={<Lock weight="fill" />}
+                                dataActive={router.pathname == '/admin'}
+                                linkText="Admin"
                             />
                         </Link>
                     </li>

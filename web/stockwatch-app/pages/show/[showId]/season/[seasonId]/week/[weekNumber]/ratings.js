@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useWeek } from 'backend/Games';
 import { union, difference } from 'lodash';
+import Input from '../../../../../../../components/Input.jsx';
+import styles from '../../../../../../../styles/admin-ratings.module.scss';
 
 const Ratings = () => {
     const router = useRouter();
@@ -9,24 +11,57 @@ const Ratings = () => {
         seasonId,
         weekNumber
     );
+
+    const extraItems = week.contestantExtraTags.map((name, setExtraState) => (
+        <li key={name} onClick={setExtraState}>
+            {name}
+        </li>
+    ));
+
+    // const contestantHasExtraItem =
+
     const tableHeadings = week.players.map((player) => (
         <th key={player.playerID}>
             {player.playerDisplayName}
-            <button onClick={() => removePlayer(player.playerID)}>X</button>
+            {/* <button onClick={() => removePlayer(player.playerID)}>X</button> */}
         </th>
     ));
     const tableContestants = week.contestants.map((contestant) => {
         let cells = [];
-        const extras = contestant.extraTags.map((name) => (
-            <button
-                key={name}
-                onClick={() =>
-                    setExtraTags(contestant.contestantID, difference(contestant.extraTags, [name]))
-                }>
-                {name} -
-            </button>
+
+        const extraItems = week.contestantExtraTags.map((name, setExtraState, istrue = null) => (
+            <li key={name} onClick={setExtraState} data-true={istrue} className={styles.extraItem}>
+                {name}
+            </li>
         ));
-        cells.push(<td key="extras">{extras}</td>);
+
+        const extraItemMatch = contestant.extraTags.map((name) => (
+            // <button
+            //     key={name}
+            //     onClick={() =>
+            //         setExtraTags(contestant.contestantID, difference(contestant.extraTags, [name]))
+            //     }>
+            //     {name} -
+            // </button>
+            <li key={name}>{name}</li>
+        ));
+
+        const extras = contestant.extraTags.map((name) => (
+            // <button
+            //     key={name}
+            //     onClick={() =>
+            //         setExtraTags(contestant.contestantID, difference(contestant.extraTags, [name]))
+            //     }>
+            //     {name} -
+            // </button>
+            <li key={name}>{name}</li>
+        ));
+        cells.push(
+            <td key="extras">
+                <ul>{extras}</ul>
+            </td>
+        );
+        // const testFilter = extras.filter(name)
         const availableExtras = difference(week.contestantExtraTags, contestant.extraTags).map(
             (name) => (
                 <button
@@ -38,7 +73,11 @@ const Ratings = () => {
                 </button>
             )
         );
-        cells.push(<td key="available-extras">{availableExtras}</td>);
+        cells.push(
+            <td key="available-extras">
+                <span>{extraItems}</span>
+            </td>
+        );
         for (let i in week.players) {
             let playerID = week.players[i].playerID;
             let contestantID = contestant.contestantID;
@@ -46,7 +85,7 @@ const Ratings = () => {
             if (week.ratings[contestantID] && week.ratings[contestantID][playerID]) {
                 cells.push(
                     <td key={playerID}>
-                        <input
+                        <Input
                             value={week.ratings[contestantID][playerID]}
                             onChange={(e) => setRating(contestantID, playerID, e.target.value)}
                         />
@@ -55,7 +94,7 @@ const Ratings = () => {
             } else {
                 cells.push(
                     <td key={playerID}>
-                        <input />
+                        <Input />
                     </td>
                 );
             }
@@ -71,12 +110,13 @@ const Ratings = () => {
     const marketStatus = week.marketStatus ? <p>Market is open</p> : <p>Market is closed</p>;
     return (
         <>
+            {/* <ul>{testing}</ul> */}
             <h2>
                 {week.seasonName} Week {weekNumber}
             </h2>
             <h3>Current week: {week.currentWeek}</h3>
             {marketStatus}
-            <table>
+            <table className={styles.table}>
                 <thead>
                     <tr key="heading">
                         <th key="rowheading"></th>
@@ -90,7 +130,7 @@ const Ratings = () => {
             </table>
             <p>
                 Add player:
-                <input onChange={(e) => addPlayer(e.target.value)} placeholder="Player ID" />
+                <Input onChange={(e) => addPlayer(e.target.value)} placeholder="Player ID" />
             </p>
         </>
     );
