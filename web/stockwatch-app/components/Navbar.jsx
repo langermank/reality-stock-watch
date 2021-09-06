@@ -4,14 +4,15 @@ import { useRouter } from 'next/router';
 // import useHasMounted from '../hooks/useHasMounted';
 // import PanelToggle from './PanelToggle';
 import { UserMenu } from './UserMenu';
-import { GameMenu } from './GameMenu';
 import { MockUser } from './MockUser';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
 import { Medal, ChartPie, Coin } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 import clsx from 'clsx';
+
 import dynamic from 'next/dynamic';
+const GameMenu = dynamic(() => import('./GameMenu').then((mod) => mod.GameMenu));
 
 export const Navbar = ({ className }) => {
     const PanelToggle = dynamic(() => import('../components/PanelToggle'), {

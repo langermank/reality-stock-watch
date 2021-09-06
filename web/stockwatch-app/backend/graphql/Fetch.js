@@ -55,6 +55,34 @@ const queries = {
             return show;
         },
     },
+    activeSeasons: {
+        query: /* GraphQL */ `
+            query activeSeasons {
+                seasonsByStatusStart(status: "active", sortDirection: DESC) {
+                    items {
+                        id
+                        name
+                        shortName
+                        currentWeek
+                        marketStatus
+                        nextMarketOpen
+                        nextMarketClose
+                        showID
+                        status
+                    }
+                    nextToken
+                }
+            }
+        `,
+        convert: (data, items) => {
+            data.seasonsByStatusStart.items.forEach((season) => {
+                items.push({
+                    ...season,
+                });
+            });
+            return { nextToken: data.seasonsByStatusStart.nextToken, result: items };
+        },
+    },
     season: {
         query: /* GraphQL */ `
             query season($seasonId: ID!) {
@@ -370,18 +398,32 @@ async function Fetch(requestType, variables) {
         case 'season':
         case 'week':
             console.log('fetch before', requestType, variables);
-            result = convert((await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data);
+            try {
+                result = convert(
+                    (await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data
+                );
+            } catch (err) {
+                console.log('Fetch error', requestType, variables, err);
+                return {};
+            }
             console.log('fetch after', requestType, result);
             break;
         case 'transactionsByPlayer':
         case 'listShows':
         case 'prices':
+        case 'activeSeasons':
             {
                 let output = { nextToken: null, result: [] };
                 do {
+                    let response;
                     console.log('before graphql', requestType);
-                    let response = (await API.graphql({ query, variables, authMode: 'AWS_IAM' }))
-                        .data;
+                    try {
+                        response = (await API.graphql({ query, variables, authMode: 'AWS_IAM' }))
+                            .data;
+                    } catch (err) {
+                        console.log('Fetch error', requestType, query, variables, err);
+                        return [];
+                    }
                     console.log('after graphql', response);
                     output = convert(response, output.result);
                 } while (output.nextToken);
