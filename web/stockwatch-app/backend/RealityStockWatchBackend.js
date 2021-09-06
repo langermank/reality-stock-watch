@@ -3,7 +3,6 @@ import * as queries from './graphql/queries';
 import * as mutations from './graphql/mutations';
 import aws_exports from './aws-exports';
 import { useState, useEffect, useCallback } from 'react';
-import useSWR from 'swr';
 
 Amplify.configure(aws_exports);
 

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 // import PanelToggle from './PanelToggle';
 import { UserMenu } from './UserMenu';
 import { GameMenu } from './GameMenu';
+import { MockUser } from './MockUser';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
 import { Medal, ChartPie, Coin } from 'phosphor-react';
@@ -63,6 +64,9 @@ export const Navbar = ({ className }) => {
                     </li>
                     <li>
                         <UserMenu />
+                    </li>
+                    <li>
+                        <MockUser />
                     </li>
                 </ul>
                 <PanelToggle className={styles.collapseBtn} desktopToggle />

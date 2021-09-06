@@ -80,8 +80,8 @@ const queries = {
     },
     profile: {
         query: /* GraphQL */ `
-            query profile($userId: ID!) {
-                getUser(id: $userId) {
+            query profile($userID: ID!) {
+                getUser(id: $userID) {
                     id
                     avatarID
                     displayName
