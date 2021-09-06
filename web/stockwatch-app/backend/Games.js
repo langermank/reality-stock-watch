@@ -79,6 +79,28 @@ function useWeek(seasonId, weekNumber) {
             mutate();
         });
     }
+    function getExtraTags(contestantID) {
+        for (let i in data.contestants) {
+            if (data.contestants[i].contestantID == contestantID) {
+                if (!data.contestants[i].extraTags) {
+                    return [];
+                }
+                return [...data.contestants[i].extraTags];
+            }
+        }
+    }
+    function hasExtraTag(contestantID, tag) {
+        return getExtraTags(contestantID).includes(tag);
+    }
+    function toggleExtraTag(contestantID, tag) {
+        let extraTags = getExtraTags(contestantID);
+        if (extraTags.includes(tag)) {
+            pull(extraTags, tag);
+        } else {
+            extraTags.push(tag);
+        }
+        setExtraTags(contestantID, extraTags);
+    }
     function setPlayers(players) {
         mutate({ ...data, players }, false);
         Update('weekPlayers', {
@@ -135,7 +157,10 @@ function useWeek(seasonId, weekNumber) {
     return {
         week: data,
         averages,
+        getExtraTags,
         setExtraTags,
+        hasExtraTag,
+        toggleExtraTag,
         setRating,
         setPlayers,
         addPlayer,
