@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import Fetch from 'backend/graphql/Fetch';
 import Update from 'backend/graphql/Update';
@@ -79,6 +79,28 @@ function useWeek(seasonId, weekNumber) {
             mutate();
         });
     }
+    function getExtraTags(contestantID) {
+        for (let i in data.contestants) {
+            if (data.contestants[i].contestantID == contestantID) {
+                if (!data.contestants[i].extraTags) {
+                    return [];
+                }
+                return [...data.contestants[i].extraTags];
+            }
+        }
+    }
+    function hasExtraTag(contestantID, tag) {
+        return getExtraTags(contestantID).includes(tag);
+    }
+    function toggleExtraTag(contestantID, tag) {
+        let extraTags = getExtraTags(contestantID);
+        if (extraTags.includes(tag)) {
+            pull(extraTags, tag);
+        } else {
+            extraTags.push(tag);
+        }
+        setExtraTags(contestantID, extraTags);
+    }
     function setPlayers(players) {
         mutate({ ...data, players }, false);
         Update('weekPlayers', {
@@ -135,7 +157,10 @@ function useWeek(seasonId, weekNumber) {
     return {
         week: data,
         averages,
+        getExtraTags,
         setExtraTags,
+        hasExtraTag,
+        toggleExtraTag,
         setRating,
         setPlayers,
         addPlayer,
@@ -255,4 +280,44 @@ function useProjections(seasonID, weekNumber) {
     return { contestantIDs, contestants, prices: data, loading };
 }
 
-export { useTransactionsByPlayer, usePlayer, useWeek, useProjections };
+const EMPTY_SEASON = { id: 0, shortName: 'Select Season' };
+function useActiveSeasons() {
+    const {
+        data: activeSeasons,
+        mutate: mutateActiveSeasons,
+        error,
+    } = useSWR(['activeSeasons'], (action) => Fetch(action, {}), {
+        initialData: [],
+    });
+    const [selectedSeasonID, setSelectedSeasonID] = useState(0);
+    const [selectedSeason, setSelectedSeason] = useState(EMPTY_SEASON);
+
+    useEffect(() => {
+        mutateActiveSeasons();
+    }, []);
+    useEffect(() => {
+        if (activeSeasons.length == 0) {
+            setSelectedSeasonID(0);
+            return;
+        }
+        setSelectedSeasonID(activeSeasons[0].id);
+    }, [activeSeasons.length]);
+    useEffect(() => {
+        if (selectedSeasonID == 0) {
+            setSelectedSeason(EMPTY_SEASON);
+            return;
+        }
+        for (let i in activeSeasons) {
+            if (activeSeasons[i].id == selectedSeasonID) {
+                setSelectedSeason(activeSeasons[i]);
+                break;
+            }
+        }
+    }, [selectedSeasonID]);
+
+    const loading = !activeSeasons && !error;
+    console.log('useActiveSeaons', activeSeasons, selectedSeason);
+    return { activeSeasons, selectedSeason, selectedSeasonID, setSelectedSeasonID, loading };
+}
+
+export { useTransactionsByPlayer, usePlayer, useWeek, useProjections, useActiveSeasons };

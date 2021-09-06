@@ -1,5 +1,6 @@
-import { useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Hub, Auth } from 'backend/Configure';
+import Fetch from 'backend/graphql/Fetch';
 import useSWR from 'swr';
 
 // The Auth API has no way of checking if the user is logged in.
@@ -13,7 +14,7 @@ async function getCurrentUser() {
     }
 }
 
-// Returns a use object, and a function that can be used to
+// Returns a user object, and a function that can be used to
 // toggle the login status of the user.
 //
 // If the user is not logged in, the toggle function initiates
@@ -50,8 +51,36 @@ async function fetchUser() {
     return user;
 }
 
+const EMPTY_MOCK_USER = { userID: 0, displayName: 'None' };
+
 function useUser() {
+    const [mockUserID, setMockUserID] = useState(0);
+    console.log('in useUser, mockUserID is', mockUserID);
+    const {
+        data: mockUser,
+        mutate: mutateMockUser,
+        error: errorMockUser,
+    } = useSWR(
+        mockUserID ? ['profile', mockUserID] : null,
+        (action, userID) => Fetch(action, { userID }),
+        {
+            initialData: EMPTY_MOCK_USER,
+        }
+    );
+    function clearMockUser() {
+        setMockUserID(0);
+    }
+    useEffect(() => {
+        if (mockUserID == 0) {
+            mutateMockUser(EMPTY_MOCK_USER, false);
+            return;
+        }
+        mutateMockUser();
+    }, [mockUserID]);
+
+    /*
     const { data, mutate, error } = useSWR('currentUser', fetchUser, { initialData: falseUser });
+
     const loading = !data && !error;
     function toggleLogin() {
         if (data && data.loggedIn) {
@@ -77,7 +106,17 @@ function useUser() {
             Hub.remove('auth', listen);
         };
     }, [listen]);
-    return { loading, user: data, mutate, error, toggleLogin };
+    */
+    function toggleLogin() {
+        console.log('Login temporarily disabled');
+    }
+    return {
+        toggleLogin,
+        setMockUserID,
+        clearMockUser,
+        mockUser,
+        effectiveUser: mockUser,
+    };
 }
 
 export { useUser };

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from '../styles/components/dropdown.module.scss';
 import linkStyles from '../styles/components/navbarLink.module.scss';
-import { useUser } from '../backend/RealityStockWatchBackend';
 import Button from './Button.jsx';
 import { Gear, UserCircle, CaretDown, SignIn, SignOut } from 'phosphor-react';
 import { useMenuTriggerState } from '@react-stately/menu';
@@ -14,6 +13,7 @@ import { mergeProps } from '@react-aria/utils';
 import { FocusScope } from '@react-aria/focus';
 import { useFocus } from '@react-aria/interactions';
 import { useOverlay, DismissButton } from '@react-aria/overlays';
+import { useActiveSeasons } from 'backend/Games';
 
 // export const MenuButton = React.forwardRef(({ props }, ref) => {
 const MenuButton = (props) => {
@@ -78,8 +78,6 @@ function MenuPopup(props) {
         overlayRef
     );
 
-    const { toggleLogin } = useUser();
-
     // Wrap in <FocusScope> so that focus is restored back to the
     // trigger when the menu is closed. In addition, add hidden
     // <DismissButton> components at the start and end of the list
@@ -129,7 +127,11 @@ function MenuItem({ item, state, onAction, onClose, onClick }) {
     let { focusProps } = useFocus({ onFocusChange: setFocused });
 
     return (
-        <li className={linkStyles.linkWrap}>
+        <li
+            className={linkStyles.linkWrap}
+            onClick={() => {
+                item.props.onClick();
+            }}>
             {item.icon}
             <span className={linkStyles.linkLabel} data-visible>
                 {item.rendered}
@@ -143,18 +145,18 @@ MenuItem.propTypes = {
 };
 
 export const GameMenu = () => {
-    function onClick() {
-        alert('Hello World!');
-    }
+    const { activeSeasons, selectedSeason, setSelectedSeasonID } = useActiveSeasons();
 
-    return (
-        <MenuButton label="SelectedGame">
-            <Item onClick={onClick} icon={<UserCircle />}>
-                BBUS23
-            </Item>
-            <Item onClick={onClick} icon={<Gear weight="fill" />}>
-                Survivor30
-            </Item>
-        </MenuButton>
-    );
+    const seasonList = activeSeasons.map((season) => (
+        <Item
+            key={season.id}
+            onClick={() => {
+                setSelectedSeasonID(season.id);
+            }}
+            icon={<UserCircle />}>
+            {season.shortName}
+        </Item>
+    ));
+
+    return <MenuButton label={selectedSeason.shortName}>{seasonList}</MenuButton>;
 };
