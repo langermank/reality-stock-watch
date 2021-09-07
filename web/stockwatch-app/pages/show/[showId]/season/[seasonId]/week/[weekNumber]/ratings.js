@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRouter } from 'next/router';
 import { useWeek } from 'backend/Games';
 import { union, difference } from 'lodash';
@@ -7,16 +9,18 @@ import styles from '../../../../../../../styles/admin-ratings.module.scss';
 const Ratings = () => {
     const router = useRouter();
     const { seasonId, weekNumber } = router.query;
-    const { week, averages, setExtraTags, setRating, addPlayer, removePlayer } = useWeek(
-        seasonId,
-        weekNumber
-    );
+    const {
+        week,
+        averages,
+        setExtraTags,
+        setRating,
+        addPlayer,
+        removePlayer,
+        hasExtraTag,
+        toggleExtraTag,
+    } = useWeek(seasonId, weekNumber);
 
-    const extraItems = week.contestantExtraTags.map((name, setExtraState) => (
-        <li key={name} onClick={setExtraState}>
-            {name}
-        </li>
-    ));
+    const extraItems = week.contestantExtraTags.map((name) => <span key={name}>{name}</span>);
 
     // const contestantHasExtraItem =
 
@@ -29,8 +33,12 @@ const Ratings = () => {
     const tableContestants = week.contestants.map((contestant) => {
         let cells = [];
 
-        const extraItems = week.contestantExtraTags.map((name, setExtraState, istrue = null) => (
-            <li key={name} onClick={setExtraState} data-true={istrue} className={styles.extraItem}>
+        const toggleExtraItems = week.contestantExtraTags.map((name, istrue = null) => (
+            <li
+                key={name}
+                onClick={toggleExtraTag(contestant.contestantID, { extraItems })}
+                data-true={istrue}
+                className={styles.extraItem}>
                 {name}
             </li>
         ));
@@ -54,13 +62,15 @@ const Ratings = () => {
             //     }>
             //     {name} -
             // </button>
-            <li key={name}>{name}</li>
+            <li
+                key={name}
+                onClick={toggleExtraTag(contestant.contestantID, contestant.extraTags)}
+                // data-true={istrue}
+                className={styles.extraItem}>
+                {name}
+            </li>
         ));
-        cells.push(
-            <td key="extras">
-                <ul>{extras}</ul>
-            </td>
-        );
+        cells.push(<td key="extras">{/* <ul>{extras}</ul> */}</td>);
         // const testFilter = extras.filter(name)
         const availableExtras = difference(week.contestantExtraTags, contestant.extraTags).map(
             (name) => (
@@ -73,11 +83,7 @@ const Ratings = () => {
                 </button>
             )
         );
-        cells.push(
-            <td key="available-extras">
-                <span>{extraItems}</span>
-            </td>
-        );
+        cells.push(<td key="available-extras">{/* <span>{extraItems}</span> */}</td>);
         for (let i in week.players) {
             let playerID = week.players[i].playerID;
             let contestantID = contestant.contestantID;
