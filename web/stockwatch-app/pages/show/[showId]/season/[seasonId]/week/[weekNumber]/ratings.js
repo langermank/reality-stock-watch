@@ -3,8 +3,8 @@
 import { useRouter } from 'next/router';
 import { useWeek } from 'backend/Games';
 import { union, difference } from 'lodash';
-import Input from '../../../../../../../components/Input.jsx';
-import styles from '../../../../../../../styles/admin-ratings.module.scss';
+import Input from 'components/Input.jsx';
+import styles from 'styles/admin-ratings.module.scss';
 
 const Ratings = () => {
     const router = useRouter();
@@ -33,13 +33,13 @@ const Ratings = () => {
     const tableContestants = week.contestants.map((contestant) => {
         let cells = [];
 
-        const toggleExtraItems = week.contestantExtraTags.map((name, istrue = null) => (
+        const toggleExtraItems = week.contestantExtraTags.map((name) => (
             <li
                 key={name}
-                onClick={toggleExtraTag(contestant.contestantID, { extraItems })}
-                data-true={istrue}
+                onClick={() => toggleExtraTag(contestant.contestantID, name)}
+                data-true={hasExtraTag(contestant.contestantID, name)}
                 className={styles.extraItem}>
-                {name}
+                {hasExtraTag(contestant.contestantID, name) ? '*' : ''} {name}
             </li>
         ));
 
@@ -64,7 +64,7 @@ const Ratings = () => {
             // </button>
             <li
                 key={name}
-                onClick={toggleExtraTag(contestant.contestantID, contestant.extraTags)}
+                onClick={() => toggleExtraTag(contestant.contestantID, name)}
                 // data-true={istrue}
                 className={styles.extraItem}>
                 {name}
@@ -83,7 +83,7 @@ const Ratings = () => {
                 </button>
             )
         );
-        cells.push(<td key="available-extras">{/* <span>{extraItems}</span> */}</td>);
+        cells.push(<td key="available-extras">{<span>{toggleExtraItems}</span>}</td>);
         for (let i in week.players) {
             let playerID = week.players[i].playerID;
             let contestantID = contestant.contestantID;
