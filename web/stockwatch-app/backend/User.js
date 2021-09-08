@@ -115,7 +115,7 @@ function useUser() {
         setMockUserID,
         clearMockUser,
         mockUser,
-        effectiveUser: mockUser,
+        user: mockUser,
     };
 }
 

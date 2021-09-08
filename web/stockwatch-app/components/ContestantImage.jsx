@@ -2,11 +2,15 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from '../styles/components/contestantImage.module.scss';
 
-// pull data from contestant query
-const contestantName = 'Katie';
-const contestantImage = '/';
-
-const ContestantImage = ({ aspectRatio, height, width, className, otherProps }) => {
+const ContestantImage = ({
+    aspectRatio,
+    height,
+    width,
+    className,
+    contestantName,
+    contestantImage,
+    otherProps,
+}) => {
     return (
         <img
             alt={contestantName}
@@ -25,6 +29,8 @@ ContestantImage.propTypes = {
     height: PropTypes.string,
     width: PropTypes.string,
     className: PropTypes.string,
+    contestantName: PropTypes.string,
+    contestantImage: PropTypes.string,
 };
 
 ContestantImage.defaultProps = {

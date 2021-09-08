@@ -249,6 +249,39 @@ const queries = {
             return player;
         },
     },
+    playerByUserSeason: {
+        query: /* GraphQL */ `
+            query player($userID: ID!, $seasonID: ID!) {
+                playersByUser(userID: $userID, filter: { seasonID: { eq: $seasonID } }) {
+                    items {
+                        id
+                        bankBalance
+                        netWorth
+                        stocks {
+                            items {
+                                contestantID
+                                shares
+                            }
+                        }
+                    }
+                }
+            }
+        `,
+        convert: (data) => {
+            if (data.playersByUser.items.length == 0) return {};
+            const item = data.playersByUser.items[0];
+            let player = {
+                id: item.id,
+                netWorth: (parseFloat(item.netWorth) / 100).toFixed(2),
+                bankBalance: (parseFloat(item.bankBalance) / 100).toFixed(2),
+                stocks: {},
+            };
+            for (let i in item.stocks.items) {
+                player.stocks[item.stocks.items[i].contestantID] = item.stocks.items[i].shares;
+            }
+            return player;
+        },
+    },
     transactionsByPlayer: {
         query: /* GraphQL */ `
             query transactionsByPlayer($playerID: ID!) {
@@ -397,6 +430,7 @@ async function Fetch(requestType, variables) {
         case 'show':
         case 'season':
         case 'week':
+        case 'playerByUserSeason':
             console.log('fetch before', requestType, variables);
             try {
                 result = convert(
