@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import Fetch from 'backend/graphql/Fetch';
 import Update from 'backend/graphql/Update';
 import lookup from './formulaLookup';
-import { mapValues, reduce, unionBy, filter, pull } from 'lodash';
+import { mapValues, reduce, unionBy, uniq, filter, pull } from 'lodash';
 
 function useTransactionsByPlayer(playerID) {
     const { data, mutate, error } = useSWR(
@@ -35,8 +35,22 @@ function usePlayer(playerID) {
     return { player: data, loading, error, mutate };
 }
 
+function useStocks(userID, seasonID) {
+    const { data, mutate, error } = useSWR(
+        userID && seasonID ? ['playerByUserSeason', userID, seasonID] : null,
+        (action, userID, seasonID) => Fetch(action, { userID, seasonID }),
+        {
+            initialData: { stocks: [] },
+        }
+    );
+    useEffect(() => {
+        mutate();
+    }, [userID, seasonID]);
+    const loading = !data && !error;
+    return { stocks: data, loading, error, mutate };
+}
+
 function useWeek(seasonId, weekNumber) {
-    console.log('useWeek', seasonId, weekNumber);
     const { data, mutate, error } = useSWR(
         weekNumber !== undefined ? ['week', seasonId, weekNumber] : null,
         (action, seasonId, weekNumber) => Fetch(action, { seasonId, weekNumber }),
@@ -111,9 +125,7 @@ function useWeek(seasonId, weekNumber) {
         });
     }
     function addPlayer(playerID) {
-        console.log('add player', playerID);
         Fetch('playerBrief', { playerID }).then((playerBrief) => {
-            console.log(playerBrief);
             const players = unionBy(
                 [
                     {
@@ -147,8 +159,6 @@ function useWeek(seasonId, weekNumber) {
     if (error) {
         console.log('useWeek SWR error', error);
     }
-
-    console.log('useWeek data', data);
 
     useEffect(() => {
         mutate();
@@ -218,7 +228,12 @@ function useProjections(seasonID, weekNumber) {
                 contestantAverageRatings,
                 price,
             } = data[i];
-            if (contestantStatus == 'evicted' && contestantWeekEvicted <= weekNumber) {
+            if (
+                contestantStatus == 'evicted' &&
+                (Number.isNaN(contestantWeekEvicted) || contestantWeekEvicted <= weekNumber)
+            ) {
+                pull(contestantIDs, contestantID);
+                delete contestants[contestantID];
                 continue;
             }
             contestantIDs.push(contestantID);
@@ -276,7 +291,7 @@ function useProjections(seasonID, weekNumber) {
         mutate();
     }, []);
     const loading = !data && !error;
-    console.log('useProjections', data);
+    contestantIDs = uniq(contestantIDs);
     return { contestantIDs, contestants, prices: data, loading };
 }
 
@@ -316,8 +331,7 @@ function useActiveSeasons() {
     }, [selectedSeasonID]);
 
     const loading = !activeSeasons && !error;
-    console.log('useActiveSeaons', activeSeasons, selectedSeason);
     return { activeSeasons, selectedSeason, selectedSeasonID, setSelectedSeasonID, loading };
 }
 
-export { useTransactionsByPlayer, usePlayer, useWeek, useProjections, useActiveSeasons };
+export { useTransactionsByPlayer, usePlayer, useWeek, useProjections, useActiveSeasons, useStocks };

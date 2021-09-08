@@ -249,6 +249,39 @@ const queries = {
             return player;
         },
     },
+    playerByUserSeason: {
+        query: /* GraphQL */ `
+            query player($userID: ID!, $seasonID: ID!) {
+                playersByUser(userID: $userID, filter: { seasonID: { eq: $seasonID } }) {
+                    items {
+                        id
+                        bankBalance
+                        netWorth
+                        stocks {
+                            items {
+                                contestantID
+                                shares
+                            }
+                        }
+                    }
+                }
+            }
+        `,
+        convert: (data) => {
+            if (data.playersByUser.items.length == 0) return {};
+            const item = data.playersByUser.items[0];
+            let player = {
+                id: item.id,
+                netWorth: (parseFloat(item.netWorth) / 100).toFixed(2),
+                bankBalance: (parseFloat(item.bankBalance) / 100).toFixed(2),
+                stocks: {},
+            };
+            for (let i in item.stocks.items) {
+                player.stocks[item.stocks.items[i].contestantID] = item.stocks.items[i].shares;
+            }
+            return player;
+        },
+    },
     transactionsByPlayer: {
         query: /* GraphQL */ `
             query transactionsByPlayer($playerID: ID!) {
@@ -387,7 +420,6 @@ const queries = {
 };
 
 async function Fetch(requestType, variables) {
-    console.log('Fetch', requestType, variables);
     const { query, convert } = queries[requestType];
     let result;
     switch (requestType) {
@@ -397,7 +429,7 @@ async function Fetch(requestType, variables) {
         case 'show':
         case 'season':
         case 'week':
-            console.log('fetch before', requestType, variables);
+        case 'playerByUserSeason':
             try {
                 result = convert(
                     (await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data
@@ -406,7 +438,6 @@ async function Fetch(requestType, variables) {
                 console.log('Fetch error', requestType, variables, err);
                 return {};
             }
-            console.log('fetch after', requestType, result);
             break;
         case 'transactionsByPlayer':
         case 'listShows':
@@ -416,7 +447,6 @@ async function Fetch(requestType, variables) {
                 let output = { nextToken: null, result: [] };
                 do {
                     let response;
-                    console.log('before graphql', requestType);
                     try {
                         response = (await API.graphql({ query, variables, authMode: 'AWS_IAM' }))
                             .data;
@@ -424,14 +454,13 @@ async function Fetch(requestType, variables) {
                         console.log('Fetch error', requestType, query, variables, err);
                         return [];
                     }
-                    console.log('after graphql', response);
                     output = convert(response, output.result);
                 } while (output.nextToken);
                 result = output.result;
             }
             break;
         default:
-            console.log('Unknown request type');
+            console.log('Unknown request type', requestType);
             result = null;
     }
     return result;

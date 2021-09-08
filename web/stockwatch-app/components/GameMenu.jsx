@@ -13,7 +13,7 @@ import { mergeProps } from '@react-aria/utils';
 import { FocusScope } from '@react-aria/focus';
 import { useFocus } from '@react-aria/interactions';
 import { useOverlay, DismissButton } from '@react-aria/overlays';
-import { useActiveSeasons } from 'backend/Games';
+import { useBackendContext } from 'backend/context';
 
 // export const MenuButton = React.forwardRef(({ props }, ref) => {
 const MenuButton = (props) => {
@@ -145,7 +145,7 @@ MenuItem.propTypes = {
 };
 
 export const GameMenu = () => {
-    const { activeSeasons, selectedSeason, setSelectedSeasonID } = useActiveSeasons();
+    const { activeSeasons, selectedSeason, setSelectedSeasonID } = useBackendContext();
 
     const seasonList = activeSeasons.map((season) => (
         <Item

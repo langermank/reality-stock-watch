@@ -1,10 +1,8 @@
-import { useUser } from 'backend/User';
+import { useBackendContext } from 'backend/context';
 import Button from './Button.jsx';
 
 export const MockUser = () => {
-    console.log('mockuser');
-    const { mockUser, setMockUserID, clearMockUser } = useUser();
-    console.log('mockuser', mockUser);
+    const { mockUser, setMockUserID, clearMockUser } = useBackendContext();
     return (
         <>
             <p>Mock user: {mockUser.displayName}</p>

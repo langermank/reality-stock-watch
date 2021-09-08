@@ -704,16 +704,13 @@ const lookup_table = [
 ];
 
 function lookup(from, to) {
-    console.log('lookup', from, to);
     const index = sortedIndexBy(
         lookup_table,
         { from, to },
         ({ from, to }) => (from - 1) * 10 + to - 1
     );
     if (!index) {
-        console.log('did not find');
-    } else {
-        console.log('found ', index);
+        console.log('lookup did not find', from, to);
     }
     return lookup_table[index];
 }

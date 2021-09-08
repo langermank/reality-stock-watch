@@ -55,7 +55,6 @@ const EMPTY_MOCK_USER = { userID: 0, displayName: 'None' };
 
 function useUser() {
     const [mockUserID, setMockUserID] = useState(0);
-    console.log('in useUser, mockUserID is', mockUserID);
     const {
         data: mockUser,
         mutate: mutateMockUser,
@@ -115,7 +114,7 @@ function useUser() {
         setMockUserID,
         clearMockUser,
         mockUser,
-        effectiveUser: mockUser,
+        user: mockUser,
     };
 }
 

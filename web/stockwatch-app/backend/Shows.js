@@ -14,7 +14,6 @@ function useShows() {
         mutate();
     }, []);
     const loading = !data && !error;
-    console.log('useShows', data);
     return { shows: data, loading };
 }
 
@@ -30,7 +29,6 @@ function useShow(showId) {
         mutate();
     }, [showId]);
     const loading = !data && !error;
-    console.log('useShow', data);
     return { show: data, loading };
 }
 
@@ -46,7 +44,6 @@ function useSeason(seasonId) {
         mutate();
     }, [seasonId]);
     const loading = !data && !error;
-    console.log('useSeason', data);
     return { season: data, loading };
 }
 
