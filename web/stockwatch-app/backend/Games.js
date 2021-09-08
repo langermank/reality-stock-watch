@@ -51,7 +51,6 @@ function useStocks(userID, seasonID) {
 }
 
 function useWeek(seasonId, weekNumber) {
-    console.log('useWeek', seasonId, weekNumber);
     const { data, mutate, error } = useSWR(
         weekNumber !== undefined ? ['week', seasonId, weekNumber] : null,
         (action, seasonId, weekNumber) => Fetch(action, { seasonId, weekNumber }),
@@ -126,9 +125,7 @@ function useWeek(seasonId, weekNumber) {
         });
     }
     function addPlayer(playerID) {
-        console.log('add player', playerID);
         Fetch('playerBrief', { playerID }).then((playerBrief) => {
-            console.log(playerBrief);
             const players = unionBy(
                 [
                     {
@@ -162,8 +159,6 @@ function useWeek(seasonId, weekNumber) {
     if (error) {
         console.log('useWeek SWR error', error);
     }
-
-    console.log('useWeek data', data);
 
     useEffect(() => {
         mutate();
@@ -273,7 +268,6 @@ function useProjections(seasonID, weekNumber) {
                     contestants[contestantID].previousPrice;
             }
         }
-        console.log('games before lookup ', contestants);
         for (let i in contestants) {
             let contestant = contestants[i];
             const rating = contestant.rating;
@@ -297,7 +291,6 @@ function useProjections(seasonID, weekNumber) {
         mutate();
     }, []);
     const loading = !data && !error;
-    console.log('useProjections', data);
     contestantIDs = uniq(contestantIDs);
     return { contestantIDs, contestants, prices: data, loading };
 }
@@ -338,7 +331,6 @@ function useActiveSeasons() {
     }, [selectedSeasonID]);
 
     const loading = !activeSeasons && !error;
-    console.log('useActiveSeaons', activeSeasons, selectedSeason);
     return { activeSeasons, selectedSeason, selectedSeasonID, setSelectedSeasonID, loading };
 }
 

@@ -420,7 +420,6 @@ const queries = {
 };
 
 async function Fetch(requestType, variables) {
-    console.log('Fetch', requestType, variables);
     const { query, convert } = queries[requestType];
     let result;
     switch (requestType) {
@@ -431,7 +430,6 @@ async function Fetch(requestType, variables) {
         case 'season':
         case 'week':
         case 'playerByUserSeason':
-            console.log('fetch before', requestType, variables);
             try {
                 result = convert(
                     (await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data
@@ -440,7 +438,6 @@ async function Fetch(requestType, variables) {
                 console.log('Fetch error', requestType, variables, err);
                 return {};
             }
-            console.log('fetch after', requestType, result);
             break;
         case 'transactionsByPlayer':
         case 'listShows':
@@ -450,7 +447,6 @@ async function Fetch(requestType, variables) {
                 let output = { nextToken: null, result: [] };
                 do {
                     let response;
-                    console.log('before graphql', requestType);
                     try {
                         response = (await API.graphql({ query, variables, authMode: 'AWS_IAM' }))
                             .data;
@@ -458,14 +454,13 @@ async function Fetch(requestType, variables) {
                         console.log('Fetch error', requestType, query, variables, err);
                         return [];
                     }
-                    console.log('after graphql', response);
                     output = convert(response, output.result);
                 } while (output.nextToken);
                 result = output.result;
             }
             break;
         default:
-            console.log('Unknown request type');
+            console.log('Unknown request type', requestType);
             result = null;
     }
     return result;

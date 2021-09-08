@@ -11,7 +11,6 @@ function Trade() {
         selectedSeason.id,
         selectedSeason.currentWeek
     );
-    console.log('selected season stocks', stocks);
     const stockCards = contestantIDs.map((contestantID) => (
         <StockCard
             key={contestantID}
