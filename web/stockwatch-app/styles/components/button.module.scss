@@ -4,10 +4,10 @@
 
 // base button component styles
 .btnBase {
-    background-color: var(--white);
+    // background-color: var(--white);
     border: 1px solid transparent;
     border-radius: var(--border-radius);
-    color: var(--slate12);
+    // color: var(--slate12);
     height: var(--btn-height); // a11y
     transition: var(--transition);
     display: inline-block;
@@ -121,7 +121,7 @@
     height: 2rem;
 }
 
-.btnBase[date-size='small'] {
+.btnBase[date-size='large'] {
     height: 3.5rem;
 }
 

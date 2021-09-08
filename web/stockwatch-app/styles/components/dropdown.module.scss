@@ -2,10 +2,11 @@
 @import '../_mixins.scss';
 
 .dropdownTrigger {
-    background: var(--slate4);
+    background-color: var(--slate4);
     color: var(--white);
 
-    &[aria-expanded='true'] {
+    &[aria-expanded='true'],
+    &[data-state='open'] {
         .dropdownTriggerIcon {
             transform: rotate(180deg);
         }
@@ -86,4 +87,23 @@ body[data-panel-state='closed'] {
     .dropdownMenu {
         width: 250px;
     }
+}
+
+// ratings page overrides
+
+.dropdownTriggerCustom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+    padding: 0;
+}
+
+.dropdownMenuCustom {
+    width: unset;
+}
+
+.checkmark {
+    margin-right: 0.5rem;
 }
