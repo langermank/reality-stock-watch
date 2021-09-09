@@ -4,6 +4,8 @@ import Button from 'components/Button';
 import styles from 'styles/trade.module.scss';
 import { useBackendContext } from 'backend/context';
 import { useProjections } from 'backend/Games';
+import { useState } from 'react';
+import { omit } from 'lodash';
 
 function Trade() {
     const { selectedSeason, user, stocks } = useBackendContext();
@@ -11,17 +13,82 @@ function Trade() {
         selectedSeason.id,
         selectedSeason.currentWeek
     );
-    const stockCards = contestantIDs.map((contestantID) => (
-        <StockCard
-            key={contestantID}
-            name={contestants[contestantID].nickname}
-            image={contestants[contestantID].image}
-            rating={contestants[contestantID].rating}
-            priceChange={contestants[contestantID].priceChange}
-            price={contestants[contestantID].currentPrice}
-            shares={stocks[contestantID] || 0}
-        />
-    ));
+    const [trades, setTrades] = useState({});
+    console.log(selectedSeason);
+    let tradeValue = 0;
+    let tradeLines = [];
+    let tradeBox = <></>;
+    for (let contestantID in trades) {
+        const lineValue = trades[contestantID] * contestants[contestantID].currentPrice;
+        tradeValue += lineValue;
+        tradeLines.push(
+            <li>
+                {contestants[contestantID].nickname} X {trades[contestantID]}:{' '}
+                {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                }).format(tradeValue)}
+                <button onClick={() => setTrades((trades) => omit(trades, [contestantID]))}>
+                    X
+                </button>
+            </li>
+        );
+    }
+    const remainingCash = stocks.bankBalance - tradeValue;
+    if (tradeValue) {
+        tradeLines.push(
+            <li>
+                Total:{' '}
+                {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                }).format(tradeValue)}
+            </li>
+        );
+        tradeBox = (
+            <div className={styles.fundsWrap}>
+                <div className={styles.funds}>
+                    <ul>{tradeLines}</ul>
+                    <p>
+                        Remaining Cash:{' '}
+                        {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                        }).format(remainingCash)}
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
+    const stockCards = contestantIDs.map((contestantID) => {
+        const price = contestants[contestantID].currentPrice;
+        const shares = stocks[contestantID] || 0;
+        const currentTrade = trades[contestantID] || 0;
+        const adjustedShares = shares + currentTrade;
+        const maxShares =
+            Math.floor(remainingCash / contestants[contestantID].currentPrice) +
+            shares +
+            currentTrade;
+        function setShares(newShares) {
+            console.log('set shares', contestantID, newShares);
+            setTrades({ ...trades, [contestantID]: newShares - shares });
+        }
+        return (
+            <StockCard
+                key={contestantID}
+                name={contestants[contestantID].nickname}
+                image={contestants[contestantID].image}
+                rating={contestants[contestantID].rating}
+                priceChange={contestants[contestantID].priceChange}
+                price={price}
+                shares={adjustedShares}
+                defaultShares={shares}
+                maxShares={maxShares}
+                setShares={setShares}
+            />
+        );
+    });
 
     return (
         <>
@@ -29,6 +96,12 @@ function Trade() {
             <h2>
                 {selectedSeason.name} week {selectedSeason.currentWeek}
             </h2>
+            <h3>
+                The market is {selectedSeason.marketStatus == 'open' ? 'open' : 'closed'} until{' '}
+                {selectedSeason.marketStatus == 'open'
+                    ? selectedSeason.nextMarketClose
+                    : selectedSeason.nextMarketOpen}
+            </h3>
             <div className={styles.tradesWrap}>
                 <div className={styles.stockCardsWrap}>
                     <ul className={styles.stockCards}>{stockCards}</ul>
@@ -54,7 +127,10 @@ function Trade() {
                                 </p>
                             </div>
                         </div>
-                        <Button variant="secondary" disabled>
+                        {tradeBox}
+                        <Button
+                            variant="secondary"
+                            disabled={selectedSeason.marketStatus !== 'open'}>
                             Submit trade
                         </Button>
                         {/* <div v-if="season.status === 'open'" classname="flex-col trade">

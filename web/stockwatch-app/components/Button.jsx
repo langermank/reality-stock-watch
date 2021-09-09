@@ -35,6 +35,7 @@ const Button = React.forwardRef(
                 data-size={size}
                 data-icon-position={!iconOnly && iconPosition}
                 data-width={!iconOnly && width}
+                disabled={disabled}
                 id={id}
                 {...other}>
                 {icon && <div className={styles.btnIcon}>{icon}</div>}

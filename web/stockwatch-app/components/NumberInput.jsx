@@ -52,8 +52,8 @@ function NumberField(props) {
     );
 }
 
-const NumberInput = ({ defaultValue }) => {
-    return <NumberField label="Stock quantity field" defaultValue={defaultValue} />;
+const NumberInput = (props) => {
+    return <NumberField label="Stock quantity field" {...props} />;
 };
 
 NumberInput.propTypes = {};

@@ -5,12 +5,22 @@ import ContestantImage from './ContestantImage';
 import NumberInput from './NumberInput';
 import clsx from 'clsx';
 import { Star, ArrowUp, ArrowDown } from 'phosphor-react';
-import styles from '../styles/stockcard.module.scss';
+import styles from 'styles/stockcard.module.scss';
 
 // FIXME: make configurable
 const imageUrlPrefix = 'https://dsw9arc6h9tqj.cloudfront.net';
 
-const StockCard = ({ name, image, rating, price, priceChange, shares }) => {
+const StockCard = ({
+    name,
+    image,
+    rating,
+    price,
+    priceChange,
+    defaultShares,
+    shares,
+    maxShares,
+    setShares,
+}) => {
     return (
         <li className={clsx(styles.stockCard)}>
             <div className={styles.hgDetails}>
@@ -52,11 +62,25 @@ const StockCard = ({ name, image, rating, price, priceChange, shares }) => {
                 </span>
             </div>
             <div className={styles.inputWrap}>
-                <Button variant="primaryGhost" className={styles.sell}>
+                <Button
+                    disabled={shares <= 0}
+                    variant="primaryGhost"
+                    className={styles.sell}
+                    onClick={() => setShares(0)}>
                     Sell all
                 </Button>
-                <NumberInput defaultValue={shares} />
-                <Button variant="primaryGhost" className={styles.buy}>
+                <NumberInput
+                    defaultValue={defaultShares}
+                    value={shares}
+                    minValue={0}
+                    maxValue={maxShares}
+                    onChange={(shares) => setShares(shares)}
+                />
+                <Button
+                    disabled={maxShares <= shares}
+                    variant="primaryGhost"
+                    className={styles.buy}
+                    onClick={() => setShares(maxShares)}>
                     Buy all
                 </Button>
             </div>
