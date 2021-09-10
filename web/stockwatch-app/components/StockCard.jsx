@@ -24,7 +24,7 @@ const StockCard = ({
     return (
         <li className={clsx(styles.stockCard)}>
             <div className={styles.hgDetails}>
-                <h4>{name}</h4>
+                <h3>{name}</h3>
             </div>
             <ContestantImage
                 height="85"
@@ -35,14 +35,14 @@ const StockCard = ({
             />
             <div className={styles.hgRating}>
                 <span className={styles.ratingWrap}>
-                    <h3 className={clsx(styles.numWrap, styles.flexRow)}>
+                    <span className={clsx(styles.numWrap, styles.flexRow)}>
                         <Star className={styles.hgStar} weight="fill" />
                         <span className={styles.hgStarRating}>{rating}</span>
                         <span className={styles.hgStarOutOf}>/10</span>
-                    </h3>
+                    </span>
                 </span>
             </div>
-            <div className={clsx(styles.hgPrice, styles.redBg)}>
+            <div className={clsx(styles.hgPrice, priceChange > 0 ? styles.greenBg : styles.redBg)}>
                 <span className={styles.priceWrap}>
                     <h3>
                         {new Intl.NumberFormat('en-US', {
