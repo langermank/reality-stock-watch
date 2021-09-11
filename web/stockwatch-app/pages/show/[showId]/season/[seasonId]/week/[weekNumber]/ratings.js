@@ -43,6 +43,7 @@ const Ratings = () => {
                     className={clsx(
                         dropdownStyles.dropdownTrigger,
                         buttonStyles.btnBase,
+                        buttonStyles.btnIcon,
                         dropdownStyles.dropdownTriggerCustom
                     )}>
                     <CaretDown className={dropdownStyles.dropdownTriggerIcon} />

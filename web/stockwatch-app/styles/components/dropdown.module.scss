@@ -95,9 +95,8 @@ body[data-panel-state='closed'] {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 2rem;
-    width: 2rem;
-    padding: 0;
+    width: var(--btn-height);
+    flex: 1 0 auto;
 }
 
 .dropdownMenuCustom {
