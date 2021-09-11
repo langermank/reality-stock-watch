@@ -28,6 +28,7 @@
         position: fixed;
         top: 70px;
         height: calc(100vh - 70px);
+        overflow: scroll;
     }
 
     // toggle nav

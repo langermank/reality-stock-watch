@@ -68,25 +68,28 @@ const Ratings = () => {
             </DropdownMenu.Root>
         );
 
-        const toggleExtraItems = week.contestantExtraTags.map((name) => (
-            <li
-                key={name}
-                onClick={() => toggleExtraTag(contestant.contestantID, name)}
-                data-true={hasExtraTag(contestant.contestantID, name)}
-                className={styles.extraItem}>
-                {hasExtraTag(contestant.contestantID, name) ? '*' : ''} {name}
-            </li>
-        ));
+        // const toggleExtraItems = week.contestantExtraTags.map((name) => (
+        //     <li
+        //         key={name}
+        //         onClick={() => toggleExtraTag(contestant.contestantID, name)}
+        //         data-true={hasExtraTag(contestant.contestantID, name)}
+        //         className={styles.extraItem}>
+        //         {hasExtraTag(contestant.contestantID, name) ? '*' : ''} {name}
+        //     </li>
+        // ));
 
-        const extraItemTag = week.contestantExtraTags.map((name) => (
-            <span key={name} className={styles.extraItemTag}>
-                {hasExtraTag(contestant.contestantID, name) ? name : null}
-            </span>
-        ));
+        const extraItemTag = week.contestantExtraTags.map(
+            (name) =>
+                hasExtraTag(contestant.contestantID, name) && (
+                    <span key={name} className={styles.extraItemTag}>
+                        {name}
+                    </span>
+                )
+        );
 
         cells.push(<td key="extras">{extraItemsDropdown}</td>);
 
-        cells.push(<td key="available-extras">{<span>{toggleExtraItems}</span>}</td>);
+        // cells.push(<td key="available-extras">{<span>{toggleExtraItems}</span>}</td>);
         for (let i in week.players) {
             let playerID = week.players[i].playerID;
             let contestantID = contestant.contestantID;
@@ -110,10 +113,10 @@ const Ratings = () => {
         }
         cells.push(<td key="average">{averages[contestant.contestantID]}</td>);
         return (
-            <tr key={contestant.contestantID}>
-                <th>
+            <tr key={contestant.contestantID} className={styles.tableRow}>
+                <th className={styles.contestantNameWrap}>
                     {contestant.contestantNickName}
-                    {extraItemTag}
+                    <span className={styles.extraTagWrap}>{extraItemTag}</span>
                 </th>
                 {cells}
             </tr>
@@ -128,11 +131,10 @@ const Ratings = () => {
             <h3>Current week: {week.currentWeek}</h3>
             {marketStatus}
             <table className={styles.table}>
-                <thead>
-                    <tr key="heading">
-                        <th key="rowheading"></th>
+                <thead className={styles.tableHeader}>
+                    <tr key="heading" className={styles.tableRow}>
+                        <th key="rowheading">Contestants</th>
                         <th key="extras">Extras</th>
-                        <th key="actions">Actions</th>
                         {tableHeadings}
                         <th key="average">Average</th>
                     </tr>
