@@ -15,7 +15,7 @@
     // border: solid 1px $gray-hint;
     // box-shadow: 1px 1px 0px $gray-hint;
     grid-template-columns: 76px auto auto; // 80px auto
-    grid-gap: 0.5rem;
+    grid-gap: 1rem;
     grid-auto-flow: dense;
     overflow: hidden;
     background: var(--bg-one-up);
@@ -59,15 +59,17 @@
 
         .hgStarRating {
             margin-right: 2px;
+            font-weight: var(--font-weight-bold);
         }
 
         .hgStarOutOf {
-            font-size: 1rem;
+            font-size: 0.75rem;
             letter-spacing: 0.005em;
         }
 
         .numWrap {
             align-items: baseline;
+            font-size: var(--h3);
         }
     }
 
@@ -98,14 +100,16 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
 
         .buy {
-            margin-right: 0.5rem;
+            // margin-right: 0.5rem;
             white-space: nowrap;
         }
 
         .sell {
-            margin-left: 0.5rem;
+            // margin-left: 0.5rem;
             white-space: nowrap;
         }
     }

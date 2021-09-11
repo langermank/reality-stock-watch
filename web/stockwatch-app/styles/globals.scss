@@ -22,6 +22,10 @@ body {
     color: var(--slate12);
 }
 
+img {
+    max-width: unset;
+}
+
 ul,
 ol {
     list-style: none;
