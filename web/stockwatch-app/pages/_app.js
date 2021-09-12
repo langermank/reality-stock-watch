@@ -4,6 +4,7 @@ import { ArrowLineLeft, ArrowLineRight } from 'phosphor-react';
 import { SSRProvider } from '@react-aria/ssr';
 import Head from 'next/head';
 import Logo from '../components/SWLogo';
+import LogoNav from '../components/SWLogoNav';
 import clsx from 'clsx';
 import styles from '../styles/app.module.scss';
 import dynamic from 'next/dynamic';
@@ -32,7 +33,7 @@ function MyApp({ Component, pageProps }) {
                     </button> */}
                         <PanelToggle mobileToggle />
                         <a href="/" className={clsx(styles.navLogo, styles.full)}>
-                            <Logo />
+                            <LogoNav />
                         </a>
                     </aside>
                     <Navbar className={styles.navGrid} />
