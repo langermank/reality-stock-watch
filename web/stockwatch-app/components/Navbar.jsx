@@ -7,7 +7,7 @@ import { UserMenu } from './UserMenu';
 import { MockUser } from './MockUser';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
-import { Medal, ChartPie, Coin, Lock } from 'phosphor-react';
+import { Medal, ChartPie, Coin, Lock, Diamond } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 import clsx from 'clsx';
 
@@ -26,6 +26,15 @@ export const Navbar = ({ className }) => {
                 <ul className={styles.sidebarNavList}>
                     <li>
                         <GameMenu />
+                    </li>
+                    <li>
+                        <Link href="/games" passHref>
+                            <NavLink
+                                icon={<Diamond weight="fill" />}
+                                dataActive={router.pathname == '/games'}
+                                linkText="Games"
+                            />
+                        </Link>
                     </li>
                     <li>
                         <Link href="/trade" passHref>
