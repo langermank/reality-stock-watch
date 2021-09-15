@@ -43,11 +43,22 @@ function useStocks(userID, seasonID) {
             initialData: { stocks: [] },
         }
     );
+    const playerID = data.id;
+
     useEffect(() => {
         mutate();
     }, [userID, seasonID]);
     const loading = !data && !error;
-    return { stocks: data, loading, error, mutate };
+
+    function trade(lines) {
+        Update('trade', { playerID, lines }).then((result) => {
+            if (result.netWorth) {
+                mutate();
+            }
+        });
+    }
+
+    return { stocks: data, trade, loading, error, mutate };
 }
 
 function useWeek(seasonId, weekNumber) {

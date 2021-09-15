@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { omit } from 'lodash';
 
 function Trade() {
-    const { selectedSeason, user, stocks } = useBackendContext();
+    const { selectedSeason, user, stocks, trade } = useBackendContext();
     const { contestantIDs, contestants } = useProjections(
         selectedSeason.id,
         selectedSeason.currentWeek
@@ -17,13 +17,24 @@ function Trade() {
     console.log(selectedSeason);
     let tradeValue = 0;
     let tradeLines = [];
+    let lines = [];
     let tradeBox = <></>;
     for (let contestantID in trades) {
-        const lineValue = trades[contestantID] * contestants[contestantID].currentPrice;
+        const currentPrice = contestants[contestantID].currentPrice;
+        const lineValue = trades[contestantID] * currentPrice;
+        lines.push({
+            contestantID,
+            quantity: trades[contestantID],
+        });
         tradeValue += lineValue;
         tradeLines.push(
-            <li>
-                {contestants[contestantID].nickname} X {trades[contestantID]}:{' '}
+            <li key={contestantID}>
+                {contestants[contestantID].nickname} (
+                {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                }).format(currentPrice)}
+                ) X {trades[contestantID]}:{' '}
                 {new Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: 'USD',
@@ -37,7 +48,7 @@ function Trade() {
     const remainingCash = stocks.bankBalance - tradeValue;
     if (tradeValue) {
         tradeLines.push(
-            <li>
+            <li key="total">
                 Total:{' '}
                 {new Intl.NumberFormat('en-US', {
                     style: 'currency',
@@ -130,7 +141,8 @@ function Trade() {
                         {tradeBox}
                         <Button
                             variant="secondary"
-                            disabled={selectedSeason.marketStatus !== 'open'}>
+                            disabled={selectedSeason.marketStatus !== 'open'}
+                            onClick={() => trade(lines)}>
                             Submit trade
                         </Button>
                         {/* <div v-if="season.status === 'open'" classname="flex-col trade">

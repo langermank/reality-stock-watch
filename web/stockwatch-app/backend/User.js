@@ -36,17 +36,24 @@ const falseUser = {
     username: null,
     email: null,
     nickname: null,
+    isAdmin: false,
 };
 async function fetchUser() {
     let cognitoUser = await getCurrentUser();
     let user = falseUser;
     if (cognitoUser) {
+        console.log('cognito user is ', cognitoUser);
         user = {
             loggedIn: true,
             username: cognitoUser.username,
             email: cognitoUser.attributes.email,
-            nickname: 'Not yet implemented ' + cognitoUser.username,
+            nickname: cognitoUser.username,
+            isAdmin:
+                cognitoUser.signInUserSession.accessToken.payload['cognito:groups'].includes(
+                    'admin'
+                ),
         };
+        console.log('parsed user is ', user);
     }
     return user;
 }
@@ -55,11 +62,7 @@ const EMPTY_MOCK_USER = { userID: 0, displayName: 'None' };
 
 function useUser() {
     const [mockUserID, setMockUserID] = useState(0);
-    const {
-        data: mockUser,
-        mutate: mutateMockUser,
-        error: errorMockUser,
-    } = useSWR(
+    const { data: mockUser, mutate: mutateMockUser } = useSWR(
         mockUserID ? ['profile', mockUserID] : null,
         (action, userID) => Fetch(action, { userID }),
         {
@@ -77,12 +80,12 @@ function useUser() {
         mutateMockUser();
     }, [mockUserID]);
 
-    /*
-    const { data, mutate, error } = useSWR('currentUser', fetchUser, { initialData: falseUser });
+    const { data: authenticatedUser, mutate } = useSWR('currentUser', fetchUser, {
+        initialData: falseUser,
+    });
 
-    const loading = !data && !error;
     function toggleLogin() {
-        if (data && data.loggedIn) {
+        if (authenticatedUser && authenticatedUser.loggedIn) {
             Auth.signOut();
         } else {
             Auth.federatedSignIn();
@@ -105,16 +108,17 @@ function useUser() {
             Hub.remove('auth', listen);
         };
     }, [listen]);
-    */
-    function toggleLogin() {
-        console.log('Login temporarily disabled');
-    }
+
+    const effectiveUser = mockUser.userID ? mockUser : authenticatedUser;
+
     return {
         toggleLogin,
         setMockUserID,
+        authenticatedUser,
         clearMockUser,
         mockUser,
-        user: mockUser,
+        user: effectiveUser,
+        isAdmin: authenticatedUser && authenticatedUser.isAdmin,
     };
 }
 

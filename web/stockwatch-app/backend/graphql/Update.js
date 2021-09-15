@@ -37,6 +37,20 @@ const mutations = {
             return data.updateWeek;
         },
     },
+    trade: {
+        mutation: /* GraphQL */ `
+            mutation trade($playerID: ID!, $lines: AWSJSON!) {
+                trade(input: { playerID: $playerID, lines: $lines }) {
+                    message
+                    bankBalance
+                    netWorth
+                }
+            }
+        `,
+        convert: (data) => {
+            return data.trade;
+        },
+    },
 };
 
 async function Update(requestType, variables) {
@@ -47,6 +61,7 @@ async function Update(requestType, variables) {
         case 'weekContestants':
         case 'weekRatings':
         case 'weekPlayers':
+        case 'trade':
             console.log('mutate before', requestType, variables);
             result = convert(
                 (await API.graphql({ query: mutation, variables, authMode: 'AWS_IAM' })).data
