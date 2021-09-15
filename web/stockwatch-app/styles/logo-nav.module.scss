@@ -1,0 +1,23 @@
+.logoText,
+.logoChevron,
+.logoS {
+    fill: var(--white);
+}
+
+body[data-panel-state='closed'] {
+    .logoFull {
+        display: none;
+    }
+
+    .logoMini {
+        display: block;
+    }
+}
+
+.logoMini {
+    display: none;
+}
+
+.hideLogoText {
+    display: none;
+}

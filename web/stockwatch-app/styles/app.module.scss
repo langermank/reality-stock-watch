@@ -1,6 +1,4 @@
-@use './_variables.scss';
 @import 'include-media/dist/_include-media.scss';
-// @import (reference) './_mixins.less';
 
 .appWrapper {
     min-height: 100%;
@@ -8,17 +6,6 @@
     grid-template:
         'aside' 70px
         'content' auto / auto;
-
-    // handling with media queries to reduce layout render bouncing
-    aside {
-        padding: 0.5rem 1rem;
-        display: flex;
-        align-items: center;
-
-        .navLogo {
-            margin-left: auto;
-        }
-    }
 
     #mobile-collapse-btn {
         display: block;
@@ -28,6 +15,7 @@
         position: fixed;
         top: 70px;
         height: calc(100vh - 70px);
+        overflow: scroll;
     }
 
     // toggle nav
@@ -38,28 +26,10 @@
         z-index: 6;
         background: var(--navbar-background);
         border-right: var(--navbar-border);
-
-        &.mini {
-            padding: 1rem 0;
-        }
-    }
-
-    .navLogo {
+        padding: 1rem;
         display: flex;
-
-        svg {
-            height: 50px;
-        }
-
-        // container positioning
-        &.mini {
-            justify-content: center;
-        }
-
-        // container positioning
-        &.full {
-            justify-content: left;
-        }
+        align-items: center;
+        justify-content: center;
     }
 
     .main {
@@ -80,19 +50,6 @@
             'sidebar content';
         grid-template-rows: 70px auto;
         grid-template-columns: auto 9fr;
-
-        // reset mobile design
-        aside {
-            // position: relative;
-            padding: 1rem 0 1rem 0.5rem;
-            display: block;
-            top: 0;
-            position: sticky;
-
-            .navLogo {
-                margin: unset;
-            }
-        }
 
         nav {
             top: 70px;
