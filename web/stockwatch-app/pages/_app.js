@@ -9,6 +9,8 @@ import clsx from 'clsx';
 import styles from '../styles/app.module.scss';
 import dynamic from 'next/dynamic';
 import { Provider } from 'backend/context';
+import { useUser } from '/backend/User';
+import { NavbarLanding } from 'components/NavbarLanding';
 
 // const PanelToggle = dynamic(() => import('../components/PanelToggle'), {
 //     ssr: false,
@@ -18,6 +20,9 @@ function MyApp({ Component, pageProps }) {
     const PanelToggle = dynamic(() => import('../components/PanelToggle'), {
         ssr: false,
     });
+    const { user } = useUser();
+    const nav = !user || !user.loggedIn ? <NavbarLanding /> : <Navbar className={styles.navGrid} />;
+
     return (
         <Provider>
             <SSRProvider>
@@ -36,8 +41,9 @@ function MyApp({ Component, pageProps }) {
                             <LogoNav />
                         </a>
                     </aside>
-                    <Navbar className={styles.navGrid} />
-
+                    {/* <Navbar className={styles.navGrid} />
+                    <NavbarLanding /> */}
+                    {nav}
                     <main className={styles.main}>
                         <Component {...pageProps} />
                     </main>
