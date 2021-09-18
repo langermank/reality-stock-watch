@@ -106,7 +106,7 @@ const queries = {
             };
         },
     },
-    profile: {
+    profileFull: {
         query: /* GraphQL */ `
             query profile($userID: ID!) {
                 getUser(id: $userID) {
@@ -163,6 +163,36 @@ const queries = {
                     profile.completedGames.push(game);
                 }
             });
+            return profile;
+        },
+    },
+    profileSummary: {
+        query: /* GraphQL */ `
+            query profile($email: String) {
+                profile(email: $email) {
+                    id
+                    rank
+                    netWorth
+                    isBanned
+                    email
+                    displayName
+                    avatarID
+                    isAdmin
+                }
+            }
+        `,
+        convert: (data) => {
+            console.log('within fetch, profile data is ', data);
+            let profile = {
+                id: data.profile.id,
+                rank: parseInt(data.profile.rank),
+                isBanned: parseInt(data.profile.isBanned),
+                isAdmin: parseInt(data.profile.isAdmin),
+                email: data.profile.email,
+                avatarID: data.profile.avatarID,
+                displayName: data.profile.displayName,
+                netWorth: (parseFloat(data.profile.netWorth) / 100).toFixed(2),
+            };
             return profile;
         },
     },
@@ -423,7 +453,8 @@ async function Fetch(requestType, variables) {
     const { query, convert } = queries[requestType];
     let result;
     switch (requestType) {
-        case 'profile':
+        case 'profileFull':
+        case 'profileSummary':
         case 'player':
         case 'playerBrief':
         case 'show':

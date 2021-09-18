@@ -58,7 +58,13 @@ function useStocks(userID, seasonID) {
         });
     }
 
-    return { stocks: data, trade, loading, error, mutate };
+    return {
+        stocks: data,
+        trade,
+        stocksLoading: loading,
+        stocksError: error,
+        stocksMutate: mutate,
+    };
 }
 
 function useWeek(seasonId, weekNumber) {

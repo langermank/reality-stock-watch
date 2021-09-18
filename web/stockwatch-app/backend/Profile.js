@@ -1,20 +1,35 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import Fetch from './graphql/Fetch';
+import Update from './graphql/Update';
 
-function useProfile(userId) {
+function useProfileSummary(email) {
     const { data, mutate, error } = useSWR(
-        userId ? ['profile', userId] : null,
-        (action, userId) => Fetch(action, { userId }),
+        email ? ['profileSummary', email] : null,
+        (action, email) => Fetch(action, { email }),
         {
             initialData: { displayName: 'Loading...' },
         }
     );
     useEffect(() => {
+        console.log('useProfile useEffect ', email);
         mutate();
-    }, [userId]);
+    }, [email]);
+    function updateDisplayName(displayName) {
+        console.log('within updateDisplayName ', data.id);
+        Update('displayName', { userID: data.id, displayName }).then((record) => {
+            console.log('updated returned ', record);
+            mutate((data) => ({ ...data, displayName: record.displayName }));
+        });
+    }
     const loading = !data && !error;
-    return { profile: data, loading, error, mutate };
+    return {
+        profile: data,
+        profileLoading: loading,
+        profileError: error,
+        profileMutate: mutate,
+        updateDisplayName,
+    };
 }
 
-export { useProfile };
+export { useProfileSummary };

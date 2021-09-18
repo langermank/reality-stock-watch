@@ -1,6 +1,19 @@
 import { API } from 'backend/Configure';
 
 const mutations = {
+    displayName: {
+        mutation: /* GraphQL */ `
+            mutation updateUser($userID: ID!, $displayName: String!) {
+                updateUser(input: { displayName: $displayName, id: $userID }) {
+                    id
+                    displayName
+                }
+            }
+        `,
+        convert: (data) => {
+            return data.updateUser;
+        },
+    },
     weekContestants: {
         mutation: /* GraphQL */ `
             mutation updateWeek($weekId: ID!, $contestants: AWSJSON!) {
@@ -62,6 +75,7 @@ async function Update(requestType, variables) {
         case 'weekRatings':
         case 'weekPlayers':
         case 'trade':
+        case 'displayName':
             console.log('mutate before', requestType, variables);
             result = convert(
                 (await API.graphql({ query: mutation, variables, authMode: 'AWS_IAM' })).data

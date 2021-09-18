@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Hub, Auth } from 'backend/Configure';
-import Fetch from 'backend/graphql/Fetch';
+import { useProfileSummary } from 'backend/Profile';
 import useSWR from 'swr';
 
 // The Auth API has no way of checking if the user is logged in.
@@ -43,11 +43,14 @@ async function fetchUser() {
     let user = falseUser;
     if (cognitoUser) {
         console.log('cognito user is ', cognitoUser);
+        const identity = JSON.parse(cognitoUser.attributes.identities)[0];
         user = {
             loggedIn: true,
             username: cognitoUser.username,
             email: cognitoUser.attributes.email,
             nickname: cognitoUser.username,
+            provider: identity.providerName,
+            providerUserID: identity.userId,
             isAdmin:
                 cognitoUser.signInUserSession.accessToken.payload['cognito:groups'].includes(
                     'admin'
@@ -58,34 +61,18 @@ async function fetchUser() {
     return user;
 }
 
-const EMPTY_MOCK_USER = { userID: 0, displayName: 'None' };
-
 function useUser() {
-    const [mockUserID, setMockUserID] = useState(0);
-    const { data: mockUser, mutate: mutateMockUser } = useSWR(
-        mockUserID ? ['profile', mockUserID] : null,
-        (action, userID) => Fetch(action, { userID }),
-        {
-            initialData: EMPTY_MOCK_USER,
-        }
-    );
-    function clearMockUser() {
-        setMockUserID(0);
-    }
-    useEffect(() => {
-        if (mockUserID == 0) {
-            mutateMockUser(EMPTY_MOCK_USER, false);
-            return;
-        }
-        mutateMockUser();
-    }, [mockUserID]);
-
-    const { data: authenticatedUser, mutate } = useSWR('currentUser', fetchUser, {
+    const [mockUserEmail, setMockUserEmail] = useState(null);
+    const { data: authenticatedUser, mutate: mutateUser } = useSWR('currentUser', fetchUser, {
         initialData: falseUser,
     });
-
+    const profile = useProfileSummary(mockUserEmail || authenticatedUser.email);
+    const isLoggedIn = authenticatedUser && authenticatedUser.loggedIn;
+    function clearMockUser() {
+        setMockUserEmail(null);
+    }
     function toggleLogin() {
-        if (authenticatedUser && authenticatedUser.loggedIn) {
+        if (isLoggedIn) {
             Auth.signOut();
         } else {
             Auth.federatedSignIn();
@@ -95,7 +82,7 @@ function useUser() {
         switch (data.payload.event) {
             case 'signIn':
             case 'signOut':
-                mutate('currentUser');
+                mutateUser();
                 break;
             default:
             // Pass
@@ -103,21 +90,19 @@ function useUser() {
     }, []);
     useEffect(() => {
         Hub.listen('auth', listen);
-        mutate();
+        mutateUser();
         return () => {
             Hub.remove('auth', listen);
         };
     }, [listen]);
 
-    const effectiveUser = mockUser.userID ? mockUser : authenticatedUser;
-
     return {
+        ...profile,
         toggleLogin,
-        setMockUserID,
+        setMockUserEmail,
         authenticatedUser,
         clearMockUser,
-        mockUser,
-        user: effectiveUser,
+        isLoggedIn,
         isAdmin: authenticatedUser && authenticatedUser.isAdmin,
     };
 }

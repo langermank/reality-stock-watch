@@ -1,4 +1,4 @@
-import { useProfile } from '../../backend/ProfileBackend';
+import { useProfile } from 'backend/Profile';
 import { useRouter } from 'next/router';
 
 function renderGames(games) {

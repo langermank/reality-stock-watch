@@ -7,7 +7,8 @@ import { Lock } from 'phosphor-react';
 
 export const AdminInsert = () => {
     const router = useRouter();
-    const { mockUser, setMockUserID, clearMockUser, isAdmin } = useBackendContext();
+    const { profile, clearMockUser, setMockUserEmail, isAdmin } = useBackendContext();
+    console.log('in admininsert profile is ', profile);
     if (!isAdmin) {
         return <></>;
     }
@@ -23,12 +24,18 @@ export const AdminInsert = () => {
                 </Link>
             </li>
             <li>
-                <p>Mock user: {mockUser.displayName}</p>
-                <Button onClick={() => setMockUserID(3)}>Katie Langerman</Button>
-                <Button onClick={() => setMockUserID(4)}>Taran Armstrong</Button>
-                <Button onClick={() => setMockUserID(430)}>kdibeck0</Button>
-                <Button onClick={() => setMockUserID(1631)}>DerrellMVP</Button>
-                <Button onClick={() => setMockUserID(1425)}>Brad Keffer</Button>
+                <p>Mock user: {profile.displayName}</p>
+                <Button onClick={() => setMockUserEmail('langermank@gmail.com')}>
+                    Katie Langerman
+                </Button>
+                <Button onClick={() => setMockUserEmail('armstrongtaran@gmail.com')}>
+                    Taran Armstrong
+                </Button>
+                <Button onClick={() => setMockUserEmail('stocktonapt1@gmail.com')}>kdibeck0</Button>
+                <Button onClick={() => setMockUserEmail('jtspark98@gmail.com')}>DerrellMVP</Button>
+                <Button onClick={() => setMockUserEmail('kefferbrad@gmail.com')}>
+                    Brad Keffer
+                </Button>
                 <Button onClick={clearMockUser}>Clear</Button>
             </li>
         </>
