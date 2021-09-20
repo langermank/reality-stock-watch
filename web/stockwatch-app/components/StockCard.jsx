@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 import ContestantImage from './ContestantImage';
@@ -10,17 +9,8 @@ import styles from 'styles/stockcard.module.scss';
 // FIXME: make configurable
 const imageUrlPrefix = 'https://dsw9arc6h9tqj.cloudfront.net';
 
-const StockCard = ({
-    name,
-    image,
-    rating,
-    price,
-    priceChange,
-    defaultShares,
-    shares,
-    maxShares,
-    setShares,
-}) => {
+const StockCard = ({ name, image, rating, price, priceChange, shares, maxShares, setShares }) => {
+    console.log('stock card name', name, 'value', shares);
     return (
         <li className={clsx(styles.stockCard)}>
             <div className={styles.hgDetails}>
@@ -70,7 +60,6 @@ const StockCard = ({
                     Sell all
                 </Button>
                 <NumberInput
-                    defaultValue={defaultShares}
                     value={shares}
                     minValue={0}
                     maxValue={maxShares}

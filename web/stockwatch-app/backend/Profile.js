@@ -32,4 +32,33 @@ function useProfileSummary(email) {
     };
 }
 
-export { useProfileSummary };
+function useProfileFull(userID) {
+    const { data, mutate, error } = useSWR(
+        userID ? ['profileFull', userID] : null,
+        (action, userID) => Fetch(action, { userID }),
+        {
+            initialData: { displayName: 'Loading...' },
+            enrolledGames: [],
+            completedGames: [],
+        }
+    );
+    useEffect(() => {
+        mutate();
+    }, [userID]);
+    function joinGame(seasonID) {
+        console.log('top of join game ', seasonID);
+        Update('joinGame', { userID, seasonID }).then((record) => {
+            mutate();
+        });
+    }
+    const loading = !data && !error;
+    return {
+        joinGame,
+        profile: data,
+        profileLoading: loading,
+        profileError: error,
+        profileMutate: mutate,
+    };
+}
+
+export { useProfileSummary, useProfileFull };

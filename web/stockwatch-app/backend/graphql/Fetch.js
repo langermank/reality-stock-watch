@@ -158,9 +158,9 @@ const queries = {
                     netWorth: (parseFloat(player.netWorth) / 100).toFixed(2),
                 };
                 if (game.status == 'ended') {
-                    profile.enrolledGames.push(game);
-                } else {
                     profile.completedGames.push(game);
+                } else {
+                    profile.enrolledGames.push(game);
                 }
             });
             return profile;
@@ -287,6 +287,11 @@ const queries = {
                         id
                         bankBalance
                         netWorth
+                        season {
+                            startingBankBalance
+                            weeklyBankIncrease
+                            currentWeek
+                        }
                         stocks {
                             items {
                                 contestantID
@@ -300,10 +305,14 @@ const queries = {
         convert: (data) => {
             if (data.playersByUser.items.length == 0) return {};
             const item = data.playersByUser.items[0];
+            const startingBalance = parseFloat(item.season.startingBalance || '0');
+            const weeklyIncrease = parseFloat(item.season.weeklyIncrease || '0');
+            const week = parseInt(item.season.currentWeek || '1') - 1;
+            const extraCash = startingBalance + weeklyIncrease * week;
             let player = {
                 id: item.id,
-                netWorth: (parseFloat(item.netWorth) / 100).toFixed(2),
-                bankBalance: (parseFloat(item.bankBalance) / 100).toFixed(2),
+                netWorth: ((parseFloat(item.netWorth) + extraCash) / 100).toFixed(2),
+                bankBalance: ((parseFloat(item.bankBalance) + extraCash) / 100).toFixed(2),
                 stocks: {},
             };
             for (let i in item.stocks.items) {
