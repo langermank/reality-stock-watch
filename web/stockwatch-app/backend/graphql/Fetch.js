@@ -106,7 +106,7 @@ const queries = {
             };
         },
     },
-    profile: {
+    profileFull: {
         query: /* GraphQL */ `
             query profile($userID: ID!) {
                 getUser(id: $userID) {
@@ -158,11 +158,41 @@ const queries = {
                     netWorth: (parseFloat(player.netWorth) / 100).toFixed(2),
                 };
                 if (game.status == 'ended') {
-                    profile.enrolledGames.push(game);
-                } else {
                     profile.completedGames.push(game);
+                } else {
+                    profile.enrolledGames.push(game);
                 }
             });
+            return profile;
+        },
+    },
+    profileSummary: {
+        query: /* GraphQL */ `
+            query profile($email: String) {
+                profile(email: $email) {
+                    id
+                    rank
+                    netWorth
+                    isBanned
+                    email
+                    displayName
+                    avatarID
+                    isAdmin
+                }
+            }
+        `,
+        convert: (data) => {
+            console.log('within fetch, profile data is ', data);
+            let profile = {
+                id: data.profile.id,
+                rank: parseInt(data.profile.rank),
+                isBanned: parseInt(data.profile.isBanned),
+                isAdmin: parseInt(data.profile.isAdmin),
+                email: data.profile.email,
+                avatarID: data.profile.avatarID,
+                displayName: data.profile.displayName,
+                netWorth: (parseFloat(data.profile.netWorth) / 100).toFixed(2),
+            };
             return profile;
         },
     },
@@ -257,6 +287,11 @@ const queries = {
                         id
                         bankBalance
                         netWorth
+                        season {
+                            startingBankBalance
+                            weeklyBankIncrease
+                            currentWeek
+                        }
                         stocks {
                             items {
                                 contestantID
@@ -270,10 +305,14 @@ const queries = {
         convert: (data) => {
             if (data.playersByUser.items.length == 0) return {};
             const item = data.playersByUser.items[0];
+            const startingBalance = parseFloat(item.season.startingBalance || '0');
+            const weeklyIncrease = parseFloat(item.season.weeklyIncrease || '0');
+            const week = parseInt(item.season.currentWeek || '1') - 1;
+            const extraCash = startingBalance + weeklyIncrease * week;
             let player = {
                 id: item.id,
-                netWorth: (parseFloat(item.netWorth) / 100).toFixed(2),
-                bankBalance: (parseFloat(item.bankBalance) / 100).toFixed(2),
+                netWorth: ((parseFloat(item.netWorth) + extraCash) / 100).toFixed(2),
+                bankBalance: ((parseFloat(item.bankBalance) + extraCash) / 100).toFixed(2),
                 stocks: {},
             };
             for (let i in item.stocks.items) {
@@ -423,7 +462,8 @@ async function Fetch(requestType, variables) {
     const { query, convert } = queries[requestType];
     let result;
     switch (requestType) {
-        case 'profile':
+        case 'profileFull':
+        case 'profileSummary':
         case 'player':
         case 'playerBrief':
         case 'show':
