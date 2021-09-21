@@ -117,11 +117,12 @@
     }
 }
 
-.btnBase[date-size='small'] {
+.btnBase[data-size='small'] {
     height: 2rem;
+    padding: 0 0.5rem;
 }
 
-.btnBase[date-size='large'] {
+.btnBase[data-size='large'] {
     height: 3.5rem;
 }
 

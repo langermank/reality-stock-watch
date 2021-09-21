@@ -113,8 +113,16 @@
         td {
             padding: 1rem;
 
-            &:nth-of-type(even) {
-                background: var(--slate5);
+            // &:nth-of-type(even) {
+            //     background: var(--slate5);
+            // }
+
+            &:nth-of-type(1):not([style='background-color: pink']) {
+                background: paleturquoise;
+            }
+
+            &:nth-of-type(2):not([style='background-color: pink']) {
+                background: purple;
             }
         }
     }

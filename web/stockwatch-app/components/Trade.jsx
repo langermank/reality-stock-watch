@@ -6,6 +6,7 @@ import { useBackendContext } from 'backend/context';
 import { useProjections } from 'backend/Games';
 import { useState } from 'react';
 import { omit } from 'lodash';
+import { X } from 'phosphor-react';
 
 function tradeParams(contestants, stocks, trades) {
     const startingBalance = stocks.bankBalance;
@@ -54,7 +55,7 @@ function TradeBox({ remainingBalance, transactionLines, clearTrade }) {
     }
     const tradeLines = transactionLines.map(
         ({ contestantID, nickname, quantity, price, subtotal }) => (
-            <li key={contestantID}>
+            <li key={contestantID} className={styles.tradeItem}>
                 {nickname} (
                 {new Intl.NumberFormat('en-US', {
                     style: 'currency',
@@ -65,7 +66,14 @@ function TradeBox({ remainingBalance, transactionLines, clearTrade }) {
                     style: 'currency',
                     currency: 'USD',
                 }).format(subtotal)}
-                <button onClick={() => clearTrade(contestantID)}>X</button>
+                <Button
+                    variant="secondaryHint"
+                    iconOnly
+                    onClick={() => clearTrade(contestantID)}
+                    icon={<X />}
+                    size="small">
+                    Remove item
+                </Button>
             </li>
         )
     );
@@ -74,7 +82,7 @@ function TradeBox({ remainingBalance, transactionLines, clearTrade }) {
             <div className={styles.funds}>
                 <ul>{tradeLines}</ul>
                 <p>
-                    Remaining Cash:{' '}
+                    Remaining funds:{' '}
                     {new Intl.NumberFormat('en-US', {
                         style: 'currency',
                         currency: 'USD',

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../styles/components/dropdown.module.scss';
 import { useBackendContext } from 'backend/context';
 import Link from 'next/link';
