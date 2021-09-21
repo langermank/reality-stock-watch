@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import styles from '../styles/components/dropdown.module.scss';
-import { useUser } from '/backend/User';
+import { useBackendContext } from 'backend/context';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from './Button.jsx';
@@ -76,7 +76,7 @@ function MenuPopup(props) {
         overlayRef
     );
 
-    const { toggleLogin } = useUser();
+    const { toggleLogin } = useBackendContext();
 
     // Wrap in <FocusScope> so that focus is restored back to the
     // trigger when the menu is closed. In addition, add hidden
@@ -179,9 +179,10 @@ export const UserMenu = ({ href }) => {
         e.preventDefault();
         router.push(href);
     };
-    const { user, toggleLogin } = useUser();
+    const { authenticatedUser, user, toggleLogin, profile } = useBackendContext();
+
     // if not logged in show login button
-    if (!user || !user.loggedIn) {
+    if (!authenticatedUser || !authenticatedUser.loggedIn) {
         return (
             <Button
                 variant="primary"
@@ -196,17 +197,18 @@ export const UserMenu = ({ href }) => {
             </Button>
         );
     }
+
     // if logged in show user dropdown menu
-    // return (
-    <MenuButton label="Username">
-        <Item href="/profile/[userId]" onClick={handleClick} icon={<UserCircle />}>
-            Profile
-        </Item>
-        <Item href="/settings" onClick={handleClick} icon={<Gear weight="fill" />}>
-            Settings
-        </Item>
-    </MenuButton>;
-    // );
+    return (
+        <MenuButton label={profile.displayName}>
+            <Item href={'/profile/' + profile.id} onClick={handleClick} icon={<UserCircle />}>
+                Profile
+            </Item>
+            <Item href="/settings" onClick={handleClick} icon={<Gear weight="fill" />}>
+                Settings
+            </Item>
+        </MenuButton>
+    );
 };
 
 UserMenu.propTypes = {

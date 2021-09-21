@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 // import useHasMounted from '../hooks/useHasMounted';
 // import PanelToggle from './PanelToggle';
 import { UserMenu } from './UserMenu';
-import { MockUser } from './MockUser';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
 import { Medal, ChartPie, Coin, Lock, Diamond } from 'phosphor-react';

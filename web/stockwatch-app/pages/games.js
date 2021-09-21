@@ -1,28 +1,50 @@
-import React, { useState } from 'react';
-import Shows from '../components/AdminNavbar.jsx';
 import Link from 'next/link';
-import styles from '../styles/games.module.scss';
-import Button from '../components/Button.jsx';
+import styles from 'styles/games.module.scss';
+import Button from 'components/Button.jsx';
 import Image from 'next/image';
-import bb21 from '../public/bb21-game.svg';
-import bb22 from '../public/bb22-game.svg';
-import bbcan7 from '../public/bbcan7-game.svg';
-import bbcan8 from '../public/bbcan8-game.svg';
-import bbcan9 from '../public/bbcan9-game.svg';
-import upcoming from '../public/upcoming-game.svg';
+import bb21 from 'public/bb21-game.svg';
+import bb22 from 'public/bb22-game.svg';
+import bbcan7 from 'public/bbcan7-game.svg';
+import bbcan8 from 'public/bbcan8-game.svg';
+import bbcan9 from 'public/bbcan9-game.svg';
+import upcoming from 'public/upcoming-game.svg';
+import { useBackendContext } from 'backend/context';
+import { useProfileFull } from 'backend/Profile';
 
 function Games() {
+    const { activeSeasons, profile: profileSummary } = useBackendContext();
+    const { profile: profileFull, joinGame } = useProfileFull(profileSummary.id);
+
+    console.log('full profile', profileFull);
+
+    let enrolledGames = {};
+    for (let i in profileFull.enrolledGames) {
+        enrolledGames[profileFull.enrolledGames[i].seasonID] = profileFull.enrolledGames[i];
+    }
+
+    const currentGames = activeSeasons.map((season) => {
+        console.log('season', season);
+        const join = enrolledGames[season.id] ? (
+            <div>Joined</div>
+        ) : (
+            <Button variant="primary" onClick={() => joinGame(season.id)}>
+                Join game
+            </Button>
+        );
+        return (
+            <div key={season.shortName} className={styles.prevGame}>
+                <h3>{season.name}</h3>
+                <Image src={upcoming} alt="" width={200} height={200} layout="fixed" />
+                {join}
+            </div>
+        );
+    });
+
     return (
         <div className={styles.page}>
             <h1>Games</h1>
             <h2>Current games</h2>
-            <section className={styles.GameWrap}>
-                <div className={styles.prevGame}>
-                    <h3>Survivor 30</h3>
-                    <Image src={upcoming} alt="" width={200} height={200} layout="fixed" />
-                    <Button variant="primary">Join game</Button>
-                </div>
-            </section>
+            <section className={styles.GameWrap}>{currentGames}</section>
             <h3>Previous games</h3>
             <section className={styles.GameWrap}>
                 <div className={styles.prevGame}>

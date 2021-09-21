@@ -3,16 +3,17 @@ import { useRouter } from 'next/router';
 // import useStickyState from '../hooks/useStickyState';
 // import useHasMounted from '../hooks/useHasMounted';
 // import PanelToggle from './PanelToggle';
-import { UserMenu } from './UserMenu';
-import { MockUser } from './MockUser';
 import NavLink from './NavLink';
 import PropTypes from 'prop-types';
-import { Medal, ChartPie, Coin, Lock, Diamond } from 'phosphor-react';
+import { Medal, ChartPie, Coin, Diamond } from 'phosphor-react';
 import styles from '../styles/navbar.module.scss';
 import clsx from 'clsx';
 
+// Force some components to be rendered client-side.
 import dynamic from 'next/dynamic';
 const GameMenu = dynamic(() => import('./GameMenu').then((mod) => mod.GameMenu));
+const UserMenu = dynamic(() => import('./UserMenu').then((mod) => mod.UserMenu));
+const AdminInsert = dynamic(() => import('./AdminInsert').then((mod) => mod.AdminInsert));
 
 export const Navbar = ({ className }) => {
     const PanelToggle = dynamic(() => import('../components/PanelToggle'), {
@@ -76,20 +77,9 @@ export const Navbar = ({ className }) => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin" passHref>
-                            <NavLink
-                                icon={<Lock weight="fill" />}
-                                dataActive={router.pathname == '/admin'}
-                                linkText="Admin"
-                            />
-                        </Link>
-                    </li>
-                    <li>
                         <UserMenu />
                     </li>
-                    <li>
-                        <MockUser />
-                    </li>
+                    <AdminInsert />
                 </ul>
                 <PanelToggle className={styles.collapseBtn} desktopToggle />
             </nav>

@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
         ssr: false,
     });
     const { user } = useUser();
-    const nav = !user || !user.loggedIn ? <NavbarLanding /> : <Navbar className={styles.navGrid} />;
+    //const nav = !user || !user.loggedIn ? <NavbarLanding /> : <Navbar className={styles.navGrid} />;
 
     return (
         <Provider>
@@ -41,9 +41,8 @@ function MyApp({ Component, pageProps }) {
                             <LogoNav />
                         </a>
                     </aside>
-                    {/* <Navbar className={styles.navGrid} />
-                    <NavbarLanding /> */}
-                    {nav}
+                    <Navbar className={styles.navGrid} />
+                    {/*<NavbarLanding /> */}
                     <main className={styles.main}>
                         <Component {...pageProps} />
                     </main>
