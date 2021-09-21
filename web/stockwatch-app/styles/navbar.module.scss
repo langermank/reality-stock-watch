@@ -31,6 +31,10 @@ body[data-panel-state='closed'] {
     .native-collapse-wrap details summary {
         padding: 0.5em;
     }
+
+    * > {
+        flex: 1 0 auto;
+    }
 }
 
 .sidebarNavList {

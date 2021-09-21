@@ -60,6 +60,10 @@ body[data-panel-state='closed'] {
         @include visuallyHidden;
     }
 
+    .iconOnlyHack > div:first-child {
+        margin-left: 0 !important;
+    }
+
     .dropdownTriggerIcon {
         margin-left: 0;
     }

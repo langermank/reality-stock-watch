@@ -18,6 +18,9 @@ export const Navbar = ({ className }) => {
     const PanelToggle = dynamic(() => import('../components/PanelToggle'), {
         ssr: false,
     });
+    // const UserMenu = dynamic(() => import('../components/UserMenu'), {
+    //     ssr: false,
+    // });
     const router = useRouter();
 
     return (

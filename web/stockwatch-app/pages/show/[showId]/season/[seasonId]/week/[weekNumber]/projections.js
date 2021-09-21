@@ -156,7 +156,13 @@ const Projection = ({
             }).format(projection),
         };
     }, {});
-    const data = [percentRow, projectionRow];
+    const cleanRating = projections.reduce((row, projection, i) => {
+        return {
+            ...row,
+            ['rating' + (i + 1)]: Math.round((projection / currentPrice - 1) * 100),
+        };
+    }, {});
+    const data = [percentRow, projectionRow, cleanRating];
     return (
         <div className={styles.projectionCard}>
             <div className={styles.hgDetails}>
@@ -204,13 +210,27 @@ const Projection = ({
                     //     },
                     // })}
                     // I want to access the price change number for this math
-                    getCellProps={(cellInfo) => ({
-                        style: {
-                            backgroundColor: `hsl(${
-                                120 * ((120 - cellInfo.value) / 120) * -1 + 120
-                            }, 100%, 67%)`,
-                        },
-                    })}
+                    // getCellProps={(cellInfo) => ({
+                    //     style: {
+                    //         backgroundColor: `hsl(${
+                    //             120 * ((120 - cellInfo.value) / 120) * -1 + 120
+                    //         }, 100%, 67%)`,
+                    //     },
+                    // })}
+                    // getCellProps={(cellInfo) => ({
+                    //     className: cellInfo.value > 0% ? 'hey' : 'no',
+                    //     // data-test="cellInfo.value === 0"
+                    // })}
+                    // getCellProps={(cellInfo) => ({
+                    //     style: {
+                    //         fontSize: cellInfo.value,
+                    //     },
+                    // })}
+                    // getCellProps={(cellInfo) => ({
+                    //     style: {
+                    //         background: cellInfo.value === 0 ? 'pink' : 'white',
+                    //     },
+                    // })}
                 />
             </div>
         </div>
@@ -221,7 +241,7 @@ const Projections = () => {
     const router = useRouter();
     const { seasonId, weekNumber } = router.query;
     const { contestantIDs, contestants } = useProjections(seasonId, weekNumber);
-    console.log('projections', contestantIDs, contestants);
+    // console.log('projections', contestantIDs, contestants);
 
     const projections = contestantIDs.map((contestantID) => Projection(contestants[contestantID]));
 

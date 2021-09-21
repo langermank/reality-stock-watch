@@ -3,6 +3,7 @@ import React from 'react';
 import styles from '../styles/components/dropdown.module.scss';
 import linkStyles from '../styles/components/navbarLink.module.scss';
 import Button from './Button.jsx';
+import clsx from 'clsx';
 import { Gear, UserCircle, CaretDown, SignIn, SignOut } from 'phosphor-react';
 import { useMenuTriggerState } from '@react-stately/menu';
 import { useButton } from '@react-aria/button';
@@ -35,7 +36,7 @@ const MenuButton = (props) => {
                 {...buttonProps}
                 icon={<CaretDown weight="fill" className={styles.dropdownTriggerIcon} />}
                 iconPosition="right"
-                className={styles.dropdownTrigger}
+                className={clsx(styles.dropdownTrigger, styles.iconOnlyHack)}
                 width="fullWidth">
                 <div className={styles.dropdownTriggerLabelWrap}>
                     <UserCircle className={styles.dropdownTriggerLabelIcon} />

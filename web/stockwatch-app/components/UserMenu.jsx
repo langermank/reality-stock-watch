@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../styles/components/dropdown.module.scss';
 import { useUser } from '/backend/User';
 import Link from 'next/link';
@@ -166,6 +166,14 @@ MenuItem.propTypes = {
 };
 
 export const UserMenu = ({ href }) => {
+    // const activePanel = useState(document.body.dataset.panelState);
+    // const inactivePanel = activePanel === 'open' ? 'closed' : 'open';
+
+    // useEffect(() => {
+    //     document.body.dataset.panelState = activePanel;
+    //     window.localStorage.getItem('panelState', activePanel);
+    // }, [activePanel]);
+
     const router = useRouter();
     const handleClick = (e) => {
         e.preventDefault();
@@ -180,8 +188,11 @@ export const UserMenu = ({ href }) => {
                 onClick={toggleLogin}
                 iconPosition="rightCentered"
                 icon={<SignIn />}
-                width="fullWidth">
-                Sign-in or join
+                // fix state issue later
+                // iconOnly={activePanel === 'closed'}
+                width="fullWidth"
+                className={styles.iconOnlyHack}>
+                <div className={styles.dropdownTriggerLabel}>Sign-in or join</div>
             </Button>
         );
     }
