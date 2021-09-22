@@ -6,7 +6,7 @@ import { useBackendContext } from 'backend/context';
 import { useProjections } from 'backend/Games';
 import { useState } from 'react';
 import { omit } from 'lodash';
-import { X } from 'phosphor-react';
+import { X, MinusCircle } from 'phosphor-react';
 
 function tradeParams(contestants, stocks, trades) {
     const startingBalance = stocks.bankBalance;
@@ -53,24 +53,32 @@ function TradeBox({ remainingBalance, transactionLines, clearTrade }) {
     if (transactionLines.length == 0) {
         return <></>;
     }
+
+    // (
+    //             {new Intl.NumberFormat('en-US', {
+    //                 style: 'currency',
+    //                 currency: 'USD',
+    //             }).format(price)}
+    //             )
     const tradeLines = transactionLines.map(
         ({ contestantID, nickname, quantity, price, subtotal }) => (
-            <li key={contestantID} className={styles.tradeItem}>
-                {nickname} (
-                {new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                }).format(price)}
-                ) X {quantity}:{' '}
-                {new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                }).format(subtotal)}
+            <li key={contestantID} className={styles.cartItem}>
+                <span className={styles.cartItemWrap}>
+                    <span className={styles.quantity}>{quantity}x</span>
+
+                    <span>{nickname}</span>
+                    <span>
+                        {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                        }).format(subtotal)}
+                    </span>
+                </span>
                 <Button
                     variant="secondaryHint"
                     iconOnly
                     onClick={() => clearTrade(contestantID)}
-                    icon={<X />}
+                    icon={<MinusCircle />}
                     size="small">
                     Remove item
                 </Button>
@@ -80,7 +88,7 @@ function TradeBox({ remainingBalance, transactionLines, clearTrade }) {
     return (
         <div className={styles.fundsWrap}>
             <div className={styles.funds}>
-                <ul>{tradeLines}</ul>
+                <ul className={styles.tradeLinesWrap}>{tradeLines}</ul>
                 <p>
                     Remaining funds:{' '}
                     {new Intl.NumberFormat('en-US', {

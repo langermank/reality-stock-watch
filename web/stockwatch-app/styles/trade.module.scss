@@ -95,6 +95,7 @@
 
 .funds {
     border: solid 1px var(--indigo8);
+    background: var(--indigo8);
     box-shadow: 1px 1px 0px var(--indigo8);
     border-radius: var(--border-radius);
     text-align: center;
@@ -165,5 +166,33 @@
         flex-direction: column;
         margin-top: 0;
         margin-left: 0;
+    }
+
+    .tradeLinesWrap {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        gap: 0.5rem;
+    }
+
+    .cartItemWrap {
+        display: grid;
+        grid-template-columns: 1fr min-content 1fr;
+        gap: 0.5rem;
+    }
+
+    .cartItem {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: var(--font-size-small);
+    }
+
+    .quantity {
+        padding: 0 0.5rem;
+        border-radius: var(--border-radius);
+        background: var(--slate4);
     }
 } ;
