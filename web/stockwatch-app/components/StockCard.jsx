@@ -4,13 +4,12 @@ import ContestantImage from './ContestantImage';
 import NumberInput from './NumberInput';
 import clsx from 'clsx';
 import { Star, ArrowUp, ArrowDown } from 'phosphor-react';
-import styles from 'styles/stockcard.module.scss';
+import styles from '../styles/stockcard.module.scss';
 
 // FIXME: make configurable
 const imageUrlPrefix = 'https://dsw9arc6h9tqj.cloudfront.net';
 
 const StockCard = ({ name, image, rating, price, priceChange, shares, maxShares, setShares }) => {
-    console.log('stock card name', name, 'value', shares);
     return (
         <li className={clsx(styles.stockCard)}>
             <div className={styles.hgDetails}>
@@ -75,6 +74,28 @@ const StockCard = ({ name, image, rating, price, priceChange, shares, maxShares,
             </div>
         </li>
     );
+};
+
+StockCard.propTypes = {
+    name: PropTypes.string,
+    image: PropTypes.string,
+    rating: PropTypes.string,
+    price: PropTypes.string,
+    priceChange: PropTypes.string,
+    shares: PropTypes.string,
+    maxShares: PropTypes.string,
+    setShares: PropTypes.function,
+};
+
+StockCard.defaultProps = {
+    name: 'Contestant',
+    image: '',
+    rating: '7',
+    price: '4.50',
+    priceChange: '2',
+    shares: '3',
+    maxShares: '5',
+    // setShares: PropTypes.function,
 };
 
 export default StockCard;

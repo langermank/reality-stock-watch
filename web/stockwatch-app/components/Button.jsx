@@ -89,3 +89,5 @@ Button.defaultProps = {
 };
 
 export default Button;
+
+Button.displayName = 'Button';

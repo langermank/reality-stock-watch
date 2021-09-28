@@ -103,10 +103,30 @@ a:not(nav *) {
 .dark-theme {
     --navbar-background: var(--slate2);
     --navbar-border: solid 1px var(--slate5);
-    --bg-one-up: var(--slate3);
 }
 
 :root {
+    // color alias
+    // backgrounds
+    --bg-one-up: var(--slate3);
+    --bg-two-up: var(--slate4);
+    --bg-three-up: var(--slate5);
+    // forms
+    --input-bg: var(--slate4);
+    --input-border: var(--slate6);
+    --input-color: var(--slate12);
+    --input-placeholder: var(--slate11);
+    --input-label: var(--slate12);
+    // buttons
+    --btn-primary-bg: var(--indigo8);
+    --btn-primary-border: var(--indigo8);
+    --btn-primary-hover: var(--indigo6);
+    --btn-primary-color: var(--white);
+    --btn-secondary-bg: var();
+    --btn-secondary-border: var();
+    --btn-secondary-hover: var();
+    --navbar-background: var(--slate2);
+    --navbar-border: solid 1px var(--slate5);
     --font-size-default: 1rem;
     --font-size-large: 1.125rem;
     --font-size-small: 0.875rem;
@@ -115,9 +135,8 @@ a:not(nav *) {
     --h1: 2.375rem;
     --h2: 1.75rem;
     --h3: 1.3rem;
-    --navbar-background: var(--slate2);
-    --navbar-border: solid 1px var(--slate5);
     --btn-height: 2.75rem;
+    --input-height: var(--btn-height);
     --base: 16;
     --baseLineHeight: 1.5;
     --smallerLineHeight: 1.2;
