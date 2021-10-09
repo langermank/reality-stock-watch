@@ -201,7 +201,7 @@ export const UserMenu = ({ href }) => {
     // if logged in show user dropdown menu
     return (
         <MenuButton label={profile.displayName}>
-            <Item href={'/profile/' + profile.id} onClick={handleClick} icon={<UserCircle />}>
+            <Item href={'/profile'} onClick={handleClick} icon={<UserCircle />}>
                 Profile
             </Item>
             <Item href="/settings" onClick={handleClick} icon={<Gear weight="fill" />}>

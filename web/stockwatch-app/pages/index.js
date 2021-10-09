@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Navbar } from '../components/Navbar';
 // import Image from 'next/image';
+import { Auth } from 'aws-amplify';
 import Logo from '../components/SWLogo';
 import { FacebookLogo, TwitchLogo, TwitterLogo, GoogleLogo, DiscordLogo } from 'phosphor-react';
 import clsx from 'clsx';
@@ -11,7 +12,7 @@ export default function Home() {
         <div className={styles.login}>
             <h3>Login or join through social</h3>
             <a
-                href="/"
+                onClick={() => Auth.federatedSignIn({ provider: 'Twitter' })}
                 className={clsx(
                     styles.btnBase,
                     styles.prepend,
@@ -23,7 +24,7 @@ export default function Home() {
                 <span>Sign-in with Twitter</span>
             </a>
             <a
-                href="/"
+                onClick={() => Auth.federatedSignIn({ provider: 'Facebook' })}
                 className={clsx(
                     styles.btnBase,
                     styles.prepend,
@@ -35,7 +36,7 @@ export default function Home() {
                 <span>Sign-in with Facebook</span>
             </a>
             <a
-                href="/"
+                onClick={() => Auth.federatedSignIn({ provider: 'DiscordPython' })}
                 className={clsx(
                     styles.btnBase,
                     styles.prepend,
@@ -47,7 +48,7 @@ export default function Home() {
                 <span>Sign-in with Discord</span>
             </a>
             <a
-                href="/"
+                onClick={() => Auth.federatedSignIn({ provider: 'Twitch' })}
                 className={clsx(
                     styles.btnBase,
                     styles.prepend,
@@ -59,7 +60,7 @@ export default function Home() {
                 <span>Sign-in with Twitch</span>
             </a>
             <a
-                href="/"
+                onClick={() => Auth.federatedSignIn({ provider: 'Google' })}
                 className={clsx(
                     styles.btnBase,
                     styles.prepend,
