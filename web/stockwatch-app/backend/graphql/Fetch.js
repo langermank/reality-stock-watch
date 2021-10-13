@@ -8,6 +8,15 @@ const queries = {
                     items {
                         id
                         name
+                        seasons {
+                            items {
+                                currentWeek
+                                id
+                                marketStatus
+                                name
+                                status
+                            }
+                        }
                     }
                     nextToken
                 }
@@ -16,7 +25,9 @@ const queries = {
         convert: (data, items) => {
             data.listShows.items.forEach((show) => {
                 items.push({
-                    ...show,
+                    id: show.id,
+                    name: show.name,
+                    seasons: show.seasons.items,
                 });
             });
             return { nextToken: data.listShows.nextToken, result: items };
@@ -182,7 +193,6 @@ const queries = {
             }
         `,
         convert: (data) => {
-            console.log('within fetch, profile data is ', data);
             let profile = {
                 id: data.profile.id,
                 rank: parseInt(data.profile.rank),

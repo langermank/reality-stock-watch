@@ -1,20 +1,33 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import Fetch from 'backend/graphql/Fetch';
+import Create from 'backend/graphql/Create';
+import Delete from 'backend/graphql/Delete';
+import { filter } from 'lodash';
 
 async function fetchShows() {
     return await Fetch('listShows');
 }
 
-function useShows() {
+function useShows({ initialShows = [] } = {}) {
     const { data, mutate, error } = useSWR(['listShows'], (action) => Fetch(action, {}), {
-        initialData: [],
+        initialData: initialShows,
     });
     useEffect(() => {
         mutate();
     }, []);
     const loading = !data && !error;
-    return { shows: data, loading };
+
+    function createShow(name) {
+        mutate(async (shows) => [...shows, await Create('show', { name })], false);
+    }
+
+    function deleteShow(id) {
+        Delete('show', { id });
+        mutate(async (shows) => filter(shows, (show) => show.id != id), false);
+    }
+
+    return { shows: data, loading, createShow, deleteShow };
 }
 
 function useShow(showId) {
@@ -29,6 +42,7 @@ function useShow(showId) {
         mutate();
     }, [showId]);
     const loading = !data && !error;
+
     return { show: data, loading };
 }
 
