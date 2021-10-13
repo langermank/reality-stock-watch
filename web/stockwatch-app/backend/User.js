@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Hub, Auth } from 'backend/Configure';
 import { useProfileSummary } from 'backend/Profile';
 import useSWR from 'swr';
+import { ConsoleLogger } from 'aws-amplify/node_modules/@aws-amplify/core';
 
 // The Auth API has no way of checking if the user is logged in.
 // Use exceptions to hack around this.
@@ -42,7 +43,6 @@ async function fetchUser() {
     let cognitoUser = await getCurrentUser();
     let user = falseUser;
     if (cognitoUser) {
-        console.log('cognito user is ', cognitoUser);
         const identity = JSON.parse(cognitoUser.attributes.identities)[0];
         user = {
             loggedIn: true,
@@ -56,7 +56,6 @@ async function fetchUser() {
                     'admin'
                 ),
         };
-        console.log('parsed user is ', user);
     }
     return user;
 }
