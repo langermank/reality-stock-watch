@@ -25,6 +25,9 @@
 
 .tableCell {
     padding: 1rem 1.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .networthCell {
