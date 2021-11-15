@@ -1,6 +1,66 @@
 import { API } from 'backend/Configure';
 
 const queries = {
+    listContestants: {
+        query: /* GraphQL */ `
+            query listContestants($seasonID: ID!) {
+                contestantsBySeason(seasonID: $seasonID) {
+                    items {
+                        id
+                        seasonID
+                        firstName
+                        lastName
+                        nickName
+                        image
+                        status
+                        weekEvicted
+                        slug
+                        extraTags
+                        averageRatings
+                    }
+                    nextToken
+                }
+            }
+        `,
+        convert: (data, items) => {
+            data.contestantsBySeason.items.forEach((item) => {
+                items.push(item);
+            });
+            return { nextToken: data.contestantsBySeason.nextToken, result: items };
+        },
+    },
+    listActiveContestants: {
+        query: /* GraphQL */ `
+            query listActiveContestants($seasonID: ID!) {
+                contestantsBySeason(seasonID: $seasonID, filter: { status: { eq: "active" } }) {
+                    items {
+                        id
+                        seasonID
+                        firstName
+                        lastName
+                        nickName
+                        image
+                        status
+                        weekEvicted
+                        slug
+                        extraTags
+                        averageRatings
+                    }
+                    nextToken
+                }
+            }
+        `,
+        convert: (data, items) => {
+            data.contestantsBySeason.items.forEach((item) => {
+                items.push({
+                    ...item,
+                    extraTags: JSON.parse(item.extraTags),
+                    averageRatings: JSON.parse(item.averageRatings),
+                });
+            });
+            return { nextToken: data.contestantsBySeason.nextToken, result: items };
+        },
+    },
     listShows: {
         query: /* GraphQL */ `
             query listShows {
@@ -35,8 +95,8 @@ const queries = {
     },
     show: {
         query: /* GraphQL */ `
-            query show($showId: ID!) {
-                getShow(id: $showId) {
+            query show($showID: ID!) {
+                getShow(id: $showID) {
                     id
                     name
                     seasons {
@@ -96,25 +156,47 @@ const queries = {
     },
     season: {
         query: /* GraphQL */ `
-            query season($seasonId: ID!) {
-                getSeason(id: $seasonId) {
+            query season($seasonID: ID!) {
+                getSeason(id: $seasonID) {
                     id
                     currentWeek
                     lastBatchUpdate
+                    status
                     marketStatus
                     name
+                    shortName
                     nextMarketClose
                     nextMarketOpen
                     startDate
-                    endDate
+                    contestantExtraTags
+                    startingBankBalance
+                    weeklyBankIncrease
+                    weeks {
+                        items {
+                            id
+                            week
+                            players
+                            contestants
+                            ratings
+                        }
+                    }
                 }
             }
         `,
         convert: (data) => {
-            return {
+            const weeks = data.getSeason.weeks.items;
+            let tweakedData = {
                 ...data.getSeason,
                 currentWeek: parseInt(data.getSeason.currentWeek),
+                weeks,
             };
+            if (tweakedData.startingBankBalance) {
+                tweakedData.startingBankBalance = parseInt(tweakedData.startingBankBalance) / 100.0;
+            }
+            if (tweakedData.weeklyBankIncrease) {
+                tweakedData.weeklyBankIncrease = parseInt(tweakedData.weeklyBankIncrease) / 100.0;
+            }
+            return tweakedData;
         },
     },
     profileFull: {
@@ -247,7 +329,7 @@ const queries = {
                 seasonName: data.getPlayer.season.name,
                 currentWeek: data.getPlayer.season.currentWeek,
                 marketStatus: data.getPlayer.season.marketStatus,
-                seasonId: data.getPlayer.seasonID,
+                seasonID: data.getPlayer.seasonID,
                 stocks: [],
             };
             data.getPlayer.stocks.items.forEach((stock) => {
@@ -362,8 +444,8 @@ const queries = {
     },
     week: {
         query: /* GraphQL */ `
-            query ratings($seasonId: ID!, $weekNumber: Int!) {
-                weeksBySeasonWeek(seasonID: $seasonId, week: { eq: $weekNumber }) {
+            query ratings($seasonID: ID!, $weekNumber: Int!) {
+                weeksBySeasonWeek(seasonID: $seasonID, week: { eq: $weekNumber }) {
                     items {
                         id
                         seasonID
@@ -393,7 +475,7 @@ const queries = {
             let item = data.weeksBySeasonWeek.items[0];
             let week = {
                 weekId: item.id,
-                seasonId: item.seasonID,
+                seasonID: item.seasonID,
                 seasonName: item.season.name,
                 seasonShortName: item.season.shortname,
                 currentWeek: parseInt(item.season.currentWeek || 0),
@@ -493,6 +575,8 @@ async function Fetch(requestType, variables) {
         case 'listShows':
         case 'prices':
         case 'activeSeasons':
+        case 'listContestants':
+        case 'listActiveContestants':
             {
                 let output = { nextToken: null, result: [] };
                 do {

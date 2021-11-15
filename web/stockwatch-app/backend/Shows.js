@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import Fetch from 'backend/graphql/Fetch';
 import Create from 'backend/graphql/Create';
 import Delete from 'backend/graphql/Delete';
+import Update from 'backend/graphql/Update';
 import { filter } from 'lodash';
 
 async function fetchShows() {
@@ -11,14 +12,14 @@ async function fetchShows() {
 
 function useShows({ initialShows = [] } = {}) {
     const { data, mutate, error } = useSWR(['listShows'], (action) => Fetch(action, {}), {
-        initialData: initialShows,
+        fallbackData: initialShows,
     });
     useEffect(() => {
         mutate();
     }, []);
     const loading = !data && !error;
 
-    function createShow(name) {
+    function createShow({ name }) {
         mutate(async (shows) => [...shows, await Create('show', { name })], false);
     }
 
@@ -30,35 +31,161 @@ function useShows({ initialShows = [] } = {}) {
     return { shows: data, loading, createShow, deleteShow };
 }
 
-function useShow(showId) {
+const blankSeason = {
+    currentWeek: 0,
+    status: 'not started',
+    marketStatus: 'closed',
+    contestantExtraTags: '["HOH", "Nominated", "Veto"]',
+    startingBankBalance: 200,
+    weeklyBankIncrease: 20,
+};
+function useShow(showID) {
     const { data, mutate, error } = useSWR(
-        ['show', showId],
-        (action, showId) => Fetch(action, { showId }),
+        ['show', showID],
+        (action, showID) => Fetch(action, { showID }),
         {
-            initialData: { name: 'Loading...', seasons: [] },
+            fallbackData: { name: 'Loading...', seasons: [] },
         }
     );
     useEffect(() => {
         mutate();
-    }, [showId]);
+    }, [showID]);
     const loading = !data && !error;
 
-    return { show: data, loading };
+    function createSeason(attributes) {
+        let season = { ...blankSeason, ...attributes, showID };
+        season.startingBankBalance = Math.round(season.startingBankBalance * 100);
+        season.weeklyBankIncrease = Math.round(season.weeklyBankIncrease * 100);
+        mutate(
+            async (show) => ({
+                ...show,
+                seasons: [...show.seasons, await Create('season', season)],
+            }),
+            false
+        );
+    }
+
+    function deleteSeason(id) {
+        Delete('season', { id });
+        mutate(
+            async (show) => ({
+                ...show,
+                seasons: filter(show.seasons, (season) => season.id != id),
+            }),
+            false
+        );
+    }
+
+    return { show: data, loading, createSeason, deleteSeason };
 }
 
-function useSeason(seasonId) {
-    const { data, mutate, error } = useSWR(
-        seasonId ? ['season', seasonId] : null,
-        (action, seasonId) => Fetch(action, { seasonId }),
+const blankWeek = {
+    contestants: '[]',
+    players: '[]',
+    ratings: '{}',
+};
+const loadingSeason = {
+    name: 'Loading...',
+    weeks: [],
+};
+function useSeason(seasonID) {
+    const {
+        data: season,
+        mutate,
+        error,
+    } = useSWR(
+        seasonID ? ['season', seasonID] : null,
+        (action, seasonID) => Fetch(action, { seasonID }),
         {
-            initialData: { name: 'Loading...' },
+            fallbackData: loadingSeason,
         }
     );
+    let nextWeekNumber = 0;
+    useEffect(() => {
+        if (!season || !season.weeks || !season.weeks.items) return;
+        for (let week of season.weeks.items) {
+            nextWeekNumber = Math.max(nextWeekNumber, parseInt(week.week.N));
+        }
+    }, [season]);
+    nextWeekNumber++;
     useEffect(() => {
         mutate();
-    }, [seasonId]);
-    const loading = !data && !error;
-    return { season: data, loading };
+    }, [seasonID]);
+    const loading = !season && !error;
+
+    function updateSeason(fields) {
+        mutate(async (season) => {
+            return { ...season, ...fields };
+        }, false);
+        let tweakedFields = { ...fields, id: seasonID };
+        if (tweakedFields.startingBankBalance) {
+            tweakedFields.startingBankBalance = Math.round(tweakedFields.startingBankBalance * 100);
+        }
+        if (tweakedFields.weeklyBankIncrease) {
+            tweakedFields.weeklyBankIncrease = Math.round(tweakedFields.weeklyBankIncrease * 100);
+        }
+        Update('season', tweakedFields);
+    }
+    function createWeek() {
+        Fetch('listActiveContestants', { seasonID }).then((contestants) => {
+            console.log('found active contestants', contestants);
+            mutate(async (season) => {
+                const fields = {
+                    ...blankWeek,
+                    seasonID,
+                    contestants: JSON.stringify(contestants),
+                    week: nextWeekNumber,
+                };
+                const weeks = season.weeks || [];
+                return { ...season, weeks: [...weeks, await Create('week', fields)] };
+            }, false);
+        });
+    }
+    function deleteWeek(/*id*/) {
+        // na
+    }
+
+    return { season, loading, nextWeekNumber, createWeek, deleteWeek, updateSeason };
+}
+function useContestants(seasonID) {
+    const {
+        data: contestants,
+        mutate,
+        error,
+    } = useSWR(
+        seasonID ? ['listContestants', seasonID] : null,
+        (action, seasonID) => Fetch(action, { seasonID }),
+        {
+            fallbackData: [],
+        }
+    );
+    console.log('useContestants contestants are', contestants);
+    useEffect(() => {
+        mutate();
+    }, [seasonID]);
+    const loading = !contestants && !error;
+    function createContestant(fields) {
+        mutate(async (contestants) => {
+            const finalFields = {
+                ...fields,
+                seasonID,
+                status: 'active',
+                weekEvicted: 0,
+                extraTags: '[]',
+                averageRatings: '[]',
+            };
+            console.log('within mutate, contestants are', contestants);
+            return [...(contestants || []), await Create('contestant', finalFields)];
+        }, false);
+    }
+    function deleteContestant(id) {
+        Delete('contestant', { id });
+        mutate(
+            async (contestants) => filter(contestants, (contestant) => contestant.id != id),
+            false
+        );
+    }
+    return { contestants, loading, createContestant, deleteContestant };
 }
 
-export { useShows, useShow, useSeason, fetchShows };
+export { useShows, useShow, useSeason, useContestants, fetchShows };

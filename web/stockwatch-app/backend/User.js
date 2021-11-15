@@ -63,7 +63,7 @@ async function fetchUser() {
 function useUser() {
     const [mockUserEmail, setMockUserEmail] = useState(null);
     const { data: authenticatedUser, mutate: mutateUser } = useSWR('currentUser', fetchUser, {
-        initialData: falseUser,
+        fallbackData: falseUser,
     });
     const profile = useProfileSummary(mockUserEmail || authenticatedUser.email);
     const isLoggedIn = authenticatedUser && authenticatedUser.loggedIn;

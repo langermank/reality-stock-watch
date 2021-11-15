@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import matchSorter from 'match-sorter';
+import { matchSorter } from 'match-sorter';
 
 function useLeaderboard({ initialSeasonID = null } = {}) {
     const [searchTerm, setSearchTerm] = useState(null);
@@ -46,7 +46,9 @@ function useLeaderboard({ initialSeasonID = null } = {}) {
             setSearchResults(data);
             return;
         }
-        setSearchResults(matchSorter(data, searchTerm, { keys: ['displayName'] }));
+        const searchResults = matchSorter(data, searchTerm, { keys: ['displayName'] });
+        // console.log('search results are ', searchResults);
+        setSearchResults(searchResults);
     }, [data, searchTerm]);
 
     return { searchResults, searchTerm, setSearchTerm, setSeasonID };

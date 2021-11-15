@@ -19,19 +19,17 @@ const Shows = ({ initialShows }) => {
         }
         console.log('show is', show);
         return (
-            <>
-                <li key={show.id}>
-                    <Link href={{ pathname: '/admin/[showId]', query: { showId: show.id } }}>
-                        <a>{show.name}</a>
-                    </Link>
-                    {del}
-                </li>
-            </>
+            <li key={show.id}>
+                <Link href={{ pathname: '/admin/[showId]', query: { showId: show.id } }}>
+                    <a>{show.name}</a>
+                </Link>
+                {del}
+            </li>
         );
     });
 
     function create() {
-        createShow(name);
+        createShow({ name });
         setName('');
     }
     if (isAdmin) {

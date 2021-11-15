@@ -3,14 +3,14 @@ import useSWR from 'swr';
 import Fetch from 'backend/graphql/Fetch';
 import Update from 'backend/graphql/Update';
 import lookup from './formulaLookup';
-import { mapValues, reduce, unionBy, uniq, filter, pull } from 'lodash';
+import { mapValues, reduce, unionBy, uniq, filter, pull, omit } from 'lodash';
 
 function useTransactionsByPlayer(playerID) {
     const { data, mutate, error } = useSWR(
         playerID ? ['transactionsByPlayer', playerID] : null,
         (action, playerID) => Fetch(action, { playerID }),
         {
-            initialData: [],
+            fallbackData: [],
         }
     );
     useEffect(() => {
@@ -25,7 +25,7 @@ function usePlayer(playerID) {
         playerID ? ['player', playerID] : null,
         (action, playerID) => Fetch(action, { playerID }),
         {
-            initialData: { stocks: [] },
+            fallbackData: { stocks: [] },
         }
     );
     useEffect(() => {
@@ -40,7 +40,7 @@ function useStocks(userID, seasonID) {
         userID && seasonID ? ['playerByUserSeason', userID, seasonID] : null,
         (action, userID, seasonID) => Fetch(action, { userID, seasonID }),
         {
-            initialData: { stocks: [] },
+            fallbackData: { stocks: [] },
         }
     );
     const playerID = data.id;
@@ -67,13 +67,17 @@ function useStocks(userID, seasonID) {
     };
 }
 
-function useWeek(seasonId, weekNumber) {
-    const { data, mutate, error } = useSWR(
-        weekNumber !== undefined ? ['week', seasonId, weekNumber] : null,
-        (action, seasonId, weekNumber) => Fetch(action, { seasonId, weekNumber }),
+function useWeek(seasonID, weekNumber) {
+    const {
+        data: week,
+        mutate,
+        error,
+    } = useSWR(
+        weekNumber && seasonID ? ['week', seasonID, weekNumber] : null,
+        (action, seasonID, weekNumber) => Fetch(action, { seasonID, weekNumber }),
         {
-            initialData: {
-                weekId: null,
+            fallbackData: {
+                id: null,
                 seasonName: 'Loading...',
                 contestantExtraTags: [],
                 contestants: [],
@@ -82,7 +86,8 @@ function useWeek(seasonId, weekNumber) {
             },
         }
     );
-    const averages = mapValues(data.ratings, (contestantRatings) => {
+    console.log('in use week initial week is', week);
+    const averages = mapValues(week.ratings, (contestantRatings) => {
         const { sum, count } = reduce(
             contestantRatings,
             ({ sum, count }, value) => ({
@@ -95,28 +100,29 @@ function useWeek(seasonId, weekNumber) {
     });
 
     function setExtraTags(contestantID, extraTags) {
-        const contestants = data.contestants.map((contestant) => {
+        const contestants = week.contestants.map((contestant) => {
             let c = { ...contestant };
-            if (c.contestantID == contestantID) {
+            if (c.id == contestantID) {
                 c.extraTags = extraTags;
             }
             return c;
         });
-        mutate({ ...data, contestants }, false);
+        console.log('contestants afer setExtraTags', contestantID, contestants);
+        mutate({ ...week, contestants }, false);
         Update('weekContestants', {
-            weekId: data.weekId,
+            weekId: week.weekId,
             contestants: JSON.stringify(contestants),
         }).then(() => {
             mutate();
         });
     }
     function getExtraTags(contestantID) {
-        for (let i in data.contestants) {
-            if (data.contestants[i].contestantID == contestantID) {
-                if (!data.contestants[i].extraTags) {
+        for (let i in week.contestants) {
+            if (week.contestants[i].id == contestantID) {
+                if (!week.contestants[i].extraTags) {
                     return [];
                 }
-                return [...data.contestants[i].extraTags];
+                return [...week.contestants[i].extraTags];
             }
         }
     }
@@ -124,18 +130,21 @@ function useWeek(seasonId, weekNumber) {
         return getExtraTags(contestantID).includes(tag);
     }
     function toggleExtraTag(contestantID, tag) {
+        console.log('toggle extra tag', contestantID, tag);
         let extraTags = getExtraTags(contestantID);
+        console.log('134 extratags', extraTags);
         if (extraTags.includes(tag)) {
             pull(extraTags, tag);
         } else {
             extraTags.push(tag);
         }
+        console.log('after push/pull', extraTags);
         setExtraTags(contestantID, extraTags);
     }
     function setPlayers(players) {
-        mutate({ ...data, players }, false);
+        mutate({ ...week, players }, false);
         Update('weekPlayers', {
-            weekId: data.weekId,
+            weekId: week.weekId,
             players: JSON.stringify(players),
         }).then(() => {
             mutate();
@@ -151,26 +160,36 @@ function useWeek(seasonId, weekNumber) {
                         playerID: playerBrief.id,
                     },
                 ],
-                data.players,
+                week.players,
                 'playerID'
             );
             setPlayers(players);
         });
     }
     function removePlayer(playerID) {
-        const players = filter(data.players, (player) => player.playerID != playerID);
+        const players = filter(week.players, (player) => player.playerID != playerID);
         setPlayers(players);
     }
     function setRating(contestantID, playerID, rating) {
-        const contestantRatings = { ...data.ratings[contestantID], [playerID]: rating };
-        const ratings = { ...data.ratings, [contestantID]: contestantRatings };
-        mutate({ ...data, ratings }, false);
+        const ratingFloat = parseFloat(rating);
+        let contestantRatings;
+        if (isNaN(ratingFloat)) {
+            contestantRatings = omit(week.ratings[contestantID], [playerID]);
+        } else {
+            contestantRatings = { ...week.ratings[contestantID], [playerID]: rating };
+        }
+        const ratings = { ...week.ratings, [contestantID]: contestantRatings };
+        mutate({ ...week, ratings }, false);
         Update('weekRatings', {
-            weekId: data.weekId,
+            weekId: week.weekId,
             ratings: JSON.stringify(ratings),
         }).then(() => {
             mutate();
         });
+    }
+
+    function makeCurrent() {
+        console.log('make season', seasonID, 'week', weekNumber, 'curent');
     }
 
     if (error) {
@@ -179,10 +198,10 @@ function useWeek(seasonId, weekNumber) {
 
     useEffect(() => {
         mutate();
-    }, [seasonId, weekNumber]);
-    const loading = !data && !error;
+    }, [seasonID, weekNumber]);
+    const loading = !week && !error;
     return {
-        week: data,
+        week,
         averages,
         getExtraTags,
         setExtraTags,
@@ -192,6 +211,7 @@ function useWeek(seasonId, weekNumber) {
         setPlayers,
         addPlayer,
         removePlayer,
+        makeCurrent,
         loading,
         error,
         mutate,
@@ -225,7 +245,7 @@ function useProjections(seasonID, weekNumber) {
         (action, seasonID, startWeekNumber, endWeekNumber) =>
             Fetch(action, { seasonID, startWeekNumber, endWeekNumber }),
         {
-            initialData: [],
+            fallbackData: [],
         }
     );
     let contestantIDs = [];
@@ -319,7 +339,7 @@ function useActiveSeasons() {
         mutate: mutateActiveSeasons,
         error,
     } = useSWR(['activeSeasons'], (action) => Fetch(action, {}), {
-        initialData: [],
+        fallbackData: [],
     });
     const [selectedSeasonID, setSelectedSeasonID] = useState(0);
     const [selectedSeason, setSelectedSeason] = useState(EMPTY_SEASON);

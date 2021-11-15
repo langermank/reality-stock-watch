@@ -8,17 +8,14 @@ function useProfileSummary(email) {
         email ? ['profileSummary', email] : null,
         (action, email) => Fetch(action, { email }),
         {
-            initialData: { displayName: 'Loading...' },
+            fallbackData: { displayName: 'Loading...' },
         }
     );
     useEffect(() => {
-        console.log('useProfile useEffect ', email);
         mutate();
     }, [email]);
     function updateDisplayName(displayName) {
-        console.log('within updateDisplayName ', data.id);
         Update('displayName', { userID: data.id, displayName }).then((record) => {
-            console.log('updated returned ', record);
             mutate((data) => ({ ...data, displayName: record.displayName }));
         });
     }
@@ -37,7 +34,7 @@ function useProfileFull(userID) {
         userID ? ['profileFull', userID] : null,
         (action, userID) => Fetch(action, { userID }),
         {
-            initialData: { displayName: 'Loading...' },
+            fallbackData: { displayName: 'Loading...' },
             enrolledGames: [],
             completedGames: [],
         }
@@ -46,7 +43,6 @@ function useProfileFull(userID) {
         mutate();
     }, [userID]);
     function joinGame(seasonID) {
-        console.log('top of join game ', seasonID);
         Update('joinGame', { userID, seasonID }).then((record) => {
             mutate();
         });
