@@ -38,6 +38,7 @@ const falseUser = {
     email: null,
     nickname: null,
     isAdmin: false,
+    loaded: false,
 };
 async function fetchUser() {
     let cognitoUser = await getCurrentUser();
@@ -55,7 +56,10 @@ async function fetchUser() {
                 cognitoUser.signInUserSession.accessToken.payload['cognito:groups'].includes(
                     'admin'
                 ),
+            loaded: true,
         };
+    } else {
+        user = { ...falseUser, loaded: true };
     }
     return user;
 }
@@ -66,7 +70,8 @@ function useUser() {
         fallbackData: falseUser,
     });
     const profile = useProfileSummary(mockUserEmail || authenticatedUser.email);
-    const isLoggedIn = authenticatedUser && authenticatedUser.loggedIn;
+    const isUserLoaded = authenticatedUser.loaded;
+    const isLoggedIn = isUserLoaded ? authenticatedUser && authenticatedUser.loggedIn : null;
     function clearMockUser() {
         setMockUserEmail(null);
     }
@@ -102,6 +107,7 @@ function useUser() {
         authenticatedUser,
         clearMockUser,
         isLoggedIn,
+        isUserLoaded,
         isAdmin: authenticatedUser && authenticatedUser.isAdmin,
     };
 }

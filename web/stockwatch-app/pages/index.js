@@ -1,13 +1,10 @@
-import Head from 'next/head';
-import { Navbar } from '../components/Navbar';
-// import Image from 'next/image';
 import { Auth } from 'aws-amplify';
-import Logo from '../components/SWLogo';
 import { FacebookLogo, TwitchLogo, TwitterLogo, GoogleLogo, DiscordLogo } from 'phosphor-react';
 import clsx from 'clsx';
 import styles from '../styles/login.module.scss';
+import { useBackendContext } from 'backend/context';
 
-export default function Home() {
+function Login() {
     return (
         <div className={styles.login}>
             <h3>Login or join through social</h3>
@@ -73,4 +70,12 @@ export default function Home() {
             </a>
         </div>
     );
+}
+
+export default function Home() {
+    const { isLoggedIn, isUserLoaded } = useBackendContext();
+    if (!isUserLoaded || isLoggedIn) {
+        return '';
+    }
+    return Login();
 }
