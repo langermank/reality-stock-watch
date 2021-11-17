@@ -8,7 +8,11 @@ function useProfileSummary(email) {
         email ? ['profileSummary', email] : null,
         (action, email) => Fetch(action, { email }),
         {
-            fallbackData: { displayName: 'Loading...' },
+            fallbackData: {
+                displayName: 'Loading...',
+                loaded: false,
+                error: false,
+            },
         }
     );
     useEffect(() => {
@@ -19,11 +23,11 @@ function useProfileSummary(email) {
             mutate((data) => ({ ...data, displayName: record.displayName }));
         });
     }
-    const loading = !data && !error;
     return {
         profile: data,
-        profileLoading: loading,
-        profileError: error,
+        profileLoaded: data.loaded,
+        profileError: data.error || error,
+        profileDisplayNameSet: data.displayName !== 'NoNameSet',
         profileMutate: mutate,
         updateDisplayName,
     };
@@ -32,7 +36,7 @@ function useProfileSummary(email) {
 function useProfileFull(userID) {
     const { data, mutate, error } = useSWR(
         userID ? ['profileFull', userID] : null,
-        (action, userID) => Fetch(action, { userID }),
+        (action, userID) => Fetch(action, { userID, loaded: false, error: false }),
         {
             fallbackData: { displayName: 'Loading...' },
             enrolledGames: [],
@@ -47,12 +51,12 @@ function useProfileFull(userID) {
             mutate();
         });
     }
-    const loading = !data && !error;
     return {
         joinGame,
         profile: data,
-        profileLoading: loading,
-        profileError: error,
+        profileLoaded: data.loaded,
+        profileError: data.error || error,
+        profileDisplayNameSet: data.displayName !== 'NoNameSet',
         profileMutate: mutate,
     };
 }

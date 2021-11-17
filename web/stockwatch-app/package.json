@@ -30,6 +30,7 @@
     "@react-stately/tree": "^3.2.0",
     "aws-amplify": "^4.2.2",
     "aws-amplify-react": "^5.0.8",
+    "formik": "^2.2.9",
     "fuse.js": "^6.4.6",
     "include-media": "^1.4.10",
     "match-sorter": "^6.3.0",

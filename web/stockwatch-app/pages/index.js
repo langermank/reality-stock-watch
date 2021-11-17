@@ -3,10 +3,17 @@ import { FacebookLogo, TwitchLogo, TwitterLogo, GoogleLogo, DiscordLogo } from '
 import clsx from 'clsx';
 import styles from '../styles/login.module.scss';
 import { useBackendContext } from 'backend/context';
+import EditProfile from 'components/EditProfile';
 
-function Login() {
+// The display prop is a bit of a hack to avoid problems with
+// hooks.  The hooks need to remain the same throughout the
+// life of the page, so we have to render all the components
+// regardless of whether or not the should be displayed.
+
+function Login({ display }) {
+    if (!display) return '';
     return (
-        <div className={styles.login}>
+        <div className={styles.login} key="login">
             <h3>Login or join through social</h3>
             <a
                 onClick={() => Auth.federatedSignIn({ provider: 'Twitter' })}
@@ -73,9 +80,14 @@ function Login() {
 }
 
 export default function Home() {
-    const { isLoggedIn, isUserLoaded } = useBackendContext();
-    if (!isUserLoaded || isLoggedIn) {
-        return '';
-    }
-    return Login();
+    const { isLoggedIn, isUserLoaded, profileDisplayNameSet } = useBackendContext();
+    const showLogin = isUserLoaded && !isLoggedIn;
+    const showEditProfile = isUserLoaded && isLoggedIn && !profileDisplayNameSet;
+
+    return (
+        <>
+            <Login display={showLogin} />
+            <EditProfile display={showEditProfile} />
+        </>
+    );
 }

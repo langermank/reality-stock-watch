@@ -563,12 +563,14 @@ async function Fetch(requestType, variables) {
         case 'week':
         case 'playerByUserSeason':
             try {
-                result = convert(
-                    (await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data
-                );
+                result = {
+                    ...convert((await API.graphql({ query, variables, authMode: 'AWS_IAM' })).data),
+                    loaded: true,
+                    error: false,
+                };
             } catch (err) {
                 console.log('Fetch error', requestType, variables, err);
-                return {};
+                return { loaded: false, error: true };
             }
             break;
         case 'transactionsByPlayer':
