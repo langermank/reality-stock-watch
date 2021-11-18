@@ -17,7 +17,7 @@ const EditProfile = ({ display }) => {
         setSubmitting(false);
     }
 
-    if (!display) return '';
+    if (!display) return <></>;
     return (
         <div key="edit-profile">
             <h2>Profile</h2>

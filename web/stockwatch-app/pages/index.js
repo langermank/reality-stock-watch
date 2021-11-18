@@ -11,7 +11,7 @@ import EditProfile from 'components/EditProfile';
 // regardless of whether or not the should be displayed.
 
 function Login({ display }) {
-    if (!display) return '';
+    if (!display) return <></>;
     return (
         <div className={styles.login} key="login">
             <h3>Login or join through social</h3>

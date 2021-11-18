@@ -183,7 +183,7 @@ export const UserMenu = ({ href }) => {
 
     // if not logged don't show anything
     if (!isLoggedIn) {
-        return '';
+        return <></>;
     }
 
     // if logged in show user dropdown menu
