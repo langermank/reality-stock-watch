@@ -8,25 +8,26 @@ function useProfileSummary(email) {
         email ? ['profileSummary', email] : null,
         (action, email) => Fetch(action, { email }),
         {
-            initialData: { displayName: 'Loading...' },
+            fallbackData: {
+                displayName: 'Loading...',
+                loaded: false,
+                error: false,
+            },
         }
     );
     useEffect(() => {
-        console.log('useProfile useEffect ', email);
         mutate();
     }, [email]);
     function updateDisplayName(displayName) {
-        console.log('within updateDisplayName ', data.id);
         Update('displayName', { userID: data.id, displayName }).then((record) => {
-            console.log('updated returned ', record);
             mutate((data) => ({ ...data, displayName: record.displayName }));
         });
     }
-    const loading = !data && !error;
     return {
         profile: data,
-        profileLoading: loading,
-        profileError: error,
+        profileLoaded: data.loaded,
+        profileError: data.error || error,
+        profileDisplayNameSet: data.displayName !== 'NoNameSet',
         profileMutate: mutate,
         updateDisplayName,
     };
@@ -35,9 +36,9 @@ function useProfileSummary(email) {
 function useProfileFull(userID) {
     const { data, mutate, error } = useSWR(
         userID ? ['profileFull', userID] : null,
-        (action, userID) => Fetch(action, { userID }),
+        (action, userID) => Fetch(action, { userID, loaded: false, error: false }),
         {
-            initialData: { displayName: 'Loading...' },
+            fallbackData: { displayName: 'Loading...' },
             enrolledGames: [],
             completedGames: [],
         }
@@ -46,17 +47,16 @@ function useProfileFull(userID) {
         mutate();
     }, [userID]);
     function joinGame(seasonID) {
-        console.log('top of join game ', seasonID);
         Update('joinGame', { userID, seasonID }).then((record) => {
             mutate();
         });
     }
-    const loading = !data && !error;
     return {
         joinGame,
         profile: data,
-        profileLoading: loading,
-        profileError: error,
+        profileLoaded: data.loaded,
+        profileError: data.error || error,
+        profileDisplayNameSet: data.displayName !== 'NoNameSet',
         profileMutate: mutate,
     };
 }
