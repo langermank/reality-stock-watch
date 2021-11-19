@@ -12,9 +12,15 @@
     li {
         display: flex;
         background: var(--bg-one-up);
-        padding: 1rem;
         margin: 1rem;
         border-radius: $border-radius;
+
+        button {
+            padding: 1rem;
+            border-radius: $border-radius;
+            width: 100%;
+            cursor: pointer;
+        }
 
         @media (min-width: 40rem) {
             & {

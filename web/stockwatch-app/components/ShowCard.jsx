@@ -1,30 +1,45 @@
 import PropTypes from 'prop-types';
 import { isUndefined } from 'lodash';
+import { useRouter } from 'next/router';
+import { useBackendContext } from 'backend/context';
 
-// FIXME: make configurable
-const imageUrlPrefix = 'https://dsw9arc6h9tqj.cloudfront.net';
+const ShowCard = ({ id, currentWeek, marketStatus, name, shortName, bankBalance, netWorth }) => {
+    const router = useRouter();
+    const { setSelectedSeasonID } = useBackendContext();
 
-const ShowCard = ({ id, currentWeek, marketStatus, name, bankBalance, netWorth }) => {
     const bankBalanceRendered = isUndefined(bankBalance) ? <></> : <p>Bank: {bankBalance}</p>;
     const netWorthRendered = isUndefined(netWorth) ? <></> : <p>Net Worth: {netWorth}</p>;
+
+    const handleClick = (e, seasonID) => {
+        e.preventDefault();
+        setSelectedSeasonID(seasonID);
+        router.push('/trade');
+    };
     return (
         <li>
-            <div>
-                <h3>{name}</h3>
-                <p>Current week:{currentWeek}</p>
-                {bankBalanceRendered}
-                {netWorthRendered}
-                <p>Market is {marketStatus}.</p>
-            </div>
+            <button onClick={(e) => handleClick(e, id)}>
+                <div>
+                    <h3>
+                        {name} ({shortName})
+                    </h3>
+                    <p>Current week:{currentWeek}</p>
+                    {bankBalanceRendered}
+                    {netWorthRendered}
+                    <p>Market is {marketStatus}.</p>
+                </div>
+            </button>
         </li>
     );
 };
 
 ShowCard.propTypes = {
-    id: PropTypes.id,
+    id: PropTypes.string,
     name: PropTypes.string,
-    currentWeek: PropTypes.string,
+    shortName: PropTypes.string,
+    currentWeek: PropTypes.number,
     marketStatus: PropTypes.string,
+    bankBalance: PropTypes.number,
+    netWorth: PropTypes.number,
 };
 
 ShowCard.defaultProps = {

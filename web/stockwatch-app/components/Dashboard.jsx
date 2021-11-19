@@ -7,10 +7,8 @@ import { find, omit } from 'lodash';
 //import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const Dashboard = ({ display }) => {
-    const { profile, profileLoaded, activeSeasons, setSelectedSeasonID } = useBackendContext();
+    const { profile, profileLoaded, activeSeasons } = useBackendContext();
     const { players } = usePlayersByUser(profileLoaded ? profile.id : null);
-
-    console.log('players', players);
 
     const showCards = activeSeasons.map((season) => {
         const player = omit(find(players, (p) => p.seasonID === season.id) || {}, ['id']);
