@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import styles from '../styles/login.module.scss';
 import { useBackendContext } from 'backend/context';
 import EditProfile from 'components/EditProfile';
+import Dashboard from 'components/Dashboard';
 
 // The display prop is a bit of a hack to avoid problems with
 // hooks.  The hooks need to remain the same throughout the
@@ -83,11 +84,12 @@ export default function Home() {
     const { isLoggedIn, isUserLoaded, profileDisplayNameSet } = useBackendContext();
     const showLogin = isUserLoaded && !isLoggedIn;
     const showEditProfile = isUserLoaded && isLoggedIn && !profileDisplayNameSet;
-
+    const showDashboard = !showLogin && !showEditProfile;
     return (
         <>
             <Login display={showLogin} />
             <EditProfile display={showEditProfile} />
+            <Dashboard display={showDashboard} />
         </>
     );
 }

@@ -371,6 +371,31 @@ const queries = {
             return player;
         },
     },
+    listPlayersByUser: {
+        query: /* GraphQL */ `
+            query listPlayers($userID: ID!) {
+                playersByUser(userID: $userID) {
+                    items {
+                        id
+                        seasonID
+                        bankBalance
+                        netWorth
+                    }
+                    nextToken
+                }
+            }
+        `,
+        convert: (data, items) => {
+            data.playersByUser.items.forEach((item) => {
+                items.push({
+                    ...item,
+                    bankBalance: parseFloat(item.bankBalance || '0'),
+                    netWorth: parseFloat(item.netWorth || '0'),
+                });
+            });
+            return { nextToken: data.playersByUser.nextToken, result: items };
+        },
+    },
     playerByUserSeason: {
         query: /* GraphQL */ `
             query player($userID: ID!, $seasonID: ID!) {
@@ -579,6 +604,7 @@ async function Fetch(requestType, variables) {
         case 'activeSeasons':
         case 'listContestants':
         case 'listActiveContestants':
+        case 'listPlayersByUser':
             {
                 let output = { nextToken: null, result: [] };
                 do {

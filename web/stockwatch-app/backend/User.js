@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { Hub, Auth } from 'backend/Configure';
 import { useProfileSummary } from 'backend/Profile';
 import useSWR from 'swr';
-import { ConsoleLogger } from 'aws-amplify/node_modules/@aws-amplify/core';
 
 // The Auth API has no way of checking if the user is logged in.
 // Use exceptions to hack around this.

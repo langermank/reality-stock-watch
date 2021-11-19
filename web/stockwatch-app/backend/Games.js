@@ -35,6 +35,20 @@ function usePlayer(playerID) {
     return { player: data, loading, error, mutate };
 }
 
+function usePlayersByUser(userID) {
+    const { data, mutate } = useSWR(
+        userID ? ['listPlayersByUser', userID] : null,
+        (action, userID) => Fetch(action, { userID }),
+        {
+            fallbackData: [],
+        }
+    );
+    useEffect(() => {
+        mutate();
+    }, [userID]);
+    return { players: data, mutate };
+}
+
 function useStocks(userID, seasonID) {
     const { data, mutate, error } = useSWR(
         userID && seasonID ? ['playerByUserSeason', userID, seasonID] : null,
@@ -371,4 +385,12 @@ function useActiveSeasons() {
     return { activeSeasons, selectedSeason, selectedSeasonID, setSelectedSeasonID, loading };
 }
 
-export { useTransactionsByPlayer, usePlayer, useWeek, useProjections, useActiveSeasons, useStocks };
+export {
+    useTransactionsByPlayer,
+    usePlayersByUser,
+    usePlayer,
+    useWeek,
+    useProjections,
+    useActiveSeasons,
+    useStocks,
+};
