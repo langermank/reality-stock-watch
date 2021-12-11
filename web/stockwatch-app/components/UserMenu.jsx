@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
 import styles from '../styles/components/dropdown.module.scss';
 import { useBackendContext } from 'backend/context';
 import Link from 'next/link';
@@ -8,7 +7,7 @@ import Button from './Button.jsx';
 import SocialLogin from './SocialLogin.jsx';
 import { Dialog, DialogTrigger, DialogContent } from './Dialog.jsx';
 import NavLink from './NavLink';
-import { Gear, UserCircle, CaretDown, SignIn, SignOut } from 'phosphor-react';
+import { Gear, UserCircle, CaretDown, SignOut } from 'phosphor-react';
 import { useMenuTriggerState } from '@react-stately/menu';
 import { useButton } from '@react-aria/button';
 import { useMenu, useMenuItem, useMenuTrigger } from '@react-aria/menu';
@@ -18,13 +17,14 @@ import { mergeProps } from '@react-aria/utils';
 import { FocusScope } from '@react-aria/focus';
 import { useFocus } from '@react-aria/interactions';
 import { useOverlay, DismissButton } from '@react-aria/overlays';
+import { useRef, useState } from 'react';
 
 function MenuButton(props) {
     // Create state based on the incoming props
     let state = useMenuTriggerState(props);
 
     // Get props for the menu trigger and menu elements
-    let ref = React.useRef();
+    let ref = useRef();
     let { menuTriggerProps, menuProps } = useMenuTrigger({}, state, ref);
 
     // Get props for the button based on the trigger props from useMenuTrigger
@@ -62,12 +62,12 @@ function MenuPopup(props) {
     let state = useTreeState({ ...props, selectionMode: 'none' });
 
     // Get props for the menu element
-    let ref = React.useRef();
+    let ref = useRef();
     let { menuProps } = useMenu(props, state, ref);
 
     // Handle events that should cause the menu to close,
     // e.g. blur, clicking outside, or pressing the escape key.
-    let overlayRef = React.useRef();
+    let overlayRef = useRef();
     let { overlayProps } = useOverlay(
         {
             onClose: props.onClose,
@@ -121,7 +121,7 @@ function MenuPopup(props) {
 
 function MenuItem({ item, state, onAction, onClose, onClick }) {
     // Get props for the menu item element
-    let ref = React.useRef();
+    let ref = useRef();
     let { menuItemProps } = useMenuItem(
         {
             key: item.key,
@@ -137,7 +137,7 @@ function MenuItem({ item, state, onAction, onClose, onClick }) {
 
     // Handle focus events so we can apply highlighted
     // style to the focused menu item
-    let [isFocused, setFocused] = React.useState(false);
+    let [isFocused, setFocused] = useState(false);
     let { focusProps } = useFocus({ onFocusChange: setFocused });
 
     return (
@@ -181,7 +181,7 @@ export const UserMenu = ({ href }) => {
         e.preventDefault();
         router.push(href);
     };
-    const { authenticatedUser, user, toggleLogin, profile } = useBackendContext();
+    const { isLoggedIn, profile } = useBackendContext();
 
     // if not logged in show login button
     if (!authenticatedUser || !authenticatedUser.loggedIn) {

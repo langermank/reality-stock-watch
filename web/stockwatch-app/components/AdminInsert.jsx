@@ -8,7 +8,6 @@ import { Lock } from 'phosphor-react';
 export const AdminInsert = () => {
     const router = useRouter();
     const { profile, clearMockUser, setMockUserEmail, isAdmin } = useBackendContext();
-    console.log('in admininsert profile is ', profile);
     if (!isAdmin) {
         return <></>;
     }
