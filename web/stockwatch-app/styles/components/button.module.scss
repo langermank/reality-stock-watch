@@ -24,6 +24,11 @@
         color: var(--slate9);
         cursor: not-allowed;
     }
+
+    svg {
+        height: 1.25rem;
+        width: 1.25rem;
+    }
 }
 
 .btnIcon {

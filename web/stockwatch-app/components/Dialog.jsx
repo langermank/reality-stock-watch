@@ -2,22 +2,25 @@
 import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'phosphor-react';
-// import Button from './Button.jsx';
+import styles from '../styles/components/dialog.module.scss';
+import Button from './Button.jsx';
 
 export function Dialog({ children, ...props }) {
     return (
         <DialogPrimitive.Root {...props}>
-            <DialogPrimitive.Overlay />
+            <DialogPrimitive.Overlay className={styles.overlayBackground} />
             {children}
         </DialogPrimitive.Root>
     );
 }
 
 export const DialogContent = React.forwardRef(({ children, ...props }, forwardedRef) => (
-    <DialogPrimitive.Content {...props} ref={forwardedRef}>
+    <DialogPrimitive.Content {...props} ref={forwardedRef} className={styles.overlay}>
         {children}
-        <DialogPrimitive.Close>
-            <X />
+        <DialogPrimitive.Close asChild>
+            <Button variant="outline" icon={<X />} iconOnly className={styles.closeBtn}>
+                Close
+            </Button>
         </DialogPrimitive.Close>
     </DialogPrimitive.Content>
 ));

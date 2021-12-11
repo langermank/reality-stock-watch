@@ -1,6 +1,33 @@
 @import 'include-media/dist/_include-media.scss';
 @import '../_mixins.scss';
 
+.overlay {
+    background-color: var(--slate4);
+    border-radius: 6px;
+    box-shadow: var(--shadow-elevation-high);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 450px;
+    max-height: 85vh;
+    padding: 25px;
+}
+
+.overlayBackground {
+    background-color: var(--blackA11);
+    position: fixed;
+    inset: 0px;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: solid 1px transparent !important;
+}
+
 // const overlayShow = keyframes({
 //   '0%': { opacity: 0 },
 //   '100%': { opacity: 1 },

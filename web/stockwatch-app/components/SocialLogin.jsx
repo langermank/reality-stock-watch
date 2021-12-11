@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
 import { FacebookLogo, TwitchLogo, TwitterLogo, GoogleLogo, DiscordLogo } from 'phosphor-react';
+import Button from './Button.jsx';
 import clsx from 'clsx';
 import styles from '../styles/login.module.scss';
 
@@ -7,66 +8,46 @@ const SocialLogin = ({}) => {
     return (
         <div className={styles.login}>
             <h3>Login or join through social</h3>
-            <a
+            <Button
+                width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Twitter' })}
-                className={clsx(
-                    styles.btnBase,
-                    styles.prepend,
-                    styles.fullWidth,
-                    styles.twitter,
-                    styles.icon
-                )}>
-                <TwitterLogo />
-                <span>Sign-in with Twitter</span>
-            </a>
-            <a
+                icon={<TwitterLogo />}
+                variant="unstyled"
+                className={clsx(styles.twitter)}>
+                Sign-in with Twitter
+            </Button>
+            <Button
+                width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Facebook' })}
-                className={clsx(
-                    styles.btnBase,
-                    styles.prepend,
-                    styles.fullWidth,
-                    styles.facebook,
-                    styles.icon
-                )}>
-                <FacebookLogo />
-                <span>Sign-in with Facebook</span>
-            </a>
-            <a
+                icon={<FacebookLogo />}
+                variant="unstyled"
+                className={clsx(styles.facebook)}>
+                Sign-in with Facebook
+            </Button>
+            <Button
+                width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'DiscordPython' })}
-                className={clsx(
-                    styles.btnBase,
-                    styles.prepend,
-                    styles.fullWidth,
-                    styles.discord,
-                    styles.icon
-                )}>
-                <DiscordLogo />
-                <span>Sign-in with Discord</span>
-            </a>
-            <a
+                icon={<DiscordLogo />}
+                variant="unstyled"
+                className={clsx(styles.discord)}>
+                Sign-in with Discord
+            </Button>
+            <Button
+                width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Twitch' })}
-                className={clsx(
-                    styles.btnBase,
-                    styles.prepend,
-                    styles.fullWidth,
-                    styles.twitch,
-                    styles.icon
-                )}>
-                <TwitchLogo />
-                <span>Sign-in with Twitch</span>
-            </a>
-            <a
+                icon={<TwitchLogo />}
+                variant="unstyled"
+                className={clsx(styles.twitch)}>
+                Sign-in with Twitch
+            </Button>
+            <Button
+                width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Google' })}
-                className={clsx(
-                    styles.btnBase,
-                    styles.prepend,
-                    styles.fullWidth,
-                    styles.google,
-                    styles.icon
-                )}>
-                <GoogleLogo />
-                <span>Sign-in with Google</span>
-            </a>
+                icon={<GoogleLogo />}
+                variant="unstyled"
+                className={clsx(styles.google)}>
+                Sign-in with Google
+            </Button>
         </div>
     );
 };

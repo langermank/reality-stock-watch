@@ -35,7 +35,6 @@ const Button = React.forwardRef(
                 data-size={size}
                 data-icon-position={!iconOnly && iconPosition}
                 data-width={!iconOnly && width}
-                disabled={disabled}
                 id={id}
                 {...other}>
                 {icon && <div className={styles.btnIcon}>{icon}</div>}
@@ -65,6 +64,7 @@ Button.propTypes = {
         'primaryGhost',
         'secondaryGhost',
         'outline',
+        'unstyled',
     ]),
     icon: PropTypes.node,
     iconOnly: PropTypes.bool,

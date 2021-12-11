@@ -7,7 +7,7 @@ import Button from './Button.jsx';
 import SocialLogin from './SocialLogin.jsx';
 import { Dialog, DialogTrigger, DialogContent } from './Dialog.jsx';
 import NavLink from './NavLink';
-import { Gear, UserCircle, CaretDown, SignOut } from 'phosphor-react';
+import { Gear, UserCircle, CaretDown, SignOut, SignIn } from 'phosphor-react';
 import { useMenuTriggerState } from '@react-stately/menu';
 import { useButton } from '@react-aria/button';
 import { useMenu, useMenuItem, useMenuTrigger } from '@react-aria/menu';
@@ -184,7 +184,7 @@ export const UserMenu = ({ href }) => {
     const { isLoggedIn, profile } = useBackendContext();
 
     // if not logged in show login button
-    if (!authenticatedUser || !authenticatedUser.loggedIn) {
+    if (!isLoggedIn) {
         return (
             <Dialog>
                 <DialogTrigger asChild>
