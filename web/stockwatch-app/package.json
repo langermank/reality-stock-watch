@@ -15,6 +15,7 @@
     "@aws-amplify/core": "^4.3.7",
     "@aws-amplify/ui-react": "^1.2.8",
     "@radix-ui/colors": "^0.1.7",
+    "@radix-ui/react-dialog": "^0.1.1",
     "@radix-ui/react-dropdown-menu": "^0.0.23",
     "@radix-ui/react-popover": "^0.1.1",
     "@react-aria/button": "^3.3.3",

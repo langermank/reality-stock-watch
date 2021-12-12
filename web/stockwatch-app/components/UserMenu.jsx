@@ -4,8 +4,10 @@ import { useBackendContext } from 'backend/context';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from './Button.jsx';
+import SocialLogin from './SocialLogin.jsx';
+import { Dialog, DialogTrigger, DialogContent } from './Dialog.jsx';
 import NavLink from './NavLink';
-import { Gear, UserCircle, CaretDown, SignOut } from 'phosphor-react';
+import { Gear, UserCircle, CaretDown, SignOut, SignIn } from 'phosphor-react';
 import { useMenuTriggerState } from '@react-stately/menu';
 import { useButton } from '@react-aria/button';
 import { useMenu, useMenuItem, useMenuTrigger } from '@react-aria/menu';
@@ -181,9 +183,28 @@ export const UserMenu = ({ href }) => {
     };
     const { isLoggedIn, profile } = useBackendContext();
 
-    // if not logged don't show anything
+    // if not logged in show login button
     if (!isLoggedIn) {
-        return <></>;
+        return (
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button
+                        variant="primary"
+                        // onClick={toggleLogin}
+                        iconPosition="rightCentered"
+                        icon={<SignIn />}
+                        // fix state issue later
+                        // iconOnly={activePanel === 'closed'}
+                        width="fullWidth"
+                        className={styles.iconOnlyHack}>
+                        <div className={styles.dropdownTriggerLabel}>Sign-in or join</div>
+                    </Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <SocialLogin />
+                </DialogContent>
+            </Dialog>
+        );
     }
 
     // if logged in show user dropdown menu
