@@ -52,8 +52,9 @@ const mutations = {
     },
     trade: {
         mutation: /* GraphQL */ `
-            mutation trade($playerID: ID!, $lines: AWSJSON!) {
-                trade(input: { playerID: $playerID, lines: $lines }) {
+            mutation trade($seasonID: ID!, $lines: [TradeLine]!) {
+                trade(seasonID: $seasonID, lines: $lines) {
+                    playerID
                     message
                     bankBalance
                     netWorth
@@ -63,6 +64,7 @@ const mutations = {
         convert: (data) => {
             return data.trade;
         },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
     },
     joinGame: {
         mutation: /* GraphQL */ `
@@ -113,8 +115,7 @@ const mutations = {
 };
 
 async function Update(requestType, variables) {
-    console.log('Mutate', requestType, variables);
-    const { mutation, convert } = mutations[requestType];
+    const { mutation, convert, authMode } = mutations[requestType];
     let result;
     switch (requestType) {
         case 'weekContestants':
@@ -124,11 +125,10 @@ async function Update(requestType, variables) {
         case 'displayName':
         case 'joinGame':
         case 'season':
-            console.log('update before', requestType, variables);
             result = convert(
-                (await API.graphql({ query: mutation, variables, authMode: 'AWS_IAM' })).data
+                (await API.graphql({ query: mutation, variables, authMode: authMode || 'AWS_IAM' }))
+                    .data
             );
-            console.log('update after', result);
             break;
         default:
             console.log('Unknown request type');

@@ -16,7 +16,6 @@ function NumberField(props) {
     let inputRef = React.useRef();
     let { labelProps, groupProps, inputProps, incrementButtonProps, decrementButtonProps } =
         useNumberField(props, state, inputRef);
-    console.log('input props', inputProps);
     let { buttonProps: incrementProps } = useButton(incrementButtonProps);
     let { buttonProps: decrementProps } = useButton(decrementButtonProps);
     return (

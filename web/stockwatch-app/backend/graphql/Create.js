@@ -117,6 +117,33 @@ const mutations = {
             return { ...data.createContestant };
         },
     },
+    // player: {
+    //     mutation: /* GraphQL */ `
+    //         mutation createPlayer(
+    //             $userID: ID!
+    //             $seasonID: ID!
+    //             $bankBalance: Int!
+    //             $netWorth: Int!
+    //         ) {
+    //             createPlayer(
+    //                 input: {
+    //                     userID: $userID
+    //                     seasonID: $seasonID
+    //                     bankBalance: $bankBalance
+    //                     netWorth: $netWorth
+    //                 }
+    //             ) {
+    //                 id
+    //                 seasonID
+    //                 bankBalance
+    //                 netWorth
+    //             }
+    //         }
+    //     `,
+    //     convert: (data) => {
+    //         return { ...data.createPlayer };
+    //     },
+    // },
     week: {
         mutation: /* GraphQL */ `
             mutation createWeek(
@@ -158,6 +185,7 @@ async function Create(requestType, variables) {
         case 'season':
         case 'week':
         case 'contestant':
+            //case 'player':
             result = convert(
                 (await API.graphql({ query: mutation, variables, authMode: 'AWS_IAM' })).data
             );

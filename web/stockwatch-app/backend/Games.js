@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import Fetch from 'backend/graphql/Fetch';
+import Create from 'backend/graphql/Create';
 import Update from 'backend/graphql/Update';
 import lookup from './formulaLookup';
-import { mapValues, reduce, unionBy, uniq, filter, pull, omit } from 'lodash';
+import { mapValues, reduce, unionBy, uniq, filter, pick, pull, omit } from 'lodash';
 
 function useTransactionsByPlayer(playerID) {
     const { data, mutate, error } = useSWR(
@@ -54,28 +55,49 @@ function useStocks(userID, seasonID) {
         userID && seasonID ? ['playerByUserSeason', userID, seasonID] : null,
         (action, userID, seasonID) => Fetch(action, { userID, seasonID }),
         {
-            fallbackData: { stocks: [] },
+            fallbackData: {
+                loaded: false,
+                stocks: [],
+            },
         }
     );
-    const playerID = data.id;
-
     useEffect(() => {
         mutate();
     }, [userID, seasonID]);
-    const loading = !data && !error;
 
-    function trade(lines) {
-        Update('trade', { playerID, lines }).then((result) => {
-            if (result.netWorth) {
-                mutate();
+    const bankLoaded = data.loaded;
+    const stocks = bankLoaded ? data.stocks : [];
+    const bankBalance = bankLoaded ? data.bankBalance : 0;
+    const netWorth = bankLoaded ? data.netWorth : 0;
+
+    function trade(lines, tradeDetails) {
+        const pickedLines = lines.map((line) => pick(line, ['contestantID', 'quantity']));
+        const updatedStocks = { ...data.stocks };
+        for (const line of pickedLines) {
+            if (!updatedStocks[line.contestantID]) {
+                updatedStocks[line.contestantID] = 0;
             }
-        });
+            updatedStocks[line.contestantID] += line.quantity;
+            if (!updatedStocks[line.contestantID]) {
+                delete updatedStocks[line.contestantID];
+            }
+        }
+        mutate((data) => {
+            return {
+                ...data,
+                bankBalance: tradeDetails.remainingBalance,
+                stocks: updatedStocks,
+            };
+        }, false);
+        Update('trade', { seasonID, lines: pickedLines });
     }
 
     return {
-        stocks: data,
+        stocks,
         trade,
-        stocksLoading: loading,
+        bankLoaded,
+        bankBalance,
+        netWorth,
         stocksError: error,
         stocksMutate: mutate,
     };
@@ -255,7 +277,7 @@ function calculate(from, to, previousPrice, strikes) {
 
 function useProjections(seasonID, weekNumber) {
     const { data, mutate, error } = useSWR(
-        ['prices', seasonID, weekNumber - 1, weekNumber],
+        seasonID && weekNumber ? ['prices', seasonID, weekNumber - 1, weekNumber] : null,
         (action, seasonID, startWeekNumber, endWeekNumber) =>
             Fetch(action, { seasonID, startWeekNumber, endWeekNumber }),
         {

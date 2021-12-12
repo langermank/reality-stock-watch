@@ -79,12 +79,12 @@ const StockCard = ({ name, image, rating, price, priceChange, shares, maxShares,
 StockCard.propTypes = {
     name: PropTypes.string,
     image: PropTypes.string,
-    rating: PropTypes.string,
-    price: PropTypes.string,
-    priceChange: PropTypes.string,
-    shares: PropTypes.string,
-    maxShares: PropTypes.string,
-    setShares: PropTypes.function,
+    rating: PropTypes.number,
+    price: PropTypes.number,
+    priceChange: PropTypes.number,
+    shares: PropTypes.number,
+    maxShares: PropTypes.number,
+    setShares: PropTypes.func,
 };
 
 StockCard.defaultProps = {
@@ -95,7 +95,6 @@ StockCard.defaultProps = {
     priceChange: '2',
     shares: '3',
     maxShares: '5',
-    // setShares: PropTypes.function,
 };
 
 export default StockCard;

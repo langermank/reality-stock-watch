@@ -1,17 +1,27 @@
-import clsx from 'clsx';
 import StockCard from 'components/StockCard';
 import Button from 'components/Button';
 import styles from 'styles/trade.module.scss';
 import { useBackendContext } from 'backend/context';
 import { useProjections } from 'backend/Games';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { omit } from 'lodash';
-import { X, MinusCircle } from 'phosphor-react';
+import TradeBox from './TradeBox';
+import BankInfo from './BankInfo';
 
-function tradeParams(contestants, stocks, trades) {
-    const startingBalance = stocks.bankBalance;
+// Given a starting bank balance and a bunch of trades,
+// figure out the data needed to render the contestant
+// cards and trade box.
+//
+// Key things to calculate are the remaining bank balance
+// and the maximum number of shares that can be purchased
+// for each contestant.
+//
+function tradeBoxInfo(contestants, startingBalance, stocks, trades) {
     let remainingBalance = startingBalance;
 
+    // Iterate over the trades and create a transaction line
+    // for each (destined for the trade box). Calculate the
+    // remaining balance as we go.
     let transactionLines = [];
     for (let contestantID in trades) {
         const quantity = trades[contestantID];
@@ -23,6 +33,8 @@ function tradeParams(contestants, stocks, trades) {
         transactionLines.push({ contestantID, nickname, quantity, price, subtotal });
     }
 
+    // Now that we have the remaining balance, we can figure out
+    // the maxShares for each contestant.
     const contestantData = Object.keys(contestants).map((contestantID) => {
         const contestant = contestants[contestantID];
         const name = contestant.nickname;
@@ -49,58 +61,8 @@ function tradeParams(contestants, stocks, trades) {
     return { startingBalance, remainingBalance, transactionLines, contestantData };
 }
 
-function TradeBox({ remainingBalance, transactionLines, clearTrade }) {
-    if (transactionLines.length == 0) {
-        return <></>;
-    }
-
-    // (
-    //             {new Intl.NumberFormat('en-US', {
-    //                 style: 'currency',
-    //                 currency: 'USD',
-    //             }).format(price)}
-    //             )
-    const tradeLines = transactionLines.map(
-        ({ contestantID, nickname, quantity, price, subtotal }) => (
-            <li key={contestantID} className={styles.cartItem}>
-                <span className={styles.cartItemWrap}>
-                    <span className={styles.quantity}>{quantity}x</span>
-
-                    <span>{nickname}</span>
-                    <span>
-                        {new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                        }).format(subtotal)}
-                    </span>
-                </span>
-                <Button
-                    variant="secondaryHint"
-                    iconOnly
-                    onClick={() => clearTrade(contestantID)}
-                    icon={<MinusCircle />}
-                    size="small">
-                    Remove item
-                </Button>
-            </li>
-        )
-    );
-    return (
-        <div className={styles.fundsWrap}>
-            <div className={styles.funds}>
-                <ul className={styles.tradeLinesWrap}>{tradeLines}</ul>
-                <p>
-                    Remaining funds:{' '}
-                    {new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                    }).format(remainingBalance)}
-                </p>
-            </div>
-        </div>
-    );
-}
-
+// Set the trades for contestantID to newQuantity.  The hook function "setTrades"
+// is called, and old value of trades is replace with an updated value.
 function updateTrades(stocks, contestantID, newQuantity, setTrades) {
     const shares = stocks[contestantID] || 0;
     const tradeQuantity = newQuantity - shares;
@@ -112,17 +74,18 @@ function updateTrades(stocks, contestantID, newQuantity, setTrades) {
 }
 
 function Trade() {
-    const { selectedSeason, stocks, trade, profile } = useBackendContext();
+    const { selectedSeason, stocks, bankLoaded, bankBalance, netWorth, trade } =
+        useBackendContext();
     const { contestants } = useProjections(selectedSeason.id, selectedSeason.currentWeek);
     const [trades, setTrades] = useState({});
-    const params = tradeParams(contestants, stocks, trades);
+    const tradeDetails = tradeBoxInfo(contestants, bankBalance, stocks, trades);
 
     const marketStatus = selectedSeason.marketStatus == 'open' ? 'open' : 'closed';
     const untilDate = new Date(
         marketStatus == 'open' ? selectedSeason.nextMarketClose : selectedSeason.nextMarketOpen
     );
-    console.log('contestantData', params.contestantData);
-    const stockCards = params.contestantData.map((contestant) => (
+
+    const stockCards = tradeDetails.contestantData.map((contestant) => (
         <StockCard
             key={contestant.contestantID}
             {...contestant}
@@ -154,26 +117,18 @@ function Trade() {
                 <div className={styles.userDetails}>
                     <div className={styles.userPanel}>
                         <div className={styles.fundsWrap}>
-                            <div className={styles.funds}>
-                                <p>{profile.displayName}</p>
-                                <p className={styles.availFunds}>Available Funds</p>
-                                <h1>
-                                    {new Intl.NumberFormat('en-US', {
-                                        style: 'currency',
-                                        currency: 'USD',
-                                    }).format(stocks.bankBalance)}
-                                </h1>
-                                <p className={styles.netWorth}>
-                                    Net worth:{' '}
-                                    {new Intl.NumberFormat('en-US', {
-                                        style: 'currency',
-                                        currency: 'USD',
-                                    }).format(stocks.netWorth)}
-                                </p>
-                            </div>
+                            <BankInfo
+                                className={styles.funds}
+                                styles={styles}
+                                bankLoaded={bankLoaded}
+                                bankBalance={bankBalance}
+                                netWorth={netWorth}
+                            />
                         </div>
                         <TradeBox
-                            {...params}
+                            className={styles.fundsWrap}
+                            styles={styles}
+                            {...tradeDetails}
                             clearTrade={(contestantID) =>
                                 updateTrades(stocks, contestantID, 0, setTrades)
                             }
@@ -182,7 +137,7 @@ function Trade() {
                             variant="secondary"
                             disabled={selectedSeason.marketStatus !== 'open'}
                             onClick={() => {
-                                trade(params.transactionLines);
+                                trade(tradeDetails.transactionLines, tradeDetails);
                                 setTrades({});
                             }}>
                             Submit trade
