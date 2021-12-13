@@ -6,6 +6,7 @@ const mutations = {
             mutation deleteShow($id: ID!) {
                 deleteShow(input: { id: $id }) {
                     id
+                    image
                 }
             }
         `,

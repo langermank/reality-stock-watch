@@ -3,10 +3,11 @@ import { API } from 'backend/Configure';
 const mutations = {
     show: {
         mutation: /* GraphQL */ `
-            mutation createShow($name: String!) {
-                createShow(input: { name: $name }) {
+            mutation createShow($name: String!, $image: String) {
+                createShow(input: { name: $name, image: $image }) {
                     id
                     name
+                    image
                 }
             }
         `,

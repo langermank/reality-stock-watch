@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
+import { Storage } from 'aws-amplify';
 import Fetch from 'backend/graphql/Fetch';
 import Create from 'backend/graphql/Create';
 import Delete from 'backend/graphql/Delete';
@@ -19,13 +20,29 @@ function useShows({ initialShows = [] } = {}) {
     }, []);
     const loading = !data && !error;
 
-    function createShow({ name }) {
-        mutate(async (shows) => [...shows, await Create('show', { name })], false);
+    async function createShow({ name, thumbnail }) {
+        // Without the customPrefix, the storage api adds /public
+        // before any s3 keys.
+        //
+        const uploadExt = encodeURIComponent(thumbnail.name.split('.').pop());
+        const image = 'uploads/show-' + Date.now() + '-' + crypto.randomUUID() + '.' + uploadExt;
+        await Storage.put(image, thumbnail, {
+            customPrefix: {
+                public: '',
+            },
+            contentType: thumbnail.type,
+        });
+        mutate(async (shows) => [...shows, await Create('show', { name, image })], false);
     }
 
-    function deleteShow(id) {
-        Delete('show', { id });
+    async function deleteShow(id) {
+        const { image } = await Delete('show', { id });
         mutate(async (shows) => filter(shows, (show) => show.id != id), false);
+        await Storage.remove(image, {
+            customPrefix: {
+                public: '',
+            },
+        });
     }
 
     return { shows: data, loading, createShow, deleteShow };

@@ -68,6 +68,7 @@ const queries = {
                     items {
                         id
                         name
+                        image
                         seasons {
                             items {
                                 currentWeek
@@ -87,6 +88,7 @@ const queries = {
                 items.push({
                     id: show.id,
                     name: show.name,
+                    image: show.image,
                     seasons: show.seasons.items,
                 });
             });
@@ -99,6 +101,7 @@ const queries = {
                 getShow(id: $showID) {
                     id
                     name
+                    image
                     seasons {
                         items {
                             currentWeek
@@ -115,6 +118,7 @@ const queries = {
             let show = {
                 id: data.getShow.id,
                 name: data.getShow.name,
+                image: data.getShow,
                 seasons: [],
             };
             data.getShow.seasons.items.forEach((season) => {
