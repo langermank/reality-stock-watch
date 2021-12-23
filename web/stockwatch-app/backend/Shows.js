@@ -181,10 +181,22 @@ function useContestants(seasonID) {
         mutate();
     }, [seasonID]);
     const loading = !contestants && !error;
-    function createContestant(fields) {
+    async function createContestant(fields) {
+        // Without the customPrefix, the storage api adds /public
+        // before any s3 keys.
+        //
+        const uploadExt = encodeURIComponent(fields.image.name.split('.').pop());
+        const image = 'uploads/show-' + Date.now() + '-' + crypto.randomUUID() + '.' + uploadExt;
+        await Storage.put(image, fields.image, {
+            customPrefix: {
+                public: '',
+            },
+            contentType: fields.image.type,
+        });
         mutate(async (contestants) => {
             const finalFields = {
                 ...fields,
+                image,
                 seasonID,
                 status: 'active',
                 weekEvicted: 0,
