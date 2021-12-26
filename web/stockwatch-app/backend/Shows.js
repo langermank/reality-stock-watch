@@ -162,7 +162,14 @@ function useSeason(seasonID) {
         // na
     }
 
-    return { season, loading, nextWeekNumber, createWeek, deleteWeek, updateSeason };
+    return {
+        season,
+        loading,
+        nextWeekNumber,
+        createWeek,
+        deleteWeek,
+        updateSeason,
+    };
 }
 function useContestants(seasonID) {
     const {

@@ -21,12 +21,14 @@ const Ratings = () => {
         useWeek(seasonID, weekNumber);
     const canEdit = isAdmin && week.currentWeek < weekNumber;
     console.log('players', week);
-    const tableHeadings = week.players.map((player) => (
-        <th key={player.playerID}>
-            {player.playerDisplayName}
-            {/* <button onClick={() => removePlayer(player.playerID)}>X</button> */}
-        </th>
-    ));
+    const tableHeadings = week.players
+        ? week.players.map((player) => (
+              <th key={player.playerID}>
+                  {player.playerDisplayName}
+                  {/* <button onClick={() => removePlayer(player.playerID)}>X</button> */}
+              </th>
+          ))
+        : [];
     const tableContestants = week.contestants.map((contestant) => {
         let cells = [];
         console.log('conestant is', contestant);
@@ -62,7 +64,7 @@ const Ratings = () => {
                 </DropdownMenu.Root>
             </td>
         ) : (
-            ''
+            <></>
         );
 
         const extraItemTag = week.contestantExtraTags.map(

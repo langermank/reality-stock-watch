@@ -47,7 +47,7 @@ function useProfileFull(userID) {
         mutate();
     }, [userID]);
     function joinGame(seasonID) {
-        Update('joinGame', { userID, seasonID }).then((record) => {
+        Update('joinGame', { userID, seasonID }).then(() => {
             mutate();
         });
     }

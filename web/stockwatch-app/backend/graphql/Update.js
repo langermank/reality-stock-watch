@@ -91,6 +91,8 @@ const mutations = {
                 $contestantExtraTags: AWSJSON
                 $startingBankBalance: Int
                 $weeklyBankIncrease: Int
+                $status: String
+                $marketStatus: String
             ) {
                 updateSeason(
                     input: {
@@ -102,6 +104,8 @@ const mutations = {
                         contestantExtraTags: $contestantExtraTags
                         startingBankBalance: $startingBankBalance
                         weeklyBankIncrease: $weeklyBankIncrease
+                        status: $status
+                        marketStatus: $marketStatus
                     }
                 ) {
                     id

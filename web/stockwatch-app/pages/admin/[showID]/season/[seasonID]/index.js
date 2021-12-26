@@ -20,6 +20,8 @@ const Season = () => {
     const [contestantExtraTags, setContestantExtraTags] = useState('');
     const [startingBankBalance, setStartingBankBalance] = useState(0);
     const [weeklyBankIncrease, setWeeklyBankIncrease] = useState(0);
+    const [status, setStatus] = useState('not started');
+    const [marketStatus, setMarketStatus] = useState('closed');
 
     useEffect(() => {
         setFormDirty(false);
@@ -30,6 +32,8 @@ const Season = () => {
         setContestantExtraTags(season.contestantExtraTags || '');
         setStartingBankBalance(season.startingBankBalance || 0);
         setWeeklyBankIncrease(season.weeklyBankIncrease || 0);
+        setStatus(season.status || 'not started');
+        setMarketStatus(season.marketStatus || 'closed');
     }, [season]);
 
     useEffect(() => {
@@ -40,7 +44,9 @@ const Season = () => {
                 nextMarketOpen != season.nextMarketOpen ||
                 contestantExtraTags != season.contestantExtraTags ||
                 startingBankBalance != season.startingBankBalance ||
-                weeklyBankIncrease != season.weeklyBankIncrease
+                weeklyBankIncrease != season.weeklyBankIncrease ||
+                status != season.status ||
+                marketStatus != season.marketStatus
         );
     }, [
         name,
@@ -50,6 +56,8 @@ const Season = () => {
         contestantExtraTags,
         startingBankBalance,
         weeklyBankIncrease,
+        status,
+        marketStatus,
     ]);
 
     function save() {
@@ -61,6 +69,8 @@ const Season = () => {
             contestantExtraTags,
             startingBankBalance,
             weeklyBankIncrease,
+            status,
+            marketStatus,
         });
     }
 
@@ -98,8 +108,29 @@ const Season = () => {
     // should consider whether or not the first week should be handled automatically as well.
     //
     let addWeekButton = <></>;
+    let marketStatusSelector = <>{season.marketStatus}</>;
+    let statusSelector = <>{season.status}</>;
     if (isAdmin && nextWeekNumber > maxWeekNumber) {
         addWeekButton = <Button onClick={createWeek}>Create week #{nextWeekNumber}</Button>;
+    }
+    if (isAdmin) {
+        marketStatusSelector = (
+            <select onChange={(e) => setMarketStatus(e.target.value)} value={marketStatus}>
+                <option value="closed" default>
+                    Closed
+                </option>
+                <option value="open">Open</option>
+            </select>
+        );
+        statusSelector = (
+            <select onChange={(e) => setStatus(e.target.value)} value={status}>
+                <option value="not started" default>
+                    Not Started
+                </option>
+                <option value="active">Active</option>
+                <option value="ended">Ended</option>
+            </select>
+        );
     }
 
     return (
@@ -146,13 +177,13 @@ const Season = () => {
                     onChange={(e) => setWeeklyBankIncrease(e.target.value)}
                 />
             </p>
+            <p>Season Status: {statusSelector}</p>
+            <p>Market Status: {marketStatusSelector}</p>
             <Button disabled={!formDirty} onClick={save}>
                 Save
             </Button>
             <p>Current week: {season.currentWeek}</p>
             <p>Last price calculation: {season.lastBatchUpdate}</p>
-            <p>Season Status: {season.status}</p>
-            <p>Market Status: {season.marketStatus}</p>
             <ul>{weeks}</ul>
             {addWeekButton}
             <p>
