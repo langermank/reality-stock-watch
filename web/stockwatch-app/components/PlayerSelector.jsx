@@ -3,12 +3,7 @@ import * as Popover from '@radix-ui/react-popover';
 import Input from 'components/Input';
 import { useLeaderboard } from 'backend/Leaderboard';
 
-const PlayerSelector = ({ seasonID, onSelect }) => {
-    const { searchResults: players, searchTerm, setSearchTerm, setSeasonID } = useLeaderboard();
-    useEffect(() => {
-        setSeasonID(seasonID);
-    }, [seasonID]);
-
+function renderPopover(players, leaderboardTimestamp, setSearchTerm, onSelect) {
     const resultList = players ? (
         <ul>
             {players.map((player) => (
@@ -20,6 +15,9 @@ const PlayerSelector = ({ seasonID, onSelect }) => {
     ) : (
         <></>
     );
+
+    const timestamp = new Date(leaderboardTimestamp).toLocaleString();
+
     return (
         <>
             <Popover.Root>
@@ -35,6 +33,40 @@ const PlayerSelector = ({ seasonID, onSelect }) => {
                     {resultList}
                 </Popover.Content>
             </Popover.Root>
+            <p>Player list updated at {timestamp}.</p>
+        </>
+    );
+}
+
+const PlayerSelector = ({ seasonID, onSelect }) => {
+    const {
+        searchResults: players,
+        setSearchTerm,
+        setSeasonID,
+        leaderboardStatus,
+        leaderboardTimestamp,
+        generateLeaderboard,
+    } = useLeaderboard();
+    useEffect(() => {
+        setSeasonID(seasonID);
+    }, [seasonID]);
+
+    let popover = <p>Leaderboard error</p>;
+    let button = <button onClick={generateLeaderboard}>Generate Leaderboard</button>;
+    if (leaderboardStatus === 'ok') {
+        popover = renderPopover(players, leaderboardTimestamp, setSearchTerm, onSelect);
+    }
+    if (leaderboardStatus == 403) {
+        popover = <p>Season has no leaderboard.</p>;
+    }
+    if (leaderboardStatus == 'loading') {
+        popover = <p>Generating leaderboard...</p>;
+        button = <></>;
+    }
+    return (
+        <>
+            {popover}
+            {button}
         </>
     );
 };

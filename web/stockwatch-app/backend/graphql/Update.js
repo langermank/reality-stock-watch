@@ -66,6 +66,19 @@ const mutations = {
         },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
     },
+    generateLeaderboard: {
+        mutation: /* GraphQL */ `
+            mutation generateLeaderboard($seasonID: String!) {
+                generateLeaderboard(seasonID: $seasonID) {
+                    status
+                }
+            }
+        `,
+        convert: (data) => {
+            return data.generateLeaderboard;
+        },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+    },
     joinGame: {
         mutation: /* GraphQL */ `
             mutation joinGame($userID: ID!, $seasonID: ID!) {
@@ -129,6 +142,7 @@ async function Update(requestType, variables) {
         case 'displayName':
         case 'joinGame':
         case 'season':
+        case 'generateLeaderboard':
             result = convert(
                 (await API.graphql({ query: mutation, variables, authMode: authMode || 'AWS_IAM' }))
                     .data
