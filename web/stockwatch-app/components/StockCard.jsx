@@ -5,9 +5,7 @@ import NumberInput from './NumberInput';
 import clsx from 'clsx';
 import { Star, ArrowUp, ArrowDown } from 'phosphor-react';
 import styles from '../styles/stockcard.module.scss';
-
-// FIXME: make configurable
-const imageUrlPrefix = 'https://dsw9arc6h9tqj.cloudfront.net';
+import { imageUrlPrefix } from 'backend/config';
 
 const StockCard = ({ name, image, rating, price, priceChange, shares, maxShares, setShares }) => {
     return (
@@ -79,12 +77,12 @@ const StockCard = ({ name, image, rating, price, priceChange, shares, maxShares,
 StockCard.propTypes = {
     name: PropTypes.string,
     image: PropTypes.string,
-    rating: PropTypes.string,
-    price: PropTypes.string,
-    priceChange: PropTypes.string,
-    shares: PropTypes.string,
-    maxShares: PropTypes.string,
-    setShares: PropTypes.function,
+    rating: PropTypes.number,
+    price: PropTypes.number,
+    priceChange: PropTypes.number,
+    shares: PropTypes.number,
+    maxShares: PropTypes.number,
+    setShares: PropTypes.func,
 };
 
 StockCard.defaultProps = {
@@ -95,7 +93,6 @@ StockCard.defaultProps = {
     priceChange: '2',
     shares: '3',
     maxShares: '5',
-    // setShares: PropTypes.function,
 };
 
 export default StockCard;

@@ -3,10 +3,11 @@ import { API } from 'backend/Configure';
 const mutations = {
     show: {
         mutation: /* GraphQL */ `
-            mutation createShow($name: String!) {
-                createShow(input: { name: $name }) {
+            mutation createShow($name: String!, $image: String) {
+                createShow(input: { name: $name, image: $image }) {
                     id
                     name
+                    image
                 }
             }
         `,
@@ -117,6 +118,33 @@ const mutations = {
             return { ...data.createContestant };
         },
     },
+    // player: {
+    //     mutation: /* GraphQL */ `
+    //         mutation createPlayer(
+    //             $userID: ID!
+    //             $seasonID: ID!
+    //             $bankBalance: Int!
+    //             $netWorth: Int!
+    //         ) {
+    //             createPlayer(
+    //                 input: {
+    //                     userID: $userID
+    //                     seasonID: $seasonID
+    //                     bankBalance: $bankBalance
+    //                     netWorth: $netWorth
+    //                 }
+    //             ) {
+    //                 id
+    //                 seasonID
+    //                 bankBalance
+    //                 netWorth
+    //             }
+    //         }
+    //     `,
+    //     convert: (data) => {
+    //         return { ...data.createPlayer };
+    //     },
+    // },
     week: {
         mutation: /* GraphQL */ `
             mutation createWeek(
@@ -158,6 +186,7 @@ async function Create(requestType, variables) {
         case 'season':
         case 'week':
         case 'contestant':
+            //case 'player':
             result = convert(
                 (await API.graphql({ query: mutation, variables, authMode: 'AWS_IAM' })).data
             );

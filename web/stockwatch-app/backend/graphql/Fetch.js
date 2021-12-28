@@ -68,6 +68,7 @@ const queries = {
                     items {
                         id
                         name
+                        image
                         seasons {
                             items {
                                 currentWeek
@@ -87,6 +88,7 @@ const queries = {
                 items.push({
                     id: show.id,
                     name: show.name,
+                    image: show.image,
                     seasons: show.seasons.items,
                 });
             });
@@ -99,6 +101,7 @@ const queries = {
                 getShow(id: $showID) {
                     id
                     name
+                    image
                     seasons {
                         items {
                             currentWeek
@@ -115,6 +118,7 @@ const queries = {
             let show = {
                 id: data.getShow.id,
                 name: data.getShow.name,
+                image: data.getShow,
                 seasons: [],
             };
             data.getShow.seasons.items.forEach((season) => {
@@ -371,6 +375,31 @@ const queries = {
             return player;
         },
     },
+    listPlayersByUser: {
+        query: /* GraphQL */ `
+            query listPlayers($userID: ID!) {
+                playersByUser(userID: $userID) {
+                    items {
+                        id
+                        seasonID
+                        bankBalance
+                        netWorth
+                    }
+                    nextToken
+                }
+            }
+        `,
+        convert: (data, items) => {
+            data.playersByUser.items.forEach((item) => {
+                items.push({
+                    ...item,
+                    bankBalance: parseFloat(item.bankBalance || '0'),
+                    netWorth: parseFloat(item.netWorth || '0'),
+                });
+            });
+            return { nextToken: data.playersByUser.nextToken, result: items };
+        },
+    },
     playerByUserSeason: {
         query: /* GraphQL */ `
             query player($userID: ID!, $seasonID: ID!) {
@@ -379,11 +408,6 @@ const queries = {
                         id
                         bankBalance
                         netWorth
-                        season {
-                            startingBankBalance
-                            weeklyBankIncrease
-                            currentWeek
-                        }
                         stocks {
                             items {
                                 contestantID
@@ -392,25 +416,45 @@ const queries = {
                         }
                     }
                 }
+                getSeason(id: $seasonID) {
+                    startingBankBalance
+                    weeklyBankIncrease
+                    currentWeek
+                }
             }
         `,
         convert: (data) => {
-            if (data.playersByUser.items.length == 0) return {};
-            const item = data.playersByUser.items[0];
-            const startingBalance = parseFloat(item.season.startingBalance || '0');
-            const weeklyIncrease = parseFloat(item.season.weeklyIncrease || '0');
-            const week = parseInt(item.season.currentWeek || '1') - 1;
-            const extraCash = startingBalance + weeklyIncrease * week;
-            let player = {
-                id: item.id,
-                netWorth: ((parseFloat(item.netWorth) + extraCash) / 100).toFixed(2),
-                bankBalance: ((parseFloat(item.bankBalance) + extraCash) / 100).toFixed(2),
-                stocks: {},
-            };
-            for (let i in item.stocks.items) {
-                player.stocks[item.stocks.items[i].contestantID] = item.stocks.items[i].shares;
+            const startingBankBalance = parseFloat(data.getSeason.startingBankBalance || '0');
+            const weeklyBankIncrease = parseFloat(data.getSeason.weeklyBankIncrease || '0');
+            const currentWeek = parseInt(data.getSeason.currentWeek || '0');
+
+            // The weekly increase starts with week 2.
+            const numIncreases = Math.max(0, currentWeek - 1);
+            let bankBalance = startingBankBalance + weeklyBankIncrease * numIncreases;
+            let netWorth = bankBalance;
+            let stocks = {};
+            let playerID = 'none';
+
+            // The bank balance and net worth in the player record _don't_include_ the
+            // "free money". So we need to add the free money to the balance in the
+            // player record. This is so that we don't need to adjust all the players'
+            // balances every week.
+            if (data.playersByUser.items.length > 0) {
+                const item = data.playersByUser.items[0];
+                playerID = item.id;
+                bankBalance += parseFloat(item.bankBalance || '0');
+                netWorth += parseFloat(item.netWorth || '0');
+
+                for (let i in item.stocks.items) {
+                    stocks[item.stocks.items[i].contestantID] = item.stocks.items[i].shares;
+                }
             }
-            return player;
+            return {
+                playerID,
+                netWorth: netWorth / 100,
+                bankBalance: bankBalance / 100,
+                stocks,
+            };
         },
     },
     transactionsByPlayer: {
@@ -579,6 +623,7 @@ async function Fetch(requestType, variables) {
         case 'activeSeasons':
         case 'listContestants':
         case 'listActiveContestants':
+        case 'listPlayersByUser':
             {
                 let output = { nextToken: null, result: [] };
                 do {

@@ -21,12 +21,14 @@ const Ratings = () => {
         useWeek(seasonID, weekNumber);
     const canEdit = isAdmin && week.currentWeek < weekNumber;
     console.log('players', week);
-    const tableHeadings = week.players.map((player) => (
-        <th key={player.playerID}>
-            {player.playerDisplayName}
-            {/* <button onClick={() => removePlayer(player.playerID)}>X</button> */}
-        </th>
-    ));
+    const tableHeadings = week.players
+        ? week.players.map((player) => (
+              <th key={player.playerID}>
+                  {player.playerDisplayName}
+                  {/* <button onClick={() => removePlayer(player.playerID)}>X</button> */}
+              </th>
+          ))
+        : [];
     const tableContestants = week.contestants.map((contestant) => {
         let cells = [];
         console.log('conestant is', contestant);
@@ -62,7 +64,7 @@ const Ratings = () => {
                 </DropdownMenu.Root>
             </td>
         ) : (
-            ''
+            <></>
         );
 
         const extraItemTag = week.contestantExtraTags.map(
@@ -116,15 +118,16 @@ const Ratings = () => {
         canEdit && weekNumber > week.currentWeek ? (
             <Button onClick={makeCurrent}>Make Current</Button>
         ) : (
-            ''
+            <></>
         );
-    const extraHeading = canEdit ? <th key="extras">Extras</th> : '';
+    const extraHeading = canEdit ? <th key="extras">Extras</th> : <></>;
     const marketStatus = week.marketStatus ? <p>Market is open</p> : <p>Market is closed</p>;
     const playerSelector = canEdit ? (
         <PlayerSelector seasonID={seasonID} onSelect={addPlayer} />
     ) : (
-        ''
+        <></>
     );
+    /*
     return (
         <>
             <h2>
@@ -144,6 +147,29 @@ const Ratings = () => {
                 </thead>
                 <tbody>{tableContestants}</tbody>
             </table>
+            {playerSelector}
+        </>
+    );
+    */
+    return (
+        <>
+            <h2>
+                {week.seasonName} Week {weekNumber}
+            </h2>
+            <h3>Current week: {week.currentWeek}</h3>
+            {marketStatus}
+            <table className={styles.table}>
+                <thead className={styles.tableHeader}>
+                    <tr key="heading" className={styles.tableRow}>
+                        <th key="rowheading">Contestants</th>
+                        {extraHeading}
+                        {tableHeadings}
+                        <th key="average">Average</th>
+                    </tr>
+                </thead>
+                <tbody>{tableContestants}</tbody>
+            </table>
+            {makeWeekCurrent}
             {playerSelector}
         </>
     );

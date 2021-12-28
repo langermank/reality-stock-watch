@@ -8,7 +8,6 @@ const Provider = (props) => {
     const activeSeasonData = useActiveSeasons();
     const userData = useUser();
     const stocks = useStocks(userData.profile.id, activeSeasonData.selectedSeasonID);
-
     return (
         <Context.Provider value={{ ...activeSeasonData, ...userData, ...stocks }}>
             {props.children}

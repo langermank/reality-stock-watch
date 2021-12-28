@@ -5,6 +5,7 @@ import { useBackendContext } from 'backend/context';
 import { useState } from 'react';
 import Input from 'components/Input';
 import Button from 'components/Button';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 function toISODate(date) {
     const year = date.getFullYear();
@@ -19,10 +20,23 @@ const Show = () => {
     const { isAdmin } = useBackendContext();
     const { show, createSeason, deleteSeason } = useShow(showID);
 
-    // Season form
-    const [name, setName] = useState('');
-    const [shortName, setShortName] = useState('');
-    const [startDate, setStartDate] = useState(toISODate(new Date()));
+    function validate(values) {
+        const errors = {};
+        if (values.name.length == 0) {
+            errors.name = 'Please provide a season name.';
+        }
+        if (values.shortName.length == 0) {
+            errors.shortName = 'Please provide a short name.';
+        }
+        if (/\s/g.test(values.displayName)) {
+            errors.shortName = 'Please provide a short name.';
+        } else if (
+            !/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(values.startDate)
+        ) {
+            errors.startDate = 'Start date should be YYYY-MM-DD';
+        }
+        return errors;
+    }
 
     const seasons = show.seasons.map((season) => {
         let del = <></>;
@@ -44,27 +58,38 @@ const Show = () => {
         );
     });
 
-    function create() {
-        createSeason({ name, shortName, startDate });
-        setName('');
-        setShortName('');
-        setStartDate(new Date().toISOString());
+    function onSubmit(values, { setSubmitting }) {
+        createSeason(values);
+        setSubmitting(false);
     }
     if (isAdmin) {
         seasons.push(
             <li key="create">
-                <p>
-                    Add Season:
-                    <br />
-                    Name: <Input value={name} onChange={(e) => setName(e.target.value)} />
-                    <br />
-                    Short Name:{' '}
-                    <Input value={shortName} onChange={(e) => setShortName(e.target.value)} />
-                    <br />
-                    Start Date:{' '}
-                    <Input value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-                </p>
-                <Button onClick={create}>Create</Button>
+                <div key="add-season">
+                    <h2>Add Season</h2>
+                    <Formik
+                        initialValues={{
+                            name: '',
+                            shortName: '',
+                            startDate: new Date().toISOString().split('T')[0],
+                        }}
+                        validate={validate}
+                        onSubmit={onSubmit}>
+                        {({ isSubmitting }) => (
+                            <Form>
+                                <Field placeholder="Name" type="text" name="name" />
+                                <ErrorMessage name="name" component="div" />
+                                <Field placeholder="Short Name" type="text" name="shortName" />
+                                <ErrorMessage name="shortName" component="div" />
+                                <Field placeholder="Start Date" type="text" name="startDate" />
+                                <ErrorMessage name="startDate" component="div" />
+                                <button type="submit" disabled={isSubmitting}>
+                                    Submit
+                                </button>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
             </li>
         );
     }
