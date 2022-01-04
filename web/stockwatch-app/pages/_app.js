@@ -8,7 +8,7 @@ import LogoNav from '../components/SWLogoNav';
 import clsx from 'clsx';
 import styles from '../styles/app.module.scss';
 import dynamic from 'next/dynamic';
-import { Provider } from 'backend/context';
+import { Provider, useBackendContext } from 'backend/context';
 import { useUser } from '/backend/User';
 import { NavbarLanding } from 'components/NavbarLanding';
 
@@ -20,8 +20,9 @@ function MyApp({ Component, pageProps }) {
     const PanelToggle = dynamic(() => import('../components/PanelToggle'), {
         ssr: false,
     });
-    const { user } = useUser();
-    //const nav = !user || !user.loggedIn ? <NavbarLanding /> : <Navbar className={styles.navGrid} />;
+    // const { isLoggedIn } = useBackendContext();
+    // const { user } = useUser();
+    // const nav = !user || !user.loggedIn ? <NavbarLanding /> : <Navbar className={styles.navGrid} />;
 
     return (
         <Provider>
@@ -41,6 +42,7 @@ function MyApp({ Component, pageProps }) {
                             <LogoNav />
                         </a>
                     </aside>
+                    {/* {nav} */}
                     <Navbar className={styles.navGrid} />
                     {/*<NavbarLanding /> */}
                     <main className={styles.main}>
