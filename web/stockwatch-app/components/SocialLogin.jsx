@@ -12,40 +12,35 @@ const SocialLogin = ({}) => {
                 width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Twitter' })}
                 icon={<TwitterLogo />}
-                variant="unstyled"
-                className={clsx(styles.twitter)}>
+                variant="unstyled">
                 Sign-in with Twitter
             </Button>
             <Button
                 width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Facebook' })}
                 icon={<FacebookLogo />}
-                variant="unstyled"
-                className={clsx(styles.facebook)}>
+                variant="unstyled">
                 Sign-in with Facebook
             </Button>
             <Button
                 width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'DiscordPython' })}
                 icon={<DiscordLogo />}
-                variant="unstyled"
-                className={clsx(styles.discord)}>
+                variant="unstyled">
                 Sign-in with Discord
             </Button>
             <Button
                 width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Twitch' })}
                 icon={<TwitchLogo />}
-                variant="unstyled"
-                className={clsx(styles.twitch)}>
+                variant="unstyled">
                 Sign-in with Twitch
             </Button>
             <Button
                 width="fullWidth"
                 onClick={() => Auth.federatedSignIn({ provider: 'Google' })}
                 icon={<GoogleLogo />}
-                variant="unstyled"
-                className={clsx(styles.google)}>
+                variant="unstyled">
                 Sign-in with Google
             </Button>
         </div>

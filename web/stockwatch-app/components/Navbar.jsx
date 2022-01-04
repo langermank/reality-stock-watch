@@ -12,6 +12,7 @@ import clsx from 'clsx';
 // Force some components to be rendered client-side.
 import dynamic from 'next/dynamic';
 const GameMenu = dynamic(() => import('./GameMenu').then((mod) => mod.GameMenu));
+const GameMenuNew = dynamic(() => import('./GameMenuNew').then((mod) => mod.GameMenuNew));
 const UserMenu = dynamic(() => import('./UserMenu').then((mod) => mod.UserMenu));
 const AdminInsert = dynamic(() => import('./AdminInsert').then((mod) => mod.AdminInsert));
 
@@ -29,7 +30,7 @@ export const Navbar = ({ className }) => {
             <nav className={clsx(styles.sidebarNav, className && className)} id="navbar">
                 <ul className={styles.sidebarNavList}>
                     <li>
-                        <GameMenu />
+                        <GameMenuNew />
                     </li>
                     <li>
                         <Link href="/games" passHref>
