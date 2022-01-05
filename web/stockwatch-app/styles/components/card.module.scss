@@ -1,53 +1,23 @@
-@import '../_variables.scss';
-@import 'include-media/dist/_include-media.scss';
-@import '../_mixins.scss';
-
 .card {
-    // box-shadow: $shadow-md;
-    border-radius: $border-radius;
-    position: relative;
-	display: flex;
-	flex-direction: column;
-	word-wrap: break-word;
-    background: $white;
-    padding: 0.75rem;
+    display: grid;
+    grid-auto-flow: row;
+    gap: 0.5rem;
+    border-radius: 2px;
+    padding: 1rem;
 
-    &.duo {
-        display: grid;
-        grid-template-columns: 1fr;
-        padding: 0;
-
-        > div {
-            padding: 1rem;
-        }
+    &[data-spacing='compact'] {
+        gap: 0.25rem;
     }
 
-    &.dark {
-        background: $body-overlay-bg;
+    &[data-variant='positive'] {
+        color: var(--grass11);
+        border: solid 1px var(--grass7);
+        background: var(--grass1);
     }
 
-    &.deep {
-        padding: 2rem;
-    }
-
-    @include media('>tablet') {
-
-        &.deep {
-            padding: 2.25rem;
-        }
-
-        &.duo {
-            grid-template-columns: 1fr 1fr;
-
-            > div {
-               padding: 2rem;
-            }
-        }
-    }
-
-    @include media('>desktop') {
-        &.duo {
-            grid-template-columns: minmax(500px, max-content) auto;
-        }
+    &[data-variant='negative'] {
+        color: var(--tomato11);
+        border: solid 1px var(--tomato7);
+        background: var(--tomato1);
     }
 }

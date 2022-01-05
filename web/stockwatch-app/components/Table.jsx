@@ -9,6 +9,7 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import Button from 'components/Button.jsx';
 import ChangeVisualizer from 'components/ChangeVisualizer.jsx';
+import Card from 'components/Card.jsx';
 import { CaretUp } from 'phosphor-react';
 import styles from '../styles/leaderboard.module.scss';
 
@@ -24,11 +25,13 @@ const columns = [
         filter: 'fuzzyText',
         id: 'players',
         Cell: ({ row }) => (
-            <Link href={`/profile/${row.original.userID}`}>{row.original.displayName}</Link>
+            <span className={styles.playerCell}>
+                <Link href={`/profile/${row.original.userID}`}>{row.original.displayName}</Link>
+            </span>
         ),
     },
     {
-        Header: 'Net Worth',
+        Header: 'Net worth',
         accessor: (row) => row.netWorth.toFixed(2),
     },
     {
@@ -41,9 +44,9 @@ const columns = [
                 {...row.getToggleRowExpandedProps()}
                 icon={<CaretUp weight="fill" />}
                 iconOnly
-                iconPosition="right"
                 className={row.isExpanded ? styles.expanded : styles.collapsed}
-                width="fullWidth">
+                width="fullWidth"
+                ariaLabelledById="expand">
                 See more player details
             </Button>
         ),
@@ -57,7 +60,16 @@ const renderRowSubComponent = ({ row }) => (
     //     }}>
     //     <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
     // </pre>
-    <ChangeVisualizer label="100" changeIncrease />
+    <>
+        <Card variant="positive" spacing="compact">
+            <ChangeVisualizer label="$100" changeIncrease />
+            net worth
+        </Card>
+        <Card variant="negative" spacing="compact">
+            <ChangeVisualizer label="100" changeDecrease />
+            rank
+        </Card>
+    </>
 );
 
 const HeaderRow = ({ table }) => (

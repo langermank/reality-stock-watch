@@ -1,0 +1,22 @@
+.wrap {
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.increase {
+    color: var(--grass11);
+
+    p {
+        color: var(--grass11);
+    }
+}
+
+.decrease {
+    color: var(--tomato11);
+
+    p {
+        color: var(--tomato11);
+    }
+}

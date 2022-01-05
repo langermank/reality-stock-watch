@@ -29,6 +29,10 @@
         height: 1.25rem;
         width: 1.25rem;
     }
+
+    &.iconOnly {
+        width: var(--btn-height);
+    }
 }
 
 .btnIcon {
@@ -125,10 +129,18 @@
 .btnBase[data-size='small'] {
     height: 2rem;
     padding: 0 0.5rem;
+
+    &.iconOnly {
+        width: 2rem;
+    }
 }
 
 .btnBase[data-size='large'] {
     height: 3.5rem;
+
+    &.iconOnly {
+        width: 3.5rem;
+    }
 }
 
 .btnBase[data-width='fullWidth'] {

@@ -1,15 +1,20 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import styles from '../styles/changevisualizer.module.scss';
+import styles from '../styles/components/changevisualizer.module.scss';
 import { ArrowSquareUp, ArrowSquareDown } from 'phosphor-react';
 
 const ChangeVisualizer = ({ changeIncrease, changeDecrease, label }) => {
     return (
-        <div>
-            {changeIncrease && <ArrowSquareUp />}
-            {changeDecrease && <ArrowSquareDown />}
-            {label && <span>{label}</span>}
-        </div>
+        <span
+            className={clsx(
+                styles.wrap,
+                changeIncrease && styles.increase,
+                changeDecrease && styles.decrease
+            )}>
+            {changeIncrease && <ArrowSquareUp weight="fill" />}
+            {changeDecrease && <ArrowSquareDown weight="fill" />}
+            {label && <p>{label}</p>}
+        </span>
     );
 };
 
