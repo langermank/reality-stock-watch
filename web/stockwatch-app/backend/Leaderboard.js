@@ -60,6 +60,10 @@ function useLeaderboard({ initialSeasonID = null } = {}) {
                 stocks: player[4],
                 displayName: player[5],
                 rank: i + 1,
+                badges: [
+                    { image: '/bb21/BB21_first.svg', alt: 'Big Brother 21 First Place!' },
+                    { image: '/bbcan7/BBCAN7_topten.svg', alt: 'Big Brother Canada 7 Top Ten!' },
+                ],
             }))
         );
         setTimestamp(data.timestamp);

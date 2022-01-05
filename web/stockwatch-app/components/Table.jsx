@@ -12,6 +12,7 @@ import ChangeVisualizer from 'components/ChangeVisualizer.jsx';
 import Card from 'components/Card.jsx';
 import { CaretUp } from 'phosphor-react';
 import styles from '../styles/leaderboard.module.scss';
+import { imageUrlPrefix } from 'backend/config';
 
 const columns = [
     {
@@ -27,6 +28,23 @@ const columns = [
         Cell: ({ row }) => (
             <span className={styles.playerCell}>
                 <Link href={`/profile/${row.original.userID}`}>{row.original.displayName}</Link>
+            </span>
+        ),
+    },
+    {
+        Header: 'Badges',
+        accessor: 'badges',
+        id: 'badges',
+        Cell: ({ cell }) => (
+            <span className={styles.playerCell}>
+                {cell.value.map((badge) => (
+                    <img
+                        width="100"
+                        key={badge.image}
+                        src={imageUrlPrefix + 'badges' + badge.image}
+                        alt={badge.alt}
+                    />
+                ))}
             </span>
         ),
     },
