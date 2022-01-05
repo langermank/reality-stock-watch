@@ -8,6 +8,7 @@ import { useTable, usePagination, useGlobalFilter, useExpanded } from 'react-tab
 import { Fragment } from 'react';
 import Link from 'next/link';
 import Button from 'components/Button.jsx';
+import ChangeVisualizer from 'components/ChangeVisualizer.jsx';
 import { CaretUp } from 'phosphor-react';
 import styles from '../styles/leaderboard.module.scss';
 
@@ -50,12 +51,13 @@ const columns = [
 ];
 
 const renderRowSubComponent = ({ row }) => (
-    <pre
-        style={{
-            fontSize: '10px',
-        }}>
-        <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-    </pre>
+    // <pre
+    //     style={{
+    //         fontSize: '10px',
+    //     }}>
+    //     <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
+    // </pre>
+    <ChangeVisualizer label="100" changeIncrease />
 );
 
 const HeaderRow = ({ table }) => (
