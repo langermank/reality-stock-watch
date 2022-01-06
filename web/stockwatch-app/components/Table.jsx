@@ -28,23 +28,17 @@ const columns = [
         Cell: ({ row }) => (
             <span className={styles.playerCell}>
                 <Link href={`/profile/${row.original.userID}`}>{row.original.displayName}</Link>
-            </span>
-        ),
-    },
-    {
-        Header: 'Badges',
-        accessor: 'badges',
-        id: 'badges',
-        Cell: ({ cell }) => (
-            <span className={styles.playerCell}>
-                {cell.value.map((badge) => (
-                    <img
-                        width="100"
-                        key={badge.image}
-                        src={imageUrlPrefix + 'badges' + badge.image}
-                        alt={badge.alt}
-                    />
-                ))}
+                <span className={styles.playerBadges}>
+                    {row.original.badges.map((badge) => (
+                        <img
+                            width="32"
+                            height="32"
+                            key={badge.image}
+                            src={imageUrlPrefix + 'badges' + badge.image}
+                            alt={badge.alt}
+                        />
+                    ))}
+                </span>
             </span>
         ),
     },
