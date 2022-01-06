@@ -89,6 +89,10 @@ p {
     color: var(--slate12);
 }
 
+.bold {
+    font-weight: var(--font-weight-bold);
+}
+
 a:not(nav *) {
     color: var(--indigo11);
     text-decoration: underline;

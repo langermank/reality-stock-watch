@@ -59,6 +59,24 @@
     }
 }
 
+.playerDetails {
+    display: grid;
+    grid-auto-columns: auto;
+    gap: 1rem;
+}
+
+.playerStats {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.playerHoldings {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
+
 .playerBadges {
     display: flex;
     gap: 0.5rem;

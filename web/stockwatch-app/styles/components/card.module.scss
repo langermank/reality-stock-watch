@@ -20,4 +20,10 @@
         border: solid 1px var(--tomato7);
         background: var(--tomato1);
     }
+
+    &[data-variant='neutral'] {
+        color: var(--slate12);
+        border: solid 1px var(--slate9);
+        background: var(--slate5);
+    }
 }

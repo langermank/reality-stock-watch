@@ -10,6 +10,7 @@ import Link from 'next/link';
 import Button from 'components/Button.jsx';
 import ChangeVisualizer from 'components/ChangeVisualizer.jsx';
 import Card from 'components/Card.jsx';
+import ContestantHoldings from './ContestantHoldings';
 import { CaretUp } from 'phosphor-react';
 import styles from '../styles/leaderboard.module.scss';
 import { imageUrlPrefix } from 'backend/config';
@@ -66,21 +67,38 @@ const columns = [
 ];
 
 const renderRowSubComponent = ({ row }) => (
-    // <pre
-    //     style={{
-    //         fontSize: '10px',
-    //     }}>
-    //     <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-    // </pre>
     <>
-        <Card variant="positive" spacing="compact">
-            <ChangeVisualizer label="$100" changeIncrease />
-            net worth
-        </Card>
-        <Card variant="negative" spacing="compact">
-            <ChangeVisualizer label="100" changeDecrease />
-            rank
-        </Card>
+        <div className={styles.playerStats}>
+            <Card variant="positive" spacing="compact">
+                <ChangeVisualizer label="$100" changeIncrease />
+                net worth
+            </Card>
+            <Card variant="negative" spacing="compact">
+                <ChangeVisualizer label="100" changeDecrease />
+                rank
+            </Card>
+        </div>
+        <h3>Shares</h3>
+        <div className={styles.playerHoldings}>
+            {/* {row.stocks.map((stock) => (
+                <p>{stock}</p>
+            ))} */}
+            <ContestantHoldings
+                contestantName="Name"
+                quantity="20"
+                contestantImageSrc="https://via.placeholder.com/150"
+            />
+            <ContestantHoldings
+                contestantName="Name"
+                quantity="20"
+                contestantImageSrc="https://via.placeholder.com/150"
+            />
+            <ContestantHoldings
+                contestantName="Name"
+                quantity="20"
+                contestantImageSrc="https://via.placeholder.com/150"
+            />
+        </div>
     </>
 );
 
@@ -119,7 +137,9 @@ const SubRow = ({ row, columnCount }) =>
             key={row.key + '-expander'}
             {...row.getRowProps()}
             className={clsx(styles.tableRow, styles.expandedRow)}>
-            <td colSpan={columnCount}>{renderRowSubComponent({ row })}</td>
+            <td colSpan={columnCount} className={styles.playerDetails}>
+                {renderRowSubComponent({ row })}
+            </td>
         </tr>
     ) : null;
 
