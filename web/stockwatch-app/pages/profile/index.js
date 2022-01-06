@@ -10,7 +10,6 @@ const Profile = () => {
     }, [profile.displayName]);
     return (
         <>
-            <h2>Profile</h2>
             <p>Please choose an alias that doesn&apos;t have spaces.</p>
             <p>
                 Choose your alias:{' '}

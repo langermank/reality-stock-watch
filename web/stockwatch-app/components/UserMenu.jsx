@@ -181,7 +181,7 @@ export const UserMenu = ({ href }) => {
         e.preventDefault();
         router.push(href);
     };
-    const { isLoggedIn, profile } = useBackendContext();
+    const { isLoggedIn, profile, identity } = useBackendContext();
 
     // if not logged in show login button
     if (!isLoggedIn) {
@@ -210,8 +210,8 @@ export const UserMenu = ({ href }) => {
     // if logged in show user dropdown menu
     return (
         <MenuButton label={profile.displayName}>
-            <Item href={'/profile'} onClick={handleClick} icon={<UserCircle />}>
-                Profile
+            <Item href={`/profile/${profile.id}`} onClick={handleClick} icon={<UserCircle />}>
+                Public profile
             </Item>
             <Item href="/settings" onClick={handleClick} icon={<Gear weight="fill" />}>
                 Settings

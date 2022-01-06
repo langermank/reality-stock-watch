@@ -1,4 +1,4 @@
-import { useProfile } from '../../backend/ProfileBackend';
+import { useProfileFull } from '../../../backend/Profile';
 import { useRouter } from 'next/router';
 
 function renderGames(games, router) {
@@ -21,7 +21,7 @@ function renderGames(games, router) {
 const Profile = () => {
     const router = useRouter();
     const { userId } = router.query;
-    const { profile, loading } = useProfile(userId);
+    const { profile, loading } = useProfileFull(userId);
 
     const enrolledGames =
         loading || !profile || !profile.enrolledGames ? (

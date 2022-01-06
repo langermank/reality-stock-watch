@@ -1,14 +1,18 @@
 import { useBackendContext } from 'backend/context';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import inputStyles from '../styles/components/input.module.scss';
+import styles from '../styles/settings.module.scss';
+import Button from './Button.jsx';
+import clsx from 'clsx';
 
 const EditProfile = ({ display }) => {
     const { profile, updateDisplayName, profileDisplayNameSet } = useBackendContext();
     function validate(values) {
         const errors = {};
         if (values.displayName.length == 0) {
-            errors.displayName = 'Please provide an alias';
+            errors.displayName = 'Cannot be blank';
         } else if (/\s/g.test(values.displayName)) {
-            errors.displayName = 'No spaces please';
+            errors.displayName = 'Remove spaces';
         }
         return errors;
     }
@@ -20,19 +24,55 @@ const EditProfile = ({ display }) => {
     if (!display) return <></>;
     return (
         <div key="edit-profile">
-            <h2>Profile</h2>
-            <p>Please choose an alias that doesn&apos;t have spaces.</p>
             <Formik
                 initialValues={{ displayName: profileDisplayNameSet ? profile.displayName : '' }}
                 validate={validate}
                 onSubmit={onSubmit}>
                 {({ isSubmitting }) => (
-                    <Form>
-                        <Field type="text" name="displayName" />
-                        <ErrorMessage name="displayName" component="div" />
-                        <button type="submit" disabled={isSubmitting}>
-                            Submit
-                        </button>
+                    <Form className={styles.displayNameForm}>
+                        <label htmlFor="edit-displayname" className={inputStyles.label}>
+                            Choose a display name for the leaderboard
+                            <p className={inputStyles.hint}>
+                                Cannot contain spaces. Offensive language will be removed.
+                            </p>
+                        </label>
+
+                        <span className={styles.fieldWrap}>
+                            <Field name="displayName">
+                                {({
+                                    field, // { name, value, onChange, onBlur }
+                                    meta,
+                                }) => (
+                                    <div>
+                                        <input
+                                            type="text"
+                                            id="edit-displayname"
+                                            className={clsx(
+                                                inputStyles.input,
+                                                inputStyles.inlineWidth,
+                                                meta.error && inputStyles.invalid
+                                            )}
+                                            {...field}
+                                        />
+
+                                        {meta.error && (
+                                            <p className={inputStyles.invalidMessage}>
+                                                {meta.error}
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
+                            </Field>
+                            <Button type="submit" disabled={isSubmitting} variant="secondary">
+                                Save
+                            </Button>
+                        </span>
+
+                        {/* <ErrorMessage
+                            name="displayName"
+                            component="div"
+                            className={inputStyles.invalid}
+                        /> */}
                     </Form>
                 )}
             </Formik>
