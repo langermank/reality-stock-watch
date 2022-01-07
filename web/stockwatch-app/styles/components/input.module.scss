@@ -119,8 +119,8 @@
 .controlBtn {
     position: absolute;
     width: 2.5rem;
-    top: 1px;
-    bottom: 1px;
+    top: 0;
+    bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,7 +142,7 @@
     &.increase {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        right: 1px;
+        right: 0;
     }
 }
 

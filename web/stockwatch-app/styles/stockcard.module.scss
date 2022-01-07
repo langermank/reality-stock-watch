@@ -18,9 +18,10 @@
     grid-gap: 1rem;
     grid-auto-flow: dense;
     overflow: hidden;
-    background: var(--bg-one-up);
+    background: var(--slate3);
     padding: 0.75rem;
-    border-radius: $border-radius;
+    border: solid 1px var(--slate6);
+    border-radius: var(--border-radius);
 
     .hgImg {
         grid-column: 1/2;
@@ -83,14 +84,14 @@
         align-items: flex-end;
         padding: 0.5rem;
         border-radius: var(--border-radius);
-        background: linear-gradient(90deg, var(--bg-one-up) 0%, var(--slate8) 62%);
+        background: linear-gradient(90deg, var(--slate3) 0%, var(--slate8) 62%);
 
         &.greenBg {
-            background: linear-gradient(90deg, var(--bg-one-up) 0%, var(--grass8) 62%);
+            background: linear-gradient(90deg, var(--slate3) 0%, var(--grass8) 62%);
         }
 
         &.redBg {
-            background: linear-gradient(90deg, var(--bg-one-up) 0%, var(--tomato8) 62%);
+            background: linear-gradient(90deg, var(--slate3) 0%, var(--tomato8) 62%);
         }
     }
 
