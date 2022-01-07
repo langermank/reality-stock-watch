@@ -28,14 +28,10 @@
         color: $white;
     }
 
-    &.is-invalid {
+    &.invalid {
         border: solid 1px transparent;
-        outline: solid 2px $red;
+        outline: solid 2px var(--tomato11);
         outline-offset: -2px;
-
-        &:invalid {
-            box-shadow: none;
-        }
     }
 
     &:disabled {
@@ -46,7 +42,7 @@
         outline: none;
     }
 
-    &.inline-width {
+    &.inlineWidth {
         width: inherit;
     }
 
@@ -59,12 +55,22 @@
     }
 }
 
+.invalidMessage {
+    font-size: 0.75rem;
+}
+
+.hint {
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
 .label {
     font-size: 1rem;
+    line-height: 1.2;
     font-weight: 700;
-    color: var(--input-label);
-    margin-bottom: $space-xs-rem;
-    display: inline-block;
+    // color: var(--input-label);
+    // margin-bottom: 0.5rem;
+    display: block;
 
     &-inline {
         margin-bottom: 0;

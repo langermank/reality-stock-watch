@@ -1,0 +1,15 @@
+.displayNameForm {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.fieldWrap {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+
+    input {
+        margin-bottom: 0.5rem;
+    }
+}
