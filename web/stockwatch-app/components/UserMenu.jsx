@@ -182,7 +182,7 @@ export const UserMenu = ({ href }) => {
         router.push(href);
     };
     const { isLoggedIn, profile } = useBackendContext();
-
+    console.log('******', profile);
     // if not logged in show login button
     if (!isLoggedIn) {
         return (

@@ -66,15 +66,29 @@ const columns = [
     },
 ];
 
+function changeVariant(delta) {
+    if (delta < 0) return 'negative';
+    if (delta > 0) return 'positive';
+    return 'neutral';
+}
+
 const renderRowSubComponent = ({ row }) => (
     <>
         <div className={styles.playerStats}>
-            <Card variant="positive" spacing="compact">
-                <ChangeVisualizer label="$100" changeIncrease />
+            <Card variant={changeVariant(row.original.netWorthChange)} spacing="compact">
+                <ChangeVisualizer
+                    label={'$' + row.original.netWorthChange}
+                    changeIncrease={row.original.netWorthChange > 0}
+                    changeDecrease={row.original.netWorthChange < 0}
+                />
                 net worth
             </Card>
-            <Card variant="negative" spacing="compact">
-                <ChangeVisualizer label="100" changeDecrease />
+            <Card variant={changeVariant(row.original.rankChange)} spacing="compact">
+                <ChangeVisualizer
+                    label={row.original.rankChange}
+                    changeIncrease={row.original.rankChange > 0}
+                    changeDecrease={row.original.rankChange < 0}
+                />
                 rank
             </Card>
         </div>
@@ -157,7 +171,7 @@ const BodyRows = ({ table }) => (
     </>
 );
 
-const Table = ({ data }) => {
+const Table = ({ data, numWeeks, selectWeek, selectedWeek }) => {
     const table = useTable({ columns, data }, useGlobalFilter, useExpanded, usePagination);
 
     let pager = <></>;
@@ -171,10 +185,28 @@ const Table = ({ data }) => {
         );
     }
 
+    let weekOptions = [
+        <option key="0" value="0">
+            Pre-game
+        </option>,
+    ];
+    for (let i = numWeeks; i > 0; i--) {
+        weekOptions.unshift(
+            <option key={i} value={i}>
+                Week {i}
+            </option>
+        );
+    }
+
     return (
         <div className={styles.page}>
             <table {...table.getTableProps()} className={styles.table}>
                 <thead>
+                    <tr>
+                        <select value={selectedWeek} onChange={(e) => selectWeek(e.target.value)}>
+                            {weekOptions}
+                        </select>
+                    </tr>
                     <FilterRow table={table} styles={styles} />
                     <HeaderRow table={table} styles={styles} />
                 </thead>
