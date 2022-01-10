@@ -14,6 +14,11 @@ const imageUrlPrefix = 'https://dsw9arc6h9tqj.cloudfront.net';
 // Create a default prop getter
 const defaultPropGetter = () => ({});
 
+function percentageToHsl(percentage, hue0, hue1) {
+    var hue = percentage * (hue1 - hue0) + hue0;
+    return 'hsl(' + hue + ', 100%, 50%)';
+}
+
 function Table({
     columns,
     data,
@@ -162,6 +167,19 @@ const Projection = ({
             ['rating' + (i + 1)]: Math.round((projection / currentPrice - 1) * 100),
         };
     }, {});
+    // console.log(cleanRating);
+    const projectionColors = projections.reduce((row, projection, i) => {
+        let red = '235, 61, 61,';
+        let green = '17,192,93,';
+        let alpha = Math.abs(projection / cleanRating - 1);
+        return {
+            'background-color': 'rgb(' + (projection / cleanRating > 1 ? green : red) + alpha + ')',
+            // ['background-color' + (i + 1)]:
+            //     'rgb(' + (projection / cleanRating > 1 ? green : red) + alpha + ')',
+        };
+    }, {});
+    // const test = 'rgb(235, 61, 61);';
+    // console.log(test);
     const data = [percentRow, projectionRow, cleanRating];
     return (
         <div className={styles.projectionCard}>
@@ -173,7 +191,7 @@ const Projection = ({
             <img
                 src={imageUrlPrefix + image}
                 alt={nickname}
-                className="hg-img"
+                className={styles.hgImg}
                 height="85"
                 width="85"
             />
@@ -198,25 +216,38 @@ const Projection = ({
                 <Table
                     columns={columns}
                     data={data}
-                    // getHeaderProps={(column) => ({
-                    //     onClick: () => alert('Header!'),
-                    // })}
-                    // getColumnProps={(column) => ({
-                    //     onClick: () => alert('Column!'),
-                    // })}
-                    // getRowProps={(row) => ({
-                    //     style: {
-                    //         background: row.index % 2 === 0 ? 'rgba(0,0,0,.1)' : 'white',
-                    //     },
-                    // })}
+                    getHeaderProps={(column) => ({
+                        onClick: () => alert('Header!'),
+                    })}
+                    getColumnProps={(column) => ({
+                        onClick: () => alert('Column!'),
+                    })}
+                    getRowProps={(row) => ({
+                        // style: {
+                        //     background: row.index % 2 === 0 ? 'rgba(0,0,0,.1)' : 'white',
+                        // },
+                        datahue0: '0',
+                        datahue1: '120',
+                        datasteps: '10',
+                    })}
                     // I want to access the price change number for this math
-                    // getCellProps={(cellInfo) => ({
-                    //     style: {
-                    //         backgroundColor: `hsl(${
-                    //             120 * ((120 - cellInfo.value) / 120) * -1 + 120
-                    //         }, 100%, 67%)`,
-                    //     },
-                    // })}
+                    getCellProps={(cellInfo) => ({
+                        // style: {
+                        //     backgroundColor: `hsl(${
+                        //         120 * ((120 - cellInfo.value) / 120) * -1 + 120
+                        //     }, 100%, 67%)`,
+                        // },
+                        // style: {
+                        //     backgroundColor: `hsl(${cellInfo.value}, 100%, 67%)`,
+                        // },
+                        style: {
+                            backgroundColor: `${projectionColors}`,
+                        },
+                        data: `${cellInfo.value}`,
+                        datahue0: `${projectionColors}`,
+                        datahue1: '120',
+                        datasteps: '100',
+                    })}
                     // getCellProps={(cellInfo) => ({
                     //     className: cellInfo.value > 0% ? 'hey' : 'no',
                     //     // data-test="cellInfo.value === 0"
@@ -239,8 +270,8 @@ const Projection = ({
 
 const Projections = () => {
     const router = useRouter();
-    const { seasonId, weekNumber } = router.query;
-    const { contestantIDs, contestants } = useProjections(seasonId, weekNumber);
+    const { seasonID, weekNumber } = router.query;
+    const { contestantIDs, contestants } = useProjections(seasonID, weekNumber);
     // console.log('projections', contestantIDs, contestants);
 
     const projections = contestantIDs.map((contestantID) => Projection(contestants[contestantID]));

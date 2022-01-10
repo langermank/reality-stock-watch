@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import styles from '../styles/components/input.module.scss';
 //import { useAsyncDebounce } from 'react-table';
 
 function GlobalFilter({ globalFilter, setGlobalFilter }) {
@@ -7,7 +8,9 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
 
     return (
         <span>
-            <label htmlFor="search-all-time">Search</label>
+            <label htmlFor="search-all-time" className={styles.label}>
+                Search
+            </label>
             <input
                 id="search-all-time"
                 value={value || ''}
@@ -15,6 +18,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
                     setValue(e.target.value);
                     setGlobalFilter(e.target.value);
                 }}
+                className={styles.input}
                 placeholder={`Search players`}
             />
         </span>

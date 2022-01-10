@@ -13,6 +13,7 @@ import Card from 'components/Card.jsx';
 import ContestantHoldings from './ContestantHoldings';
 import { CaretUp } from 'phosphor-react';
 import styles from '../styles/leaderboard.module.scss';
+import formStyles from '../styles/components/input.module.scss';
 import { imageUrlPrefix } from 'backend/config';
 
 const columns = [
@@ -94,9 +95,11 @@ const renderRowSubComponent = ({ row }) => (
         </div>
         <h3>Shares</h3>
         <div className={styles.playerHoldings}>
-            {/* {row.stocks.map((stock) => (
+            {/* {row.original.stocks.map((stock) => (
                 <p>{stock}</p>
             ))} */}
+            {/* <p>{row.original.stocks}</p> */}
+            {/* console.log({row.original.stocks}); */}
             <ContestantHoldings
                 contestantName="Name"
                 quantity="20"
@@ -200,13 +203,18 @@ const Table = ({ data, numWeeks, selectWeek, selectedWeek }) => {
 
     return (
         <div className={styles.page}>
+            <label className={clsx(formStyles.hidden, formStyles.label)} htmlFor="select-week">
+                Select week
+            </label>
+            <select
+                className={formStyles.select}
+                value={selectedWeek}
+                id="select-week"
+                onChange={(e) => selectWeek(e.target.value)}>
+                {weekOptions}
+            </select>
             <table {...table.getTableProps()} className={styles.table}>
                 <thead>
-                    <tr>
-                        <select value={selectedWeek} onChange={(e) => selectWeek(e.target.value)}>
-                            {weekOptions}
-                        </select>
-                    </tr>
                     <FilterRow table={table} styles={styles} />
                     <HeaderRow table={table} styles={styles} />
                 </thead>

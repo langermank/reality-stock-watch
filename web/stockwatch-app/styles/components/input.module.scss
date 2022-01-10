@@ -19,6 +19,13 @@
         opacity: 1;
     }
 
+    &:active,
+    &:focus {
+        border: solid 1px transparent;
+        outline: solid 2px $link;
+        outline-offset: -2px;
+    }
+
     // &:active, &:focus {
     //     .a11yOutline;
     // }
@@ -64,6 +71,48 @@
     font-weight: 400;
 }
 
+.select {
+    border: solid 1px var(--input-border);
+    border-radius: var(--border-radius);
+    background: var(--input-bg);
+    color: var(--input-color);
+    font-size: 1rem;
+    height: var(--input-height);
+    padding: 0 0.625rem;
+    display: inline-block;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--input-color) 50%),
+        linear-gradient(135deg, var(--input-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--input-color), var(--input-color));
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px),
+        calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+
+    &::-webkit-input-placeholder,
+    &::placeholder {
+        color: var(--input-placeholder);
+        opacity: 1;
+    }
+
+    &:active,
+    &:focus {
+        border: solid 1px transparent;
+        outline: solid 2px $link;
+        outline-offset: -2px;
+    }
+}
+
+.select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
 .label {
     font-size: 1rem;
     line-height: 1.2;
@@ -78,7 +127,7 @@
     }
 
     // visually hides label
-    &-hidden {
+    &.hidden {
         margin-bottom: 0;
         @include visuallyHidden;
     }
