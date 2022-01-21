@@ -18,7 +18,8 @@ body[data-panel-state='closed'] {
     }
 }
 
-.sidebarNav {
+.sidebarNav,
+.topbarNav {
     font-size: var(--font-size-large);
     background: var(--navbar-background);
     border-right: var(--navbar-border);
@@ -37,7 +38,8 @@ body[data-panel-state='closed'] {
     }
 }
 
-.sidebarNavList {
+.sidebarNavList,
+.topbarNavList {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -76,5 +78,31 @@ body[data-panel-state='closed'] {
 
     button[data-icon-position].mobileMenuBtn {
         display: none;
+    }
+}
+
+// logged out top bar nav
+
+@include media('>tablet') {
+    .topbarNav {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+    }
+    .topbarNavList {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+        flex: 1 1 auto;
+        margin: 0;
+
+        .firstItem {
+            margin-left: auto;
+        }
+
+        .loginItem {
+            margin-left: auto;
+        }
     }
 }

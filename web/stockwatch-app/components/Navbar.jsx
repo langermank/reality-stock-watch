@@ -32,7 +32,7 @@ export const Navbar = ({ className }) => {
                     <li>
                         <GameMenuNew />
                     </li>
-                    <li>
+                    {/* <li>
                         <Link href="/games" passHref>
                             <NavLink
                                 icon={<Diamond weight="fill" />}
@@ -40,7 +40,7 @@ export const Navbar = ({ className }) => {
                                 linkText="Games"
                             />
                         </Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link href="/trade" passHref>
                             <NavLink

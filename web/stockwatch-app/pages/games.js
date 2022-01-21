@@ -15,7 +15,7 @@ function Games() {
     const { activeSeasons, profile: profileSummary } = useBackendContext();
     const { profile: profileFull, joinGame } = useProfileFull(profileSummary.id);
 
-    console.log('full profile', profileFull);
+    // console.log('full profile', profileFull);
 
     let enrolledGames = {};
     for (let i in profileFull.enrolledGames) {
@@ -23,19 +23,16 @@ function Games() {
     }
 
     const currentGames = activeSeasons.map((season) => {
-        console.log('season', season);
-        const join = enrolledGames[season.id] ? (
-            <div>Joined</div>
-        ) : (
-            <Button variant="primary" onClick={() => joinGame(season.id)}>
-                Join game
-            </Button>
-        );
         return (
             <div key={season.shortName} className={styles.prevGame}>
                 <h3>{season.name}</h3>
-                <Image src={upcoming} alt="" width={200} height={200} layout="fixed" />
-                {join}
+                <Image
+                    src={upcoming}
+                    alt={season.shortName}
+                    width={200}
+                    height={200}
+                    layout="fixed"
+                />
             </div>
         );
     });

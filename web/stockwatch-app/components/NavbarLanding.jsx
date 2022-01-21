@@ -20,9 +20,9 @@ export const NavbarLanding = ({ className }) => {
 
     return (
         <>
-            <nav className={clsx(styles.sidebarNav, className && className)} id="navbar">
-                <ul className={styles.sidebarNavList}>
-                    <li>
+            <nav className={clsx(styles.topbarNav, className && className)} id="navbar">
+                <ul className={styles.topbarNavList}>
+                    <li className={styles.firstItem}>
                         <Link href="/games" passHref>
                             <NavLink
                                 icon={<Diamond weight="fill" />}
@@ -49,11 +49,11 @@ export const NavbarLanding = ({ className }) => {
                             />
                         </Link>
                     </li>
-                    <li>
+                    <li className={styles.loginItem}>
                         <UserMenu />
                     </li>
                 </ul>
-                <PanelToggle className={styles.collapseBtn} desktopToggle />
+                {/* <PanelToggle className={styles.collapseBtn} desktopToggle /> */}
             </nav>
         </>
     );

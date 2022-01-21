@@ -29,7 +29,7 @@
         padding: 1rem;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
     }
 
     .main {
@@ -54,6 +54,74 @@
         nav {
             top: 70px;
             position: sticky;
+        }
+
+        .main {
+            padding: 0 2rem 2rem 2rem;
+        }
+    }
+}
+
+.loggedOut {
+    // min-height: 100%;
+    // display: grid;
+    // grid-template:
+    //     'aside navbar' 70px
+    //     'content' auto / auto;
+
+    // #mobile-collapse-btn {
+    //     display: block;
+    // }
+
+    // nav {
+    //     position: fixed;
+    //     top: 70px;
+    //     height: calc(100vh - 70px);
+    //     overflow: scroll;
+    // }
+
+    // // toggle nav
+    // aside {
+    //     grid-area: aside;
+    //     position: sticky;
+    //     top: 0;
+    //     z-index: 6;
+    //     background: var(--navbar-background);
+    //     border-right: var(--navbar-border);
+    //     padding: 1rem;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    // }
+
+    // .main {
+    //     grid-area: content;
+    //     align-content: start;
+    //     // background-color: white;
+    //     display: grid;
+    //     // main content grid def
+    //     // grid-template-columns: repeat(8, 1fr);
+    //     grid-gap: 1rem;
+    //     padding: 1rem 1rem 0 1rem;
+    //     // overflow-y: auto;
+    // }
+
+    @include media('>tablet') {
+        // grid-template:
+        //     'aside navbar' 70px auto
+        //     'content content' auto auto / auto;
+        grid-template-areas:
+            'aside navbar'
+            'content content';
+        grid-template-rows: 70px auto;
+        grid-template-columns: min-content auto;
+
+        nav {
+            top: 0;
+            position: sticky;
+            grid-area: navbar;
+            height: unset;
+            padding: 1rem;
         }
 
         .main {

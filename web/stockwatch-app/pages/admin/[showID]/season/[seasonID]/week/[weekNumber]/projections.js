@@ -240,6 +240,14 @@ const Projection = ({
                         // style: {
                         //     backgroundColor: `hsl(${cellInfo.value}, 100%, 67%)`,
                         // },
+                        //                 let red = '235, 61, 61,';
+                        // let green = '17,192,93,';
+                        // let alpha = Math.abs(projection / cleanRating - 1);
+                        // return {
+                        //     'background-color': 'rgb(' + (projection / cleanRating > 1 ? green : red) + alpha + ')',
+                        //     // ['background-color' + (i + 1)]:
+                        //     //     'rgb(' + (projection / cleanRating > 1 ? green : red) + alpha + ')',
+                        // };
                         style: {
                             backgroundColor: `${projectionColors}`,
                         },
